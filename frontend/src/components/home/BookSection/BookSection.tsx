@@ -27,17 +27,13 @@ export const BookSection = ({
   viewAllLink,
   onViewAll,
 }: BookSectionProps) => {
-  if (isError) {
-    return <ErrorMessage message={error?.message || 'Failed to load books'} />;
-  }
-
   return (
     <SectionContainer>
       <SectionHeader>
         <Typography variant="h4" component="h2">
           {title}
         </Typography>
-        {(viewAllLink || onViewAll) && !isLoading && (
+        {(viewAllLink || onViewAll) && !isLoading && !isError && (
           <Button
             endIcon={<ArrowIcon />}
             onClick={onViewAll}
@@ -46,22 +42,25 @@ export const BookSection = ({
           </Button>
         )}
       </SectionHeader>
-      <BooksGrid>
-        {isLoading ? (
-          // Show 10 skeleton cards while loading
-          Array.from({ length: 10 }).map((_, index) => (
-            <BookCardSkeleton key={index} />
-          ))
-        ) : books && books.length > 0 ? (
-          books.map((book) => (
-            <BookCard
-              key={book.id}
-              book={book}
-              showSalesCount={showSalesCount}
-            />
-          ))
-        ) : null}
-      </BooksGrid>
+      {isError ? (
+        <ErrorMessage message={error?.message || 'Failed to load books'} />
+      ) : (
+        <BooksGrid>
+          {isLoading ? (
+            Array.from({ length: 10 }).map((_, index) => (
+              <BookCardSkeleton key={index} />
+            ))
+          ) : books && books.length > 0 ? (
+            books.map((book) => (
+              <BookCard
+                key={book.id}
+                book={book}
+                showSalesCount={showSalesCount}
+              />
+            ))
+          ) : null}
+        </BooksGrid>
+      )}
     </SectionContainer>
   );
 };

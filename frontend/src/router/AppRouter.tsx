@@ -35,9 +35,9 @@ export const AppRouter = () => {
           <Route path={ROUTES.BESTSELLERS} element={<BestsellersPage />} />
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+          <Route path={ROUTES.CART} element={<CartPage />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path={ROUTES.CART} element={<CartPage />} />
             <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
             <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
             <Route path={ROUTES.ORDER_CONFIRMATION} element={<OrderConfirmationPage />} />

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CustomerLayout } from '@components/layout/customer/CustomerLayout';
 import { ManagerLayout } from '@components/layout/manager/ManagerLayout';
+import { ScrollToTop } from '@components/layout/common/ScrollToTop';
 import { ProtectedRoute } from './ProtectedRoute';
 import { ManagerRoute } from './ManagerRoute';
 import { ROUTES } from './routes';
@@ -27,6 +28,7 @@ import { UsersManagementPage } from '@pages/manager/UsersManagementPage';
 export const AppRouter = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<CustomerLayout />}>
           <Route path={ROUTES.HOME} element={<HomePage />} />

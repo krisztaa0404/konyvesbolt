@@ -53,3 +53,12 @@ export interface CartItem {
   quantity: number;
   format?: string;
 }
+
+// Notification types (client-side only)
+export type NotificationType = 'success' | 'error' | 'warning' | 'info';
+
+export interface Notification {
+  id: string;
+  message: string;
+  type: NotificationType;
+}

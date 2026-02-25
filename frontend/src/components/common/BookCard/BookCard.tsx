@@ -4,8 +4,10 @@
 import { Typography, Chip } from '@mui/material';
 import { AddShoppingCart as AddShoppingCartIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { formatCurrency } from '@utils/formatters';
+import { formatCurrency, truncateText } from '@utils/formatters';
 import { getBookDetailRoute } from '@router/routes';
+import { useCartStore } from '@store/cartStore';
+import { useNotificationStore } from '@store/notificationStore';
 import type { Book } from '@types';
 import {
   StyledCard,
@@ -23,6 +25,9 @@ interface BookCardProps {
 
 export const BookCard = ({ book, showSalesCount = false }: BookCardProps) => {
   const navigate = useNavigate();
+  const cartStore = useCartStore();
+  const { addNotification } = useNotificationStore();
+  const inStock = (book.stockQuantity ?? 0) > 0;
 
   const handleClick = () => {
     if (book.id) {
@@ -32,11 +37,16 @@ export const BookCard = ({ book, showSalesCount = false }: BookCardProps) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // TODO: Implement add to cart functionality
-    console.log('Add to cart clicked for:', book.title);
+    if (inStock) {
+      // Use first available format or undefined if no formats specified
+      const format = book.availableFormats && book.availableFormats.length > 0
+        ? book.availableFormats[0]
+        : undefined;
+      cartStore.addItem(book, 1, format);
+      const truncatedTitle = truncateText(book.title, 40);
+      addNotification(`"${truncatedTitle}" added to cart`);
+    }
   };
-
-  const inStock = (book.stockQuantity ?? 0) > 0;
 
   return (
     <StyledCard onClick={handleClick}>
@@ -48,10 +58,7 @@ export const BookCard = ({ book, showSalesCount = false }: BookCardProps) => {
       >
         <AddShoppingCartIcon />
       </AddToCartButton>
-      <StyledCardMedia
-        image={book.coverImageUrl || '/placeholder-book.jpg'}
-        title={book.title}
-      />
+      <StyledCardMedia image={book.coverImageUrl || '/placeholder-book.jpg'} title={book.title} />
       <StyledCardContent>
         <Typography variant="h6" component="h3" noWrap>
           {book.title}
@@ -60,19 +67,13 @@ export const BookCard = ({ book, showSalesCount = false }: BookCardProps) => {
           {book.authors?.join(', ')}
         </Typography>
         {showSalesCount && book.salesCount !== undefined && (
-          <Chip
-            label={`${book.salesCount} sold`}
-            size="small"
-            color="secondary"
-          />
+          <Chip label={`${book.salesCount} sold`} size="small" color="secondary" />
         )}
         <PriceBox>
           <Typography variant="h6" color="primary">
             {formatCurrency(book.price ?? 0)}
           </Typography>
-          <StockBadge $inStock={inStock}>
-            {inStock ? 'In Stock' : 'Out of Stock'}
-          </StockBadge>
+          <StockBadge $inStock={inStock}>{inStock ? 'In Stock' : 'Out of Stock'}</StockBadge>
         </PriceBox>
       </StyledCardContent>
     </StyledCard>

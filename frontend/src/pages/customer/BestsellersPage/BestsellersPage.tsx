@@ -56,21 +56,12 @@ export const BestsellersPage = () => {
           </Button>
         </PageHeader>
 
-        <StyledTabs
-          value={activeTab}
-          onChange={handleTabChange}
-          aria-label="bestsellers tabs"
-        >
+        <StyledTabs value={activeTab} onChange={handleTabChange} aria-label="bestsellers tabs">
           <Tab label="This Week" id="tab-0" aria-controls="tabpanel-0" />
           <Tab label="This Month" id="tab-1" aria-controls="tabpanel-1" />
         </StyledTabs>
 
-        <TabPanel
-          role="tabpanel"
-          hidden={activeTab !== 0}
-          id="tabpanel-0"
-          aria-labelledby="tab-0"
-        >
+        <TabPanel role="tabpanel" hidden={activeTab !== 0} id="tabpanel-0" aria-labelledby="tab-0">
           <BookSection
             title="Top 15 Books This Week"
             books={weeklyBooks}
@@ -81,12 +72,7 @@ export const BestsellersPage = () => {
           />
         </TabPanel>
 
-        <TabPanel
-          role="tabpanel"
-          hidden={activeTab !== 1}
-          id="tabpanel-1"
-          aria-labelledby="tab-1"
-        >
+        <TabPanel role="tabpanel" hidden={activeTab !== 1} id="tabpanel-1" aria-labelledby="tab-1">
           <BookSection
             title="Top 15 Books This Month"
             books={monthlyBooks}

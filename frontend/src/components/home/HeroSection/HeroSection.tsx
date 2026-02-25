@@ -34,7 +34,7 @@ export const HeroSection = () => {
           fullWidth
           placeholder="Search for books, authors, or genres..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={e => setSearchTerm(e.target.value)}
           onKeyPress={handleKeyPress}
           InputProps={{
             endAdornment: (

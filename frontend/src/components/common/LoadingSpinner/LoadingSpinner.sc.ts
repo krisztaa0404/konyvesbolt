@@ -1,11 +1,11 @@
 import { styled } from '@mui/material/styles';
 import { Box, CircularProgress } from '@mui/material';
 
-export const SpinnerContainer = styled(Box)<{ fullPage?: boolean }>(({ fullPage }) => ({
+export const SpinnerContainer = styled(Box)<{ $fullPage?: boolean }>(({ $fullPage }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  ...(fullPage && {
+  ...($fullPage && {
     position: 'fixed',
     top: 0,
     left: 0,
@@ -14,7 +14,7 @@ export const SpinnerContainer = styled(Box)<{ fullPage?: boolean }>(({ fullPage 
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     zIndex: 9999,
   }),
-  ...(!fullPage && {
+  ...(!$fullPage && {
     padding: '2rem',
   }),
 }));

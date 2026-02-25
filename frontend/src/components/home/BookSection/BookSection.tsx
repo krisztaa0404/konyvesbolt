@@ -34,10 +34,7 @@ export const BookSection = ({
           {title}
         </Typography>
         {(viewAllLink || onViewAll) && !isLoading && !isError && (
-          <Button
-            endIcon={<ArrowIcon />}
-            onClick={onViewAll}
-          >
+          <Button endIcon={<ArrowIcon />} onClick={onViewAll}>
             View All
           </Button>
         )}
@@ -46,19 +43,13 @@ export const BookSection = ({
         <ErrorMessage message={error?.message || 'Failed to load books'} />
       ) : (
         <BooksGrid>
-          {isLoading ? (
-            Array.from({ length: 10 }).map((_, index) => (
-              <BookCardSkeleton key={index} />
-            ))
-          ) : books && books.length > 0 ? (
-            books.map((book) => (
-              <BookCard
-                key={book.id}
-                book={book}
-                showSalesCount={showSalesCount}
-              />
-            ))
-          ) : null}
+          {isLoading
+            ? Array.from({ length: 10 }).map((_, index) => <BookCardSkeleton key={index} />)
+            : books && books.length > 0
+              ? books.map(book => (
+                  <BookCard key={book.id} book={book} showSalesCount={showSalesCount} />
+                ))
+              : null}
         </BooksGrid>
       )}
     </SectionContainer>

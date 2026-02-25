@@ -12,20 +12,35 @@ import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { useNewestBooks } from '@hooks/useNewestBooks';
 import { useTopWeeklyBooks, useTopMonthlyBooks } from '@hooks/useTopBooks';
 import { useGenreStatistics } from '@hooks/useGenreStatistics';
-import {
-  PageContainer,
-  ContentContainer,
-  GenresGrid,
-  SectionTitle,
-} from './HomePage.sc';
+import { PageContainer, ContentContainer, GenresGrid, SectionTitle } from './HomePage.sc';
 
 export const HomePage = () => {
   const navigate = useNavigate();
 
-  const { data: newestBooks, isLoading: isLoadingNewest, isError: isErrorNewest, error: errorNewest } = useNewestBooks(10);
-  const { data: weeklyBooks, isLoading: isLoadingWeekly, isError: isErrorWeekly, error: errorWeekly } = useTopWeeklyBooks(10);
-  const { data: monthlyBooks, isLoading: isLoadingMonthly, isError: isErrorMonthly, error: errorMonthly } = useTopMonthlyBooks(10);
-  const { data: genreStats, isLoading: isLoadingGenres, isError: isErrorGenres, error: errorGenres } = useGenreStatistics();
+  const {
+    data: newestBooks,
+    isLoading: isLoadingNewest,
+    isError: isErrorNewest,
+    error: errorNewest,
+  } = useNewestBooks(10);
+  const {
+    data: weeklyBooks,
+    isLoading: isLoadingWeekly,
+    isError: isErrorWeekly,
+    error: errorWeekly,
+  } = useTopWeeklyBooks(10);
+  const {
+    data: monthlyBooks,
+    isLoading: isLoadingMonthly,
+    isError: isErrorMonthly,
+    error: errorMonthly,
+  } = useTopMonthlyBooks(10);
+  const {
+    data: genreStats,
+    isLoading: isLoadingGenres,
+    isError: isErrorGenres,
+    error: errorGenres,
+  } = useGenreStatistics();
 
   return (
     <PageContainer>
@@ -67,17 +82,17 @@ export const HomePage = () => {
           </Typography>
         </SectionTitle>
 
-        {isErrorGenres && <ErrorMessage message={errorGenres?.message || 'Failed to load genres'} />}
+        {isErrorGenres && (
+          <ErrorMessage message={errorGenres?.message || 'Failed to load genres'} />
+        )}
         <GenresGrid>
-          {isLoadingGenres ? (
-            Array.from({ length: 6 }).map((_, index) => (
-              <GenreStatisticsCardSkeleton key={index} />
-            ))
-          ) : genreStats ? (
-            genreStats.map((genre) => (
-              <GenreStatisticsCard key={genre.genreId} genre={genre} />
-            ))
-          ) : null}
+          {isLoadingGenres
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <GenreStatisticsCardSkeleton key={index} />
+              ))
+            : genreStats
+              ? genreStats.map(genre => <GenreStatisticsCard key={genre.genreId} genre={genre} />)
+              : null}
         </GenresGrid>
       </ContentContainer>
     </PageContainer>

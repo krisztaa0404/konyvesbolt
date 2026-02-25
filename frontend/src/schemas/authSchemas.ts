@@ -1,10 +1,7 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Please enter a valid email address'),
+  email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
   password: z
     .string()
     .min(1, 'Password is required')
@@ -18,22 +15,13 @@ const addressObjectSchema = z.object({
     .string()
     .min(1, 'Street address is required')
     .min(5, 'Street address must be at least 5 characters'),
-  city: z
-    .string()
-    .min(1, 'City is required')
-    .min(2, 'City must be at least 2 characters'),
-  state: z
-    .string()
-    .min(1, 'State is required')
-    .min(2, 'State must be at least 2 characters'),
+  city: z.string().min(1, 'City is required').min(2, 'City must be at least 2 characters'),
+  state: z.string().min(1, 'State is required').min(2, 'State must be at least 2 characters'),
   postal_code: z
     .string()
     .min(1, 'Postal code is required')
     .regex(/^[A-Z0-9\s\-]+$/i, 'Please enter a valid postal code'),
-  country: z
-    .string()
-    .min(1, 'Country is required')
-    .min(2, 'Country must be at least 2 characters'),
+  country: z.string().min(1, 'Country is required').min(2, 'Country must be at least 2 characters'),
 });
 
 export const registerSchema = z
@@ -48,10 +36,7 @@ export const registerSchema = z
       .min(1, 'Last name is required')
       .min(2, 'Last name must be at least 2 characters')
       .max(50, 'Last name must not exceed 50 characters'),
-    email: z
-      .string()
-      .min(1, 'Email is required')
-      .email('Please enter a valid email address'),
+    email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
     password: z
       .string()
       .min(1, 'Password is required')
@@ -60,23 +45,18 @@ export const registerSchema = z
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
         'Password must contain at least one uppercase letter, one lowercase letter, and one number'
       ),
-    confirmPassword: z
-      .string()
-      .min(1, 'Please confirm your password'),
+    confirmPassword: z.string().min(1, 'Please confirm your password'),
     phoneNumber: z
       .string()
       .min(1, 'Phone number is required')
-      .regex(
-        /^[\d\s\-\+\(\)]+$/,
-        'Please enter a valid phone number'
-      ),
+      .regex(/^[\d\s\-\+\(\)]+$/, 'Please enter a valid phone number'),
     street: addressObjectSchema.shape.street,
     city: addressObjectSchema.shape.city,
     state: addressObjectSchema.shape.state,
     postal_code: addressObjectSchema.shape.postal_code,
     country: addressObjectSchema.shape.country,
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ['confirmPassword'],
   });

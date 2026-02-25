@@ -7,7 +7,7 @@ interface LoadingSpinnerProps {
 
 export const LoadingSpinner = ({ fullPage = false, size = 40 }: LoadingSpinnerProps) => {
   return (
-    <SpinnerContainer fullPage={fullPage}>
+    <SpinnerContainer $fullPage={fullPage}>
       <StyledCircularProgress size={size} />
     </SpinnerContainer>
   );

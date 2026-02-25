@@ -3,7 +3,7 @@
  * Manages shopping cart state
  */
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { CartItem, Book } from '@types';
 
 interface CartState {
@@ -11,15 +11,15 @@ interface CartState {
 
   // Actions
   addItem: (book: Book, quantity?: number, format?: string) => void;
-  removeItem: (bookId: string) => void;
-  updateQuantity: (bookId: string, quantity: number) => void;
+  removeItem: (bookId: string, format?: string) => void;
+  updateQuantity: (bookId: string, quantity: number, format?: string) => void;
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
 }
 
 export const useCartStore = create<CartState>()(
-  persist(
+  persist<CartState>(
     (set, get) => ({
       items: [],
 
@@ -30,7 +30,6 @@ export const useCartStore = create<CartState>()(
           );
 
           if (existingItem) {
-            // Increment quantity if item already exists
             return {
               items: state.items.map(item =>
                 item.book.id === book.id && item.format === format
@@ -47,20 +46,24 @@ export const useCartStore = create<CartState>()(
         });
       },
 
-      removeItem: (bookId: string) => {
+      removeItem: (bookId: string, format?: string) => {
         set(state => ({
-          items: state.items.filter(item => item.book.id !== bookId),
+          items: state.items.filter(
+            item => !(item.book.id === bookId && item.format === format)
+          ),
         }));
       },
 
-      updateQuantity: (bookId: string, quantity: number) => {
+      updateQuantity: (bookId: string, quantity: number, format?: string) => {
         if (quantity <= 0) {
-          get().removeItem(bookId);
+          get().removeItem(bookId, format);
           return;
         }
 
         set(state => ({
-          items: state.items.map(item => (item.book.id === bookId ? { ...item, quantity } : item)),
+          items: state.items.map(item =>
+            item.book.id === bookId && item.format === format ? { ...item, quantity } : item
+          ),
         }));
       },
 
@@ -81,6 +84,7 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'cart-storage',
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

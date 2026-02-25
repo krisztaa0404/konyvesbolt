@@ -8,7 +8,12 @@ import { useAuthStore } from '@store/authStore';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { ROUTES } from '@router/routes';
 import { loginSchema, type LoginFormData } from '@schemas/authSchemas';
-import { PageContainer, FormContainer, FormActions, LinkContainer } from '@components/auth/AuthFormLayout/AuthFormLayout.sc';
+import {
+  PageContainer,
+  FormContainer,
+  FormActions,
+  LinkContainer,
+} from '@components/auth/AuthFormLayout/AuthFormLayout.sc';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -108,7 +113,13 @@ export const LoginPage = () => {
           />
 
           <FormActions sx={{ mt: 2 }}>
-            <Button type="submit" variant="contained" fullWidth size="large" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              size="large"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? 'Signing In...' : 'Sign In'}
             </Button>
           </FormActions>

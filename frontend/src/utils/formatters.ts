@@ -30,3 +30,13 @@ export const formatTime = (date: string | Date): string => {
 export const formatNumber = (num: number): string => {
   return new Intl.NumberFormat('en-US').format(num);
 };
+
+export const truncateText = (text: string | undefined, maxLength: number = 50): string => {
+  if (!text) {
+    return '';
+  }
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 3) + '...';
+};

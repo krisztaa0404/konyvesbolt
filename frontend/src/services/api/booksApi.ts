@@ -30,4 +30,11 @@ export const booksApi = {
     const response = await apiClient.get<BookDetail>(`/books/${id}`);
     return response.data;
   },
+
+  async getBookRecommendations(id: string, limit: number = 6): Promise<Book[]> {
+    const response = await apiClient.get<Book[]>(`/books/${id}/recommendations`, {
+      params: { limit },
+    });
+    return response.data;
+  },
 };

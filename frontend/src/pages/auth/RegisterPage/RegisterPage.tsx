@@ -8,7 +8,12 @@ import { useAuthStore } from '@store/authStore';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { ROUTES } from '@router/routes';
 import { registerSchema, type RegisterFormData } from '@schemas/authSchemas';
-import { PageContainer, FormContainer, FormActions, LinkContainer } from '@components/auth/AuthFormLayout/AuthFormLayout.sc';
+import {
+  PageContainer,
+  FormContainer,
+  FormActions,
+  LinkContainer,
+} from '@components/auth/AuthFormLayout/AuthFormLayout.sc';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -52,7 +57,7 @@ export const RegisterPage = () => {
           country,
           type: 'billing',
           is_default: true,
-        }
+        },
       ]);
 
       const registerData = {
@@ -79,9 +84,7 @@ export const RegisterPage = () => {
       navigate(ROUTES.HOME, { replace: true });
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        'Registration failed. Please try again.';
+        error.response?.data?.message || error.message || 'Registration failed. Please try again.';
       setApiError(errorMessage);
     } finally {
       setLoading(false);
@@ -99,7 +102,6 @@ export const RegisterPage = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-
             <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
               <Controller
                 name="firstName"
@@ -288,7 +290,13 @@ export const RegisterPage = () => {
           </Box>
 
           <FormActions>
-            <Button type="submit" variant="contained" fullWidth size="large" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              size="large"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? 'Creating Account...' : 'Register'}
             </Button>
           </FormActions>

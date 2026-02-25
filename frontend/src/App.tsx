@@ -5,6 +5,7 @@ import { CssBaseline } from '@mui/material';
 import { queryClient } from '@services/api/queryClient';
 import { theme } from '@theme/theme';
 import { AppRouter } from '@router/AppRouter';
+import { ToastNotification } from '@components/common/ToastNotification/ToastNotification';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppRouter />
+        <ToastNotification />
         <ReactQueryDevtools initialIsOpen={false} />
       </ThemeProvider>
     </QueryClientProvider>

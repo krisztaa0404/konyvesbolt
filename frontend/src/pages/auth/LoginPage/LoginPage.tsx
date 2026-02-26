@@ -6,6 +6,7 @@ import { Typography, TextField, Button, Link } from '@mui/material';
 import { authApi } from '@services/api/authApi';
 import { useAuthStore } from '@store/authStore';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { getErrorMessage } from '@utils/errorUtils';
 import { ROUTES } from '@router/routes';
 import { loginSchema, type LoginFormData } from '@schemas/authSchemas';
 import {
@@ -59,9 +60,8 @@ export const LoginPage = () => {
 
       const from = location.state?.from?.pathname || ROUTES.HOME;
       navigate(from, { replace: true });
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || error.message || 'Login failed. Please try again.';
+    } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error, 'Login failed. Please try again.');
       setApiError(errorMessage);
     } finally {
       setLoading(false);

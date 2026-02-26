@@ -10,20 +10,20 @@ interface NotificationState {
   removeNotification: (id: string) => void;
 }
 
-export const useNotificationStore = create<NotificationState>((set) => ({
+export const useNotificationStore = create<NotificationState>(set => ({
   notifications: [],
 
   addNotification: (message: string, type: NotificationType = 'success') => {
     const id = `${Date.now()}-${Math.random()}`;
-    set((state) => ({
+    set(state => ({
       notifications: [...state.notifications, { id, message, type }],
     }));
     return id;
   },
 
   removeNotification: (id: string) => {
-    set((state) => ({
-      notifications: state.notifications.filter((n) => n.id !== id),
+    set(state => ({
+      notifications: state.notifications.filter(n => n.id !== id),
     }));
   },
 }));

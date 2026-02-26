@@ -20,7 +20,7 @@ const addressObjectSchema = z.object({
   postal_code: z
     .string()
     .min(1, 'Postal code is required')
-    .regex(/^[A-Z0-9\s\-]+$/i, 'Please enter a valid postal code'),
+    .regex(/^[A-Z0-9\s-]+$/i, 'Please enter a valid postal code'),
   country: z.string().min(1, 'Country is required').min(2, 'Country must be at least 2 characters'),
 });
 
@@ -49,7 +49,7 @@ export const registerSchema = z
     phoneNumber: z
       .string()
       .min(1, 'Phone number is required')
-      .regex(/^[\d\s\-\+\(\)]+$/, 'Please enter a valid phone number'),
+      .regex(/^[\d\s\-+()]+$/, 'Please enter a valid phone number'),
     street: addressObjectSchema.shape.street,
     city: addressObjectSchema.shape.city,
     state: addressObjectSchema.shape.state,

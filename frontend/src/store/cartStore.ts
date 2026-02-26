@@ -48,9 +48,7 @@ export const useCartStore = create<CartState>()(
 
       removeItem: (bookId: string, format?: string) => {
         set(state => ({
-          items: state.items.filter(
-            item => !(item.book.id === bookId && item.format === format)
-          ),
+          items: state.items.filter(item => !(item.book.id === bookId && item.format === format)),
         }));
       },
 

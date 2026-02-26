@@ -3,7 +3,7 @@
  * Handles login, register, logout, and user profile operations
  */
 import { apiClient } from './apiClient';
-import type { LoginRequest, RegisterRequest, AuthResponse, User } from '@types';
+import type { LoginRequest, RegisterRequest, AuthResponse, User, UpdateUser } from '@types';
 
 export const authApi = {
   /**
@@ -40,7 +40,7 @@ export const authApi = {
   /**
    * Update current user profile
    */
-  async updateProfile(data: Partial<User>): Promise<User> {
+  async updateProfile(data: UpdateUser): Promise<User> {
     const response = await apiClient.put<User>('/users/me', data);
     return response.data;
   },

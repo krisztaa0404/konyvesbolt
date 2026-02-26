@@ -1,23 +1,35 @@
 import { format, parseISO } from 'date-fns';
 
-export const formatCurrency = (amount: number): string => {
+export const formatCurrency = (amount: number | undefined): string => {
+  if (amount === undefined || amount === null) {
+    return '$0.00';
+  }
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   }).format(amount);
 };
 
-export const formatDate = (date: string | Date): string => {
+export const formatDate = (date: string | Date | undefined): string => {
+  if (!date) {
+    return '';
+  }
   const dateObj = typeof date === 'string' ? parseISO(date) : date;
   return format(dateObj, 'MMM dd, yyyy');
 };
 
-export const formatDateTime = (date: string | Date): string => {
+export const formatDateTime = (date: string | Date | undefined): string => {
+  if (!date) {
+    return '';
+  }
   const dateObj = typeof date === 'string' ? parseISO(date) : date;
   return format(dateObj, 'MMM dd, yyyy HH:mm');
 };
 
-export const formatDateLong = (date: string | Date): string => {
+export const formatDateLong = (date: string | Date | undefined): string => {
+  if (!date) {
+    return '';
+  }
   const dateObj = typeof date === 'string' ? parseISO(date) : date;
   return format(dateObj, 'MMMM dd, yyyy');
 };
@@ -39,4 +51,11 @@ export const truncateText = (text: string | undefined, maxLength: number = 50): 
     return text;
   }
   return text.slice(0, maxLength - 3) + '...';
+};
+
+export const formatOrderId = (orderId: string | undefined): string => {
+  if (!orderId) {
+    return 'Order #N/A';
+  }
+  return `Order #${orderId.substring(0, 8).toUpperCase()}`;
 };

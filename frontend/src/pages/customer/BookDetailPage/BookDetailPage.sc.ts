@@ -63,7 +63,7 @@ export const PriceBox = styled(Box)(({ theme }) => ({
 }));
 
 export const StockBadge = styled(Chip, {
-  shouldForwardProp: (prop) => prop !== '$inStock',
+  shouldForwardProp: prop => prop !== '$inStock',
 })<{ $inStock: boolean }>(({ $inStock, theme }) => ({
   backgroundColor: $inStock ? theme.palette.success.light : theme.palette.error.light,
   color: $inStock ? theme.palette.success.dark : theme.palette.error.dark,

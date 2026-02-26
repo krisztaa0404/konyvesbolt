@@ -62,3 +62,14 @@ export interface Notification {
   message: string;
   type: NotificationType;
 }
+
+// Address types (client-side only)
+export interface Address {
+  street: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+  type?: string;
+  is_default?: boolean;
+}

@@ -6,6 +6,8 @@ import { Typography, TextField, Button, Link, Box } from '@mui/material';
 import { authApi } from '@services/api/authApi';
 import { useAuthStore } from '@store/authStore';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { formatAddressAsMap } from '@utils/addressUtils';
+import { getErrorMessage } from '@utils/errorUtils';
 import { ROUTES } from '@router/routes';
 import { registerSchema, type RegisterFormData } from '@schemas/authSchemas';
 import {
@@ -46,23 +48,20 @@ export const RegisterPage = () => {
       setApiError('');
       setLoading(true);
 
-      const { confirmPassword, street, city, state, postal_code, country, ...baseData } = data;
+      const { street, city, state, postal_code, country, phoneNumber, ...baseData } = data;
 
-      const addressJson = JSON.stringify([
-        {
-          street,
-          city,
-          state,
-          postal_code,
-          country,
-          type: 'billing',
-          is_default: true,
-        },
-      ]);
+      const addressMap = formatAddressAsMap({
+        street,
+        city,
+        state,
+        postal_code,
+        country,
+      });
 
       const registerData = {
         ...baseData,
-        address: addressJson,
+        phone: phoneNumber,
+        addressData: addressMap as { [key: string]: Record<string, never> },
       };
 
       const response = await authApi.register(registerData);
@@ -82,9 +81,8 @@ export const RegisterPage = () => {
       loginToStore(response.token, user);
 
       navigate(ROUTES.HOME, { replace: true });
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || error.message || 'Registration failed. Please try again.';
+    } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error, 'Registration failed. Please try again.');
       setApiError(errorMessage);
     } finally {
       setLoading(false);

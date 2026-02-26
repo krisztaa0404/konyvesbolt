@@ -8,7 +8,7 @@ import { formatCurrency, truncateText } from '@utils/formatters';
 import { getBookDetailRoute } from '@router/routes';
 import { useCartStore } from '@store/cartStore';
 import { useNotificationStore } from '@store/notificationStore';
-import type { Book } from '@types';
+import type { Book, BookDetail } from '@types';
 import {
   StyledCard,
   StyledCardMedia,
@@ -19,7 +19,7 @@ import {
 } from './BookCard.sc';
 
 interface BookCardProps {
-  book: Book;
+  book: Book | BookDetail;
   showSalesCount?: boolean;
 }
 
@@ -38,10 +38,10 @@ export const BookCard = ({ book, showSalesCount = false }: BookCardProps) => {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (inStock) {
-      // Use first available format or undefined if no formats specified
-      const format = book.availableFormats && book.availableFormats.length > 0
-        ? book.availableFormats[0]
-        : undefined;
+      const format =
+        'availableFormats' in book && book.availableFormats && book.availableFormats.length > 0
+          ? book.availableFormats[0]
+          : 'physical';
       cartStore.addItem(book, 1, format);
       const truncatedTitle = truncateText(book.title, 40);
       addNotification(`"${truncatedTitle}" added to cart`);

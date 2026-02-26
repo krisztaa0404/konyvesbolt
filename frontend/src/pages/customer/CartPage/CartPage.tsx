@@ -100,7 +100,7 @@ export const CartPage = () => {
 
       <CartContent>
         <CartItemsSection>
-          {items.map((item) => (
+          {items.map(item => (
             <CartItemCard key={`${item.book.id}-${item.format}`} elevation={2}>
               <ClickableArea onClick={() => handleItemClick(item.book.id!)}>
                 <ItemImage
@@ -115,9 +115,7 @@ export const CartPage = () => {
                   <Typography variant="body2" color="text.secondary" noWrap>
                     {item.book.authors?.join(', ')}
                   </Typography>
-                  {item.format && (
-                    <Chip label={item.format} size="small" variant="outlined" />
-                  )}
+                  {item.format && <Chip label={item.format} size="small" variant="outlined" />}
                   <Typography variant="body2" color="text.secondary">
                     Price: {formatCurrency(item.book.price ?? 0)}
                   </Typography>
@@ -132,7 +130,9 @@ export const CartPage = () => {
                 <QuantityControls>
                   <QuantityButton
                     size="small"
-                    onClick={() => handleQuantityChange(item.book.id!, item.quantity - 1, item.format)}
+                    onClick={() =>
+                      handleQuantityChange(item.book.id!, item.quantity - 1, item.format)
+                    }
                     disabled={item.quantity <= 1}
                   >
                     <RemoveIcon fontSize="small" />
@@ -146,7 +146,9 @@ export const CartPage = () => {
 
                   <QuantityButton
                     size="small"
-                    onClick={() => handleQuantityChange(item.book.id!, item.quantity + 1, item.format)}
+                    onClick={() =>
+                      handleQuantityChange(item.book.id!, item.quantity + 1, item.format)
+                    }
                     disabled={item.quantity >= (item.book.stockQuantity ?? 0)}
                   >
                     <AddIcon fontSize="small" />
@@ -179,7 +181,9 @@ export const CartPage = () => {
           </SummaryRow>
 
           <SummaryRow>
-            <Typography variant="body2" color="text.secondary">Shipping:</Typography>
+            <Typography variant="body2" color="text.secondary">
+              Shipping:
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               Calculated at checkout
             </Typography>
@@ -203,12 +207,7 @@ export const CartPage = () => {
             Proceed to Checkout
           </Button>
 
-          <Button
-            variant="outlined"
-            size="medium"
-            fullWidth
-            onClick={handleContinueShopping}
-          >
+          <Button variant="outlined" size="medium" fullWidth onClick={handleContinueShopping}>
             Continue Shopping
           </Button>
         </SummaryCard>

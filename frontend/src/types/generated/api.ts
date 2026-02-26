@@ -662,7 +662,9 @@ export interface components {
             firstName: string;
             lastName: string;
             phone?: string;
-            addressData?: Record<string, never>;
+            addressData?: {
+                [key: string]: Record<string, never>;
+            };
         };
         AuthResponseDto: {
             token?: string;
@@ -685,39 +687,19 @@ export interface components {
             size?: number;
             sort?: string[];
         };
-        PageUserDto: {
+        PageMetadata: {
+            /** Format: int64 */
+            size?: number;
+            /** Format: int64 */
+            number?: number;
             /** Format: int64 */
             totalElements?: number;
-            /** Format: int32 */
-            totalPages?: number;
-            /** Format: int32 */
-            size?: number;
-            content?: components["schemas"]["UserDto"][];
-            /** Format: int32 */
-            number?: number;
-            sort?: components["schemas"]["SortObject"];
-            first?: boolean;
-            last?: boolean;
-            /** Format: int32 */
-            numberOfElements?: number;
-            pageable?: components["schemas"]["PageableObject"];
-            empty?: boolean;
-        };
-        PageableObject: {
             /** Format: int64 */
-            offset?: number;
-            sort?: components["schemas"]["SortObject"];
-            /** Format: int32 */
-            pageNumber?: number;
-            /** Format: int32 */
-            pageSize?: number;
-            paged?: boolean;
-            unpaged?: boolean;
+            totalPages?: number;
         };
-        SortObject: {
-            empty?: boolean;
-            sorted?: boolean;
-            unsorted?: boolean;
+        PagedModelUserDto: {
+            content?: components["schemas"]["UserDto"][];
+            page?: components["schemas"]["PageMetadata"];
         };
         OrderDto: {
             /** Format: uuid */
@@ -734,23 +716,9 @@ export interface components {
             /** Format: int32 */
             itemCount?: number;
         };
-        PageOrderDto: {
-            /** Format: int64 */
-            totalElements?: number;
-            /** Format: int32 */
-            totalPages?: number;
-            /** Format: int32 */
-            size?: number;
+        PagedModelOrderDto: {
             content?: components["schemas"]["OrderDto"][];
-            /** Format: int32 */
-            number?: number;
-            sort?: components["schemas"]["SortObject"];
-            first?: boolean;
-            last?: boolean;
-            /** Format: int32 */
-            numberOfElements?: number;
-            pageable?: components["schemas"]["PageableObject"];
-            empty?: boolean;
+            page?: components["schemas"]["PageMetadata"];
         };
         DashboardMetricsDto: {
             /** Format: int64 */
@@ -792,23 +760,9 @@ export interface components {
             yearTo?: number;
             inStock?: boolean;
         };
-        PageBookDto: {
-            /** Format: int64 */
-            totalElements?: number;
-            /** Format: int32 */
-            totalPages?: number;
-            /** Format: int32 */
-            size?: number;
+        PagedModelBookDto: {
             content?: components["schemas"]["BookDto"][];
-            /** Format: int32 */
-            number?: number;
-            sort?: components["schemas"]["SortObject"];
-            first?: boolean;
-            last?: boolean;
-            /** Format: int32 */
-            numberOfElements?: number;
-            pageable?: components["schemas"]["PageableObject"];
-            empty?: boolean;
+            page?: components["schemas"]["PageMetadata"];
         };
     };
     responses: never;
@@ -1112,7 +1066,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageUserDto"];
+                    "*/*": components["schemas"]["PagedModelUserDto"];
                 };
             };
         };
@@ -1180,7 +1134,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageOrderDto"];
+                    "*/*": components["schemas"]["PagedModelOrderDto"];
                 };
             };
         };
@@ -1291,7 +1245,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageBookDto"];
+                    "*/*": components["schemas"]["PagedModelBookDto"];
                 };
             };
         };
@@ -1447,7 +1401,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageOrderDto"];
+                    "*/*": components["schemas"]["PagedModelOrderDto"];
                 };
             };
         };
@@ -1600,7 +1554,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageBookDto"];
+                    "*/*": components["schemas"]["PagedModelBookDto"];
                 };
             };
         };
@@ -1622,7 +1576,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageBookDto"];
+                    "*/*": components["schemas"]["PagedModelBookDto"];
                 };
             };
         };

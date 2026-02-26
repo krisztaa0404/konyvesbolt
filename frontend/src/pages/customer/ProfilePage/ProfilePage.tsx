@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Typography, Tab } from '@mui/material';
-import { Person, History, Lock, DeleteForever } from '@mui/icons-material';
+import { Person, History, Lock, DeleteForever, Settings } from '@mui/icons-material';
 import { useCurrentUser } from '@hooks/useCurrentUser';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { ProfileInfoTab } from '@components/profile/ProfileInfoTab';
 import { OrderHistoryTab } from '@components/profile/OrderHistoryTab';
 import { ChangePasswordTab } from '@components/profile/ChangePasswordTab';
+import { PreferencesTab } from '@components/profile/PreferencesTab';
 import { DeleteAccountTab } from '@components/profile/DeleteAccountTab';
 import {
   PageContainer,
@@ -88,11 +89,18 @@ export const ProfilePage = () => {
               aria-controls="profile-tabpanel-2"
             />
             <Tab
+              icon={<Settings />}
+              iconPosition="start"
+              label="Preferences"
+              id="profile-tab-3"
+              aria-controls="profile-tabpanel-3"
+            />
+            <Tab
               icon={<DeleteForever />}
               iconPosition="start"
               label="Delete Account"
-              id="profile-tab-3"
-              aria-controls="profile-tabpanel-3"
+              id="profile-tab-4"
+              aria-controls="profile-tabpanel-4"
             />
           </StyledTabs>
 
@@ -129,6 +137,15 @@ export const ProfilePage = () => {
               role="tabpanel"
               id="profile-tabpanel-3"
               aria-labelledby="profile-tab-3"
+            >
+              <PreferencesTab user={user} />
+            </TabPanel>
+
+            <TabPanel
+              $active={activeTab === 4}
+              role="tabpanel"
+              id="profile-tabpanel-4"
+              aria-labelledby="profile-tab-4"
             >
               <DeleteAccountTab />
             </TabPanel>

@@ -1,7 +1,9 @@
 import { styled } from '@mui/material/styles';
 import { Box, CircularProgress } from '@mui/material';
 
-export const SpinnerContainer = styled(Box)<{ $fullPage?: boolean }>(({ $fullPage }) => ({
+export const SpinnerContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== '$fullPage',
+})<{ $fullPage?: boolean }>(({ $fullPage }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

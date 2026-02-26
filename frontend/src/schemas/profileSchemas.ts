@@ -69,3 +69,16 @@ export const changePasswordSchema = z
   });
 
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+
+/**
+ * User preferences schema
+ */
+export const preferencesSchema = z.object({
+  newsletter: z.boolean(),
+  notificationEmail: z.boolean(),
+  favoriteGenres: z.array(z.string()).refine((genres) => genres.length <= 6, {
+    message: 'You can select up to 6 favorite genres',
+  }),
+});
+
+export type PreferencesFormData = z.infer<typeof preferencesSchema>;

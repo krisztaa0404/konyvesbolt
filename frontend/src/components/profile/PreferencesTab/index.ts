@@ -1,0 +1,1 @@
+export { PreferencesTab } from './PreferencesTab';

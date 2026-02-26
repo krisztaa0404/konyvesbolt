@@ -6,10 +6,11 @@ import { Typography, TextField, Button, Link, Box } from '@mui/material';
 import { authApi } from '@services/api/authApi';
 import { useAuthStore } from '@store/authStore';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { formatAddressAsMap } from '@utils/addressUtils';
+import { formatAddressDto } from '@utils/addressUtils';
 import { getErrorMessage } from '@utils/errorUtils';
 import { ROUTES } from '@router/routes';
 import { registerSchema, type RegisterFormData } from '@schemas/authSchemas';
+import type { RegisterRequest } from '@types';
 import {
   PageContainer,
   FormContainer,
@@ -38,8 +39,9 @@ export const RegisterPage = () => {
       street: '',
       city: '',
       state: '',
-      postal_code: '',
+      postalCode: '',
       country: 'United States',
+      addressType: '',
     },
   });
 
@@ -48,20 +50,20 @@ export const RegisterPage = () => {
       setApiError('');
       setLoading(true);
 
-      const { street, city, state, postal_code, country, phoneNumber, ...baseData } = data;
+      const { street, city, state, postalCode, country, addressType, phoneNumber, ...baseData } =
+        data;
 
-      const addressMap = formatAddressAsMap({
-        street,
-        city,
-        state,
-        postal_code,
-        country,
-      });
-
-      const registerData = {
+      const registerData: RegisterRequest = {
         ...baseData,
         phone: phoneNumber,
-        addressData: addressMap as { [key: string]: Record<string, never> },
+        addressData: formatAddressDto({
+          street,
+          city,
+          state,
+          postalCode,
+          country,
+          type: addressType,
+        }),
       };
 
       const response = await authApi.register(registerData);
@@ -199,8 +201,24 @@ export const RegisterPage = () => {
             />
 
             <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
-              Billing Address
+              Address
             </Typography>
+
+            <Controller
+              name="addressType"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Address Type (Optional)"
+                  type="text"
+                  fullWidth
+                  error={!!errors.addressType}
+                  helperText={errors.addressType?.message}
+                  placeholder="e.g., BILLING, SHIPPING"
+                />
+              )}
+            />
 
             <Controller
               name="street"
@@ -254,7 +272,7 @@ export const RegisterPage = () => {
 
             <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
               <Controller
-                name="postal_code"
+                name="postalCode"
                 control={control}
                 render={({ field }) => (
                   <TextField
@@ -262,8 +280,8 @@ export const RegisterPage = () => {
                     label="Postal Code"
                     type="text"
                     fullWidth
-                    error={!!errors.postal_code}
-                    helperText={errors.postal_code?.message}
+                    error={!!errors.postalCode}
+                    helperText={errors.postalCode?.message}
                     autoComplete="postal-code"
                   />
                 )}

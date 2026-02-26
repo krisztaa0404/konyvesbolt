@@ -4,6 +4,9 @@
  */
 import type { components } from './generated/api';
 
+// Address types
+export type AddressDto = components['schemas']['AddressDto'];
+
 // User types
 export type User = components['schemas']['UserDto'];
 export type CreateUser = components['schemas']['CreateUserDto'];
@@ -17,7 +20,6 @@ export type Book = components['schemas']['BookDto'];
 export type BookDetail = components['schemas']['BookDetailDto'];
 export type CreateBook = components['schemas']['CreateBookDto'];
 export type UpdateBook = components['schemas']['UpdateBookDto'];
-export type BookMetadata = components['schemas']['BookMetadata'];
 export type BookSearchFilter = components['schemas']['BookSearchFilterDto'];
 
 // Order types
@@ -43,9 +45,9 @@ export type AuthResponse = components['schemas']['AuthResponseDto'];
 export type DashboardMetrics = components['schemas']['DashboardMetricsDto'];
 
 // Pagination types
-export type PageUser = components['schemas']['PageUserDto'];
-export type PageBook = components['schemas']['PageBookDto'];
-export type PageOrder = components['schemas']['PageOrderDto'];
+export type PageUser = components['schemas']['PagedModelUserDto'];
+export type PageBook = components['schemas']['PagedModelBookDto'];
+export type PageOrder = components['schemas']['PagedModelOrderDto'];
 
 // Cart types (client-side only)
 export interface CartItem {
@@ -61,15 +63,4 @@ export interface Notification {
   id: string;
   message: string;
   type: NotificationType;
-}
-
-// Address types (client-side only)
-export interface Address {
-  street: string;
-  city: string;
-  state: string;
-  postal_code: string;
-  country: string;
-  type?: string;
-  is_default?: boolean;
 }

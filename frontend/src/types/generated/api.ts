@@ -460,6 +460,21 @@ export interface components {
             /** @enum {string} */
             role: "USER" | "MANAGER" | "ADMIN";
         };
+        AddressDto: {
+            street: string;
+            city: string;
+            state?: string;
+            postalCode: string;
+            country: string;
+            phone?: string;
+            type?: string;
+            isDefault?: boolean;
+        };
+        PreferencesDto: {
+            newsletter?: boolean;
+            favoriteGenres?: string[];
+            notificationEmail?: boolean;
+        };
         UserDto: {
             /** Format: uuid */
             id?: string;
@@ -472,7 +487,8 @@ export interface components {
             isLoyaltyMember?: boolean;
             loyaltyDiscountPercent?: number;
             totalSpent?: number;
-            addressData?: Record<string, never>;
+            addressData?: components["schemas"]["AddressDto"][];
+            preferences?: components["schemas"]["PreferencesDto"];
             /** Format: date-time */
             registrationDate?: string;
         };
@@ -485,9 +501,8 @@ export interface components {
             firstName?: string;
             lastName?: string;
             phone?: string;
-            addressData?: {
-                [key: string]: Record<string, never>;
-            };
+            addressData?: components["schemas"]["AddressDto"][];
+            preferences?: components["schemas"]["PreferencesDto"];
         };
         UpdateOrderStatusDto: {
             /** @enum {string} */
@@ -515,12 +530,8 @@ export interface components {
             status?: "PENDING" | "PAID" | "SHIPPED" | "DELIVERED" | "CANCELLED";
             totalAmount?: number;
             discountAmount?: number;
-            shippingAddress?: {
-                [key: string]: Record<string, never>;
-            };
-            paymentInfo?: {
-                [key: string]: Record<string, never>;
-            };
+            shippingAddress?: components["schemas"]["AddressDto"];
+            paymentInfo?: components["schemas"]["PaymentInfoDto"];
             items?: components["schemas"]["OrderItemDto"][];
             /** Format: date-time */
             updatedAt?: string;
@@ -535,6 +546,13 @@ export interface components {
             priceAtOrder?: number;
             subtotal?: number;
         };
+        PaymentInfoDto: {
+            method: string;
+            status?: string;
+            transactionId?: string;
+            /** Format: date-time */
+            paidAt?: string;
+        };
         UpdateGenreDto: {
             name?: string;
             description?: string;
@@ -545,18 +563,15 @@ export interface components {
             name?: string;
             description?: string;
         };
-        BookMetadata: {
-            physical?: {
-                [key: string]: Record<string, never>;
-            };
-            ebook?: {
-                [key: string]: Record<string, never>;
-            };
-            audiobook?: {
-                [key: string]: Record<string, never>;
-            };
+        BookMetadataDto: {
+            genre?: string;
+            /** Format: double */
+            rating?: number;
+            /** Format: int32 */
+            numRatings?: number;
             language?: string;
-            coverImage?: string;
+            dimensions?: string;
+            coverImageUrl?: string;
         };
         UpdateBookDto: {
             title?: string;
@@ -574,8 +589,7 @@ export interface components {
             tags?: string[];
             availableFormats?: string[];
             genreIds?: string[];
-            metadata?: components["schemas"]["BookMetadata"];
-            coverImageUrl?: string;
+            metadata?: components["schemas"]["BookMetadataDto"];
         };
         BookDetailDto: {
             /** Format: uuid */
@@ -597,7 +611,7 @@ export interface components {
             tags?: string[];
             availableFormats?: string[];
             genres?: components["schemas"]["GenreDto"][];
-            metadata?: components["schemas"]["BookMetadata"];
+            metadata?: components["schemas"]["BookMetadataDto"];
             coverImageUrl?: string;
             /** Format: date-time */
             createdAt?: string;
@@ -619,12 +633,8 @@ export interface components {
         };
         CreateOrderDto: {
             items: components["schemas"]["CreateOrderItemDto"][];
-            shippingAddress: {
-                [key: string]: Record<string, never>;
-            };
-            paymentInfo?: {
-                [key: string]: Record<string, never>;
-            };
+            shippingAddress: components["schemas"]["AddressDto"];
+            paymentInfo?: components["schemas"]["PaymentInfoDto"];
         };
         CreateOrderItemDto: {
             /** Format: uuid */
@@ -653,8 +663,7 @@ export interface components {
             tags?: string[];
             availableFormats: string[];
             genreIds?: string[];
-            metadata?: components["schemas"]["BookMetadata"];
-            coverImageUrl?: string;
+            metadata?: components["schemas"]["BookMetadataDto"];
         };
         RegisterRequestDto: {
             email: string;
@@ -662,9 +671,7 @@ export interface components {
             firstName: string;
             lastName: string;
             phone?: string;
-            addressData?: {
-                [key: string]: Record<string, never>;
-            };
+            addressData?: components["schemas"]["AddressDto"];
         };
         AuthResponseDto: {
             token?: string;

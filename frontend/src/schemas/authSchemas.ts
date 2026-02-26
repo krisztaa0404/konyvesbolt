@@ -17,11 +17,12 @@ const addressObjectSchema = z.object({
     .min(5, 'Street address must be at least 5 characters'),
   city: z.string().min(1, 'City is required').min(2, 'City must be at least 2 characters'),
   state: z.string().min(1, 'State is required').min(2, 'State must be at least 2 characters'),
-  postal_code: z
+  postalCode: z
     .string()
     .min(1, 'Postal code is required')
     .regex(/^[A-Z0-9\s-]+$/i, 'Please enter a valid postal code'),
   country: z.string().min(1, 'Country is required').min(2, 'Country must be at least 2 characters'),
+  type: z.string().optional(),
 });
 
 export const registerSchema = z
@@ -53,8 +54,9 @@ export const registerSchema = z
     street: addressObjectSchema.shape.street,
     city: addressObjectSchema.shape.city,
     state: addressObjectSchema.shape.state,
-    postal_code: addressObjectSchema.shape.postal_code,
+    postalCode: addressObjectSchema.shape.postalCode,
     country: addressObjectSchema.shape.country,
+    addressType: addressObjectSchema.shape.type.optional(),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",

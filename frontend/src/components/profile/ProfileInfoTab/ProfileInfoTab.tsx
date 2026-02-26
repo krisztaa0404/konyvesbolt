@@ -3,8 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography, TextField, Button, Box } from '@mui/material';
 import { useUpdateProfile } from '@hooks/useUpdateProfile';
 import { profileUpdateSchema, type ProfileUpdateFormData } from '@schemas/profileSchemas';
-import { parseAddress, formatAddressAsMap } from '@utils/addressUtils';
-import type { User } from '@types';
+import { parseAddress, formatAddressDto } from '@utils/addressUtils';
+import type { User, UpdateUser } from '@types';
 import {
   FormContainer,
   FormSection,
@@ -21,7 +21,6 @@ interface ProfileInfoTabProps {
 export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
   const { mutate: updateProfile, isPending } = useUpdateProfile();
 
-  // Parse address from JSON
   const parsedAddress = parseAddress(user.addressData);
 
   const {
@@ -39,26 +38,29 @@ export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
       street: parsedAddress.street || '',
       city: parsedAddress.city || '',
       state: parsedAddress.state || '',
-      postal_code: parsedAddress.postal_code || '',
+      postalCode: parsedAddress.postalCode || '',
       country: parsedAddress.country || 'United States',
+      addressType: parsedAddress.type || '',
     },
   });
 
   const onSubmit = async (data: ProfileUpdateFormData) => {
-    const { street, city, state, postal_code, country, phoneNumber, ...baseData } = data;
+    const { street, city, state, postalCode, country, addressType, phoneNumber, ...baseData } =
+      data;
 
-    const addressMap = formatAddressAsMap({
-      street,
-      city,
-      state,
-      postal_code,
-      country,
-    });
-
-    const updateData = {
+    const updateData: UpdateUser = {
       ...baseData,
       phone: phoneNumber,
-      addressData: addressMap as { [key: string]: Record<string, never> },
+      addressData: [
+        formatAddressDto({
+          street,
+          city,
+          state,
+          postalCode,
+          country,
+          type: addressType,
+        }),
+      ],
     };
 
     updateProfile(updateData);
@@ -161,6 +163,22 @@ export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
           </SectionTitle>
 
           <Controller
+            name="addressType"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Address Type (Optional)"
+                type="text"
+                fullWidth
+                error={!!errors.addressType}
+                helperText={errors.addressType?.message}
+                placeholder="e.g., BILLING, SHIPPING"
+              />
+            )}
+          />
+
+          <Controller
             name="street"
             control={control}
             render={({ field }) => (
@@ -211,7 +229,7 @@ export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
 
           <FieldRow>
             <Controller
-              name="postal_code"
+              name="postalCode"
               control={control}
               render={({ field }) => (
                 <TextField
@@ -219,8 +237,8 @@ export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
                   label="Postal Code"
                   type="text"
                   fullWidth
-                  error={!!errors.postal_code}
-                  helperText={errors.postal_code?.message}
+                  error={!!errors.postalCode}
+                  helperText={errors.postalCode?.message}
                   autoComplete="postal-code"
                 />
               )}

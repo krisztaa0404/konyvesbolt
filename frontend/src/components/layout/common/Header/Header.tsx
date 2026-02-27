@@ -26,12 +26,12 @@ export const Header = ({ variant }: HeaderProps) => {
   const totalItems = useCartStore(state => state.getTotalItems());
 
   const handleLogoClick = () => {
-    navigate(variant === 'customer' ? ROUTES.HOME : ROUTES.MANAGER_DASHBOARD);
+    navigate(variant === 'customer' ? ROUTES.HOME : ROUTES.MANAGER_DASHBOARD, { replace: true });
   };
 
   const handleLogout = () => {
     logout();
-    navigate(ROUTES.HOME);
+    navigate(ROUTES.HOME, { replace: true });
   };
 
   return (

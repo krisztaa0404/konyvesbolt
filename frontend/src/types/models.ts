@@ -36,6 +36,8 @@ export type Genre = components['schemas']['GenreDto'];
 export type CreateGenre = components['schemas']['CreateGenreDto'];
 export type UpdateGenre = components['schemas']['UpdateGenreDto'];
 export type GenreStatistics = components['schemas']['GenreStatisticsDto'];
+export type GenreFilter = components['schemas']['GenreFilterDto'];
+export type PageGenre = components['schemas']['PagedModelGenreDto'];
 
 // Auth types
 export type LoginRequest = components['schemas']['LoginRequestDto'];
@@ -46,6 +48,8 @@ export type AuthResponse = components['schemas']['AuthResponseDto'];
 export type DashboardMetrics = components['schemas']['DashboardMetricsDto'];
 
 // Pagination types
+export type Pageable = components['schemas']['Pageable'];
+export type PageMetadata = components['schemas']['PageMetadata'];
 export type PageUser = components['schemas']['PagedModelUserDto'];
 export type PageBook = components['schemas']['PagedModelBookDto'];
 export type PageOrder = components['schemas']['PagedModelOrderDto'];
@@ -64,4 +68,12 @@ export interface Notification {
   id: string;
   message: string;
   type: NotificationType;
+}
+
+// Browse Books params - combines filter with pagination
+export interface BrowseBooksParams extends BookSearchFilter {
+  // Pagination params
+  page?: number | null;
+  size?: number;
+  sort?: string | null;
 }

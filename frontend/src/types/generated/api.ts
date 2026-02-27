@@ -519,6 +519,13 @@ export interface components {
             /** Format: int32 */
             salesCount?: number;
             coverImageUrl?: string;
+            genres?: components["schemas"]["GenreDto"][];
+        };
+        GenreDto: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            description?: string;
         };
         OrderDetailDto: {
             /** Format: uuid */
@@ -554,12 +561,6 @@ export interface components {
             paidAt?: string;
         };
         UpdateGenreDto: {
-            name?: string;
-            description?: string;
-        };
-        GenreDto: {
-            /** Format: uuid */
-            id?: string;
             name?: string;
             description?: string;
         };
@@ -742,6 +743,13 @@ export interface components {
             /** Format: int64 */
             lowStockBooks?: number;
         };
+        GenreFilterDto: {
+            name?: string;
+        };
+        PagedModelGenreDto: {
+            content?: components["schemas"]["GenreDto"][];
+            page?: components["schemas"]["PageMetadata"];
+        };
         GenreStatisticsDto: {
             /** Format: uuid */
             genreId?: string;
@@ -754,6 +762,7 @@ export interface components {
             totalSales?: number;
         };
         BookSearchFilterDto: {
+            search?: string;
             title?: string;
             genreIds?: string[];
             author?: string;
@@ -1192,7 +1201,10 @@ export interface operations {
     };
     getAllGenres: {
         parameters: {
-            query?: never;
+            query: {
+                filter: components["schemas"]["GenreFilterDto"];
+                pageable: components["schemas"]["Pageable"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -1205,7 +1217,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["GenreDto"][];
+                    "*/*": components["schemas"]["PagedModelGenreDto"];
                 };
             };
         };

@@ -2,7 +2,7 @@
  * Books API service
  */
 import { apiClient } from './apiClient';
-import type { Book, BookDetail, PageBook } from '@types';
+import type { Book, BookDetail, PageBook, BrowseBooksParams } from '@types';
 
 export const booksApi = {
   async getNewestBooks(size: number = 10): Promise<PageBook> {
@@ -35,6 +35,11 @@ export const booksApi = {
     const response = await apiClient.get<Book[]>(`/books/${id}/recommendations`, {
       params: { limit },
     });
+    return response.data;
+  },
+
+  async getBooksWithFilters(params: BrowseBooksParams): Promise<PageBook> {
+    const response = await apiClient.get<PageBook>('/books', { params });
     return response.data;
   },
 };

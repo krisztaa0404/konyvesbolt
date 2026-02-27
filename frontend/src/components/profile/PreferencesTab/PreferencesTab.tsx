@@ -14,12 +14,7 @@ import { useUpdateProfile } from '@hooks/useUpdateProfile';
 import { useGenres } from '@hooks/useGenres';
 import { preferencesSchema, type PreferencesFormData } from '@schemas/profileSchemas';
 import type { User } from '@types';
-import {
-  FormContainer,
-  FormSection,
-  SectionTitle,
-  ButtonGroup,
-} from '../ProfileLayout.sc';
+import { FormContainer, FormSection, SectionTitle, ButtonGroup } from '../ProfileLayout.sc';
 
 interface PreferencesTabProps {
   user: User;
@@ -27,7 +22,8 @@ interface PreferencesTabProps {
 
 export const PreferencesTab = ({ user }: PreferencesTabProps) => {
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile();
-  const { data: genres, isLoading: isLoadingGenres } = useGenres();
+  const { data: genresPage, isLoading: isLoadingGenres } = useGenres({ size: 200 });
+  const genres = genresPage?.content || [];
 
   const {
     control,
@@ -78,11 +74,7 @@ export const PreferencesTab = ({ user }: PreferencesTabProps) => {
             render={({ field }) => (
               <FormControlLabel
                 control={
-                  <Checkbox
-                    checked={field.value}
-                    onChange={field.onChange}
-                    color="primary"
-                  />
+                  <Checkbox checked={field.value} onChange={field.onChange} color="primary" />
                 }
                 label="Subscribe to newsletter"
               />
@@ -95,11 +87,7 @@ export const PreferencesTab = ({ user }: PreferencesTabProps) => {
             render={({ field }) => (
               <FormControlLabel
                 control={
-                  <Checkbox
-                    checked={field.value}
-                    onChange={field.onChange}
-                    color="primary"
-                  />
+                  <Checkbox checked={field.value} onChange={field.onChange} color="primary" />
                 }
                 label="Receive email notifications about orders"
               />
@@ -120,20 +108,20 @@ export const PreferencesTab = ({ user }: PreferencesTabProps) => {
             name="favoriteGenres"
             control={control}
             render={({ field: { value, onChange } }) => {
-              const selectedGenres = genres?.filter((g) => value.includes(g?.name ?? '')) ?? [];
+              const selectedGenres = genres.filter(g => value.includes(g?.name ?? ''));
 
               return (
                 <Autocomplete
                   multiple
-                  options={genres ?? []}
+                  options={genres}
                   loading={isLoadingGenres}
                   value={selectedGenres}
                   onChange={(_, newValue) => {
-                    onChange(newValue.map((genre) => genre.name ?? ''));
+                    onChange(newValue.map(genre => genre.name ?? ''));
                   }}
-                  getOptionLabel={(option) => option.name ?? ''}
+                  getOptionLabel={option => option.name ?? ''}
                   isOptionEqualToValue={(option, value) => option.name === value.name}
-                  renderInput={(params) => (
+                  renderInput={params => (
                     <TextField
                       {...params}
                       label="Select Genres"
@@ -166,18 +154,10 @@ export const PreferencesTab = ({ user }: PreferencesTabProps) => {
         </FormSection>
 
         <ButtonGroup>
-          <Button
-            variant="outlined"
-            onClick={handleReset}
-            disabled={!isDirty || isUpdating}
-          >
+          <Button variant="outlined" onClick={handleReset} disabled={!isDirty || isUpdating}>
             Reset
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={!isDirty || isUpdating}
-          >
+          <Button type="submit" variant="contained" disabled={!isDirty || isUpdating}>
             {isUpdating ? 'Saving...' : 'Save Preferences'}
           </Button>
         </ButtonGroup>

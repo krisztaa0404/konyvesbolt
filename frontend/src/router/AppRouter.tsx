@@ -30,36 +30,36 @@ export const AppRouter = () => {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route element={<CustomerLayout />}>
-          <Route path={ROUTES.HOME} element={<HomePage />} />
-          <Route path={ROUTES.BROWSE_BOOKS} element={<BrowseBooksPage />} />
-          <Route path={ROUTES.BOOK_DETAIL} element={<BookDetailPage />} />
-          <Route path={ROUTES.BESTSELLERS} element={<BestsellersPage />} />
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-          <Route path={ROUTES.CART} element={<CartPage />} />
+          <Route element={<CustomerLayout />}>
+            <Route path={ROUTES.HOME} element={<HomePage />} />
+            <Route path={ROUTES.BROWSE_BOOKS} element={<BrowseBooksPage />} />
+            <Route path={ROUTES.BOOK_DETAIL} element={<BookDetailPage />} />
+            <Route path={ROUTES.BESTSELLERS} element={<BestsellersPage />} />
+            <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+            <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+            <Route path={ROUTES.CART} element={<CartPage />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
-            <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
-            <Route path={ROUTES.ORDER_CONFIRMATION} element={<OrderConfirmationPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
+              <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+              <Route path={ROUTES.ORDER_CONFIRMATION} element={<OrderConfirmationPage />} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route element={<ManagerRoute />}>
-          <Route element={<ManagerLayout />}>
-            <Route path={ROUTES.MANAGER_DASHBOARD} element={<ManagerDashboardPage />} />
-            <Route path={ROUTES.MANAGER_ORDERS} element={<AllOrdersPage />} />
-            <Route path={ROUTES.MANAGER_ORDER_DETAIL} element={<OrderDetailPage />} />
-            <Route path={ROUTES.MANAGER_BOOKS} element={<ManageBooksPage />} />
-            <Route path={ROUTES.MANAGER_ADD_BOOK} element={<AddEditBookPage />} />
-            <Route path={ROUTES.MANAGER_EDIT_BOOK} element={<AddEditBookPage />} />
-            <Route path={ROUTES.MANAGER_USERS} element={<UsersManagementPage />} />
+          <Route element={<ManagerRoute />}>
+            <Route element={<ManagerLayout />}>
+              <Route path={ROUTES.MANAGER_DASHBOARD} element={<ManagerDashboardPage />} />
+              <Route path={ROUTES.MANAGER_ORDERS} element={<AllOrdersPage />} />
+              <Route path={ROUTES.MANAGER_ORDER_DETAIL} element={<OrderDetailPage />} />
+              <Route path={ROUTES.MANAGER_BOOKS} element={<ManageBooksPage />} />
+              <Route path={ROUTES.MANAGER_ADD_BOOK} element={<AddEditBookPage />} />
+              <Route path={ROUTES.MANAGER_EDIT_BOOK} element={<AddEditBookPage />} />
+              <Route path={ROUTES.MANAGER_USERS} element={<UsersManagementPage />} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
-      </Routes>
+          <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
+        </Routes>
     </BrowserRouter>
   );
 };

@@ -76,7 +76,7 @@ export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 export const preferencesSchema = z.object({
   newsletter: z.boolean(),
   notificationEmail: z.boolean(),
-  favoriteGenres: z.array(z.string()).refine((genres) => genres.length <= 6, {
+  favoriteGenres: z.array(z.string()).refine(genres => genres.length <= 6, {
     message: 'You can select up to 6 favorite genres',
   }),
 });

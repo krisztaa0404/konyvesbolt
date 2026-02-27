@@ -2,7 +2,13 @@
  * Genres API service
  */
 import { apiClient } from './apiClient';
-import type { Genre, GenreStatistics } from '@types';
+import type { GenreStatistics, PageGenre } from '@types';
+
+interface GetGenresParams {
+  name?: string;
+  page?: number;
+  size?: number;
+}
 
 export const genresApi = {
   async getGenreStatistics(): Promise<GenreStatistics[]> {
@@ -10,8 +16,8 @@ export const genresApi = {
     return response.data;
   },
 
-  async getGenres(): Promise<Genre[]> {
-    const response = await apiClient.get<Genre[]>('/genres');
+  async getGenres(params?: GetGenresParams): Promise<PageGenre> {
+    const response = await apiClient.get<PageGenre>('/genres', { params });
     return response.data;
   },
 };

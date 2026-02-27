@@ -38,7 +38,9 @@ export const PriceBox = styled(Box)({
   marginTop: 'auto',
 });
 
-export const StockBadge = styled(Box)<{ $inStock: boolean }>(({ $inStock, theme }) => ({
+export const StockBadge = styled(Box, {
+  shouldForwardProp: prop => prop !== '$inStock',
+})<{ $inStock: boolean }>(({ $inStock, theme }) => ({
   padding: '2px 8px',
   borderRadius: 4,
   fontSize: '0.75rem',

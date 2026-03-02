@@ -1,5 +1,13 @@
 import { useState, useEffect, useMemo, useCallback, useRef, useLayoutEffect } from 'react';
-import { Autocomplete, TextField, Checkbox, Chip, Box, CircularProgress, Typography } from '@mui/material';
+import {
+  Autocomplete,
+  TextField,
+  Checkbox,
+  Chip,
+  Box,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 import type { AutocompleteRenderOptionState, AutocompleteRenderInputParams } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -78,15 +86,16 @@ export const GenreFilter: React.FC<GenreFilterProps> = ({ value, onChange }) => 
     return currentPage < totalPages - 1;
   }, [genresPage]);
 
-  const handleChange = useCallback(
-    (_event: React.SyntheticEvent, newValue: Genre[]) => {
-      setLocalValue(newValue.map(genre => genre.id || ''));
-    },
-    []
-  );
+  const handleChange = useCallback((_event: React.SyntheticEvent, newValue: Genre[]) => {
+    setLocalValue(newValue.map(genre => genre.id || ''));
+  }, []);
 
   const renderOption = useCallback(
-    (props: React.HTMLAttributes<HTMLLIElement>, option: Genre, state: AutocompleteRenderOptionState) => {
+    (
+      props: React.HTMLAttributes<HTMLLIElement>,
+      option: Genre,
+      state: AutocompleteRenderOptionState
+    ) => {
       return (
         <li {...props} key={option.id}>
           <Checkbox
@@ -105,7 +114,7 @@ export const GenreFilter: React.FC<GenreFilterProps> = ({ value, onChange }) => 
   const renderTags = useCallback(
     (tagValue: Genre[], getTagProps: (params: { index: number }) => object) =>
       tagValue.map((option, index) => {
-        const { key, ...chipProps } = getTagProps({ index }) as { key: string };
+        const chipProps = getTagProps({ index });
         return <Chip key={option.id} label={option.name} {...chipProps} size="small" />;
       }),
     []

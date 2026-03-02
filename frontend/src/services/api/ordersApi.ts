@@ -3,7 +3,7 @@
  * Handles fetching user orders
  */
 import { apiClient } from './apiClient';
-import type { OrderDetail, PageOrder } from '@types';
+import type { OrderDetail, PageOrder, CreateOrder } from '@types';
 
 export const ordersApi = {
   /**
@@ -21,6 +21,14 @@ export const ordersApi = {
    */
   async getMyOrderById(orderId: string): Promise<OrderDetail> {
     const response = await apiClient.get<OrderDetail>(`/orders/my-orders/${orderId}`);
+    return response.data;
+  },
+
+  /**
+   * Create a new order
+   */
+  async createOrder(data: CreateOrder): Promise<OrderDetail> {
+    const response = await apiClient.post<OrderDetail>('/orders', data);
     return response.data;
   },
 };

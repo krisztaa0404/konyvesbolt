@@ -55,3 +55,25 @@ export const formatAddressDto = (address: Partial<AddressDto>): AddressDto => {
     phone: address.phone,
   };
 };
+
+/**
+ * Format checkout form data into AddressDto for API submission
+ */
+export const formatCheckoutAddress = (data: {
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  phoneNumber: string;
+}): AddressDto => {
+  return {
+    street: data.street,
+    city: data.city,
+    state: data.state,
+    postalCode: data.postalCode,
+    country: data.country,
+    phone: data.phoneNumber,
+    type: 'SHIPPING',
+  };
+};

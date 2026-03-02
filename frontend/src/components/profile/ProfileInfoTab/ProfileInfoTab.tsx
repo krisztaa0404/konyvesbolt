@@ -1,10 +1,13 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography, TextField, Button, Box } from '@mui/material';
+import { useCurrentUser } from '@hooks/useCurrentUser';
 import { useUpdateProfile } from '@hooks/useUpdateProfile';
 import { profileUpdateSchema, type ProfileUpdateFormData } from '@schemas/profileSchemas';
 import { parseAddress, formatAddressDto } from '@utils/addressUtils';
-import type { User, UpdateUser } from '@types';
+import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
+import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import type { UpdateUser } from '@types';
 import {
   FormContainer,
   FormSection,
@@ -14,14 +17,11 @@ import {
 } from '../ProfileLayout.sc';
 import { LoyaltyBadge } from './ProfileInfoTab.sc';
 
-interface ProfileInfoTabProps {
-  user: User;
-}
-
-export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
+export const ProfileInfoTab = () => {
+  const { data: user, isLoading, isError, error } = useCurrentUser();
   const { mutate: updateProfile, isPending } = useUpdateProfile();
 
-  const parsedAddress = parseAddress(user.addressData);
+  const parsedAddress = parseAddress(user?.addressData || []);
 
   const {
     control,
@@ -31,10 +31,10 @@ export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
   } = useForm<ProfileUpdateFormData>({
     resolver: zodResolver(profileUpdateSchema),
     defaultValues: {
-      firstName: user.firstName || '',
-      lastName: user.lastName || '',
-      email: user.email || '',
-      phoneNumber: user.phone || '',
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      email: user?.email || '',
+      phoneNumber: user?.phone || '',
       street: parsedAddress.street || '',
       city: parsedAddress.city || '',
       state: parsedAddress.state || '',
@@ -69,6 +69,14 @@ export const ProfileInfoTab = ({ user }: ProfileInfoTabProps) => {
   const handleReset = () => {
     reset();
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError || !user) {
+    return <ErrorMessage message={error?.message || 'Failed to load profile'} severity="error" />;
+  }
 
   return (
     <FormContainer>

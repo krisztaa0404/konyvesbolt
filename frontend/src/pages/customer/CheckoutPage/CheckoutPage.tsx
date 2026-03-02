@@ -18,10 +18,12 @@ import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner
 import { ROUTES } from '@router/routes';
 import type { CreateOrder, CreateOrderItem } from '@types';
 import {
-  CheckoutContainer,
-  CheckoutContent,
-  FormContainer,
+  OrderPageContainer,
+  OrderContent,
   SectionCard,
+} from '@components/common/OrderComponents/OrderComponents.sc';
+import {
+  FormContainer,
   EmptyCartContainer,
   EmptyCartIcon,
 } from './CheckoutPage.sc';
@@ -87,6 +89,9 @@ export const CheckoutPage = () => {
     const orderData: CreateOrder = {
       items: orderItems,
       shippingAddress,
+      paymentInfo: {
+        method: formData.paymentMethod,
+      },
     };
 
     createOrder(orderData);
@@ -98,7 +103,7 @@ export const CheckoutPage = () => {
 
   if (items.length === 0) {
     return (
-      <CheckoutContainer>
+      <OrderPageContainer>
         <EmptyCartContainer>
           <EmptyCartIcon>
             <ShoppingCartIcon fontSize="inherit" />
@@ -113,12 +118,12 @@ export const CheckoutPage = () => {
             Continue Shopping
           </Button>
         </EmptyCartContainer>
-      </CheckoutContainer>
+      </OrderPageContainer>
     );
   }
 
   return (
-    <CheckoutContainer>
+    <OrderPageContainer>
       <Typography variant="h4" gutterBottom>
         Checkout
       </Typography>
@@ -127,7 +132,7 @@ export const CheckoutPage = () => {
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CheckoutContent>
+        <OrderContent>
           <FormContainer>
             <SectionCard>
               <Typography variant="h6" gutterBottom>
@@ -160,8 +165,8 @@ export const CheckoutPage = () => {
             isPending={isPending}
             hasDiscount={discountPercent > 0}
           />
-        </CheckoutContent>
+        </OrderContent>
       </form>
-    </CheckoutContainer>
+    </OrderPageContainer>
   );
 };

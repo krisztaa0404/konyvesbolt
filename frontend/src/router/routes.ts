@@ -16,6 +16,11 @@ export const ROUTES = {
   CART: '/cart',
   CHECKOUT: '/checkout',
   PROFILE: '/profile',
+  PROFILE_INFO: '/profile/info',
+  PROFILE_ORDERS: '/profile/orders',
+  PROFILE_PASSWORD: '/profile/password',
+  PROFILE_PREFERENCES: '/profile/preferences',
+  PROFILE_DELETE: '/profile/delete',
   ORDER_CONFIRMATION: '/orders/:id/confirmation',
 
   // Manager routes

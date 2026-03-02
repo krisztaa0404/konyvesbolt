@@ -22,7 +22,7 @@ export const useCreateOrder = () => {
       clearCart();
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       addNotification('Order placed successfully!', 'success');
-      navigate(getOrderConfirmationRoute(data.id!));
+      navigate(getOrderConfirmationRoute(data.id!), { state: { fromCheckout: true } });
     },
     onError: (error: unknown) => {
       const errorMessage = getErrorMessage(error, 'Failed to place order');

@@ -6,8 +6,9 @@ import { useMyOrders } from '@hooks/useMyOrders';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { formatCurrency, formatDateLong, formatOrderId } from '@utils/formatters';
-import { ROUTES } from '@router/routes';
+import { getOrderConfirmationRoute } from '@router/routes';
 import {
+  TabContainer,
   OrdersContainer,
   OrderCard,
   OrderHeader,
@@ -35,23 +36,25 @@ export const OrderHistoryTab = () => {
 
   if (!data || !data.content || data.content.length === 0) {
     return (
-      <EmptyState>
-        <ShoppingBag sx={{ fontSize: 64, color: 'text.secondary' }} />
-        <Typography variant="h6" color="text.secondary">
-          No orders yet
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Start shopping to see your orders here
-        </Typography>
-        <Button variant="contained" onClick={() => navigate(ROUTES.BROWSE_BOOKS)} sx={{ mt: 2 }}>
-          Start Shopping
-        </Button>
-      </EmptyState>
+      <TabContainer>
+        <EmptyState>
+          <ShoppingBag sx={{ fontSize: 64, color: 'text.secondary' }} />
+          <Typography variant="h6" color="text.secondary">
+            No orders yet
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Start shopping to see your orders here
+          </Typography>
+          <Button variant="contained" onClick={() => navigate('/books')} sx={{ mt: 2 }}>
+            Start Shopping
+          </Button>
+        </EmptyState>
+      </TabContainer>
     );
   }
 
   const handleViewDetails = (orderId: string) => {
-    navigate(ROUTES.ORDER_CONFIRMATION.replace(':orderId', orderId));
+    navigate(getOrderConfirmationRoute(orderId));
   };
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
@@ -59,7 +62,7 @@ export const OrderHistoryTab = () => {
   };
 
   return (
-    <>
+    <TabContainer>
       <Typography variant="h5" gutterBottom>
         Order History
       </Typography>
@@ -111,6 +114,6 @@ export const OrderHistoryTab = () => {
           />
         </PaginationContainer>
       )}
-    </>
+    </TabContainer>
   );
 };

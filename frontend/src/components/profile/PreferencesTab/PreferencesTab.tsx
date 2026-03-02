@@ -10,17 +10,16 @@ import {
   Chip,
   CircularProgress,
 } from '@mui/material';
+import { useCurrentUser } from '@hooks/useCurrentUser';
 import { useUpdateProfile } from '@hooks/useUpdateProfile';
 import { useGenres } from '@hooks/useGenres';
+import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
+import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { preferencesSchema, type PreferencesFormData } from '@schemas/profileSchemas';
-import type { User } from '@types';
 import { FormContainer, FormSection, SectionTitle, ButtonGroup } from '../ProfileLayout.sc';
 
-interface PreferencesTabProps {
-  user: User;
-}
-
-export const PreferencesTab = ({ user }: PreferencesTabProps) => {
+export const PreferencesTab = () => {
+  const { data: user, isLoading, isError, error } = useCurrentUser();
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile();
   const { data: genresPage, isLoading: isLoadingGenres } = useGenres({ size: 200 });
   const genres = genresPage?.content || [];
@@ -33,9 +32,9 @@ export const PreferencesTab = ({ user }: PreferencesTabProps) => {
   } = useForm<PreferencesFormData>({
     resolver: zodResolver(preferencesSchema),
     defaultValues: {
-      newsletter: user.preferences?.newsletter ?? false,
-      notificationEmail: user.preferences?.notificationEmail ?? false,
-      favoriteGenres: user.preferences?.favoriteGenres ?? [],
+      newsletter: user?.preferences?.newsletter ?? false,
+      notificationEmail: user?.preferences?.notificationEmail ?? false,
+      favoriteGenres: user?.preferences?.favoriteGenres ?? [],
     },
   });
 
@@ -52,6 +51,14 @@ export const PreferencesTab = ({ user }: PreferencesTabProps) => {
   const handleReset = () => {
     reset();
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError || !user) {
+    return <ErrorMessage message={error?.message || 'Failed to load profile'} severity="error" />;
+  }
 
   return (
     <FormContainer>

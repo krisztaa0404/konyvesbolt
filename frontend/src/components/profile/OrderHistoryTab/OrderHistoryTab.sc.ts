@@ -1,6 +1,10 @@
 import { styled } from '@mui/material/styles';
 import { Box, Chip } from '@mui/material';
 
+export const TabContainer = styled(Box)(() => ({
+  width: '100%',
+}));
+
 export const OrdersContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

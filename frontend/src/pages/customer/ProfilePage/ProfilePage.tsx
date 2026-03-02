@@ -1,14 +1,9 @@
-import { useState } from 'react';
 import { Typography, Tab } from '@mui/material';
 import { Person, History, Lock, DeleteForever, Settings } from '@mui/icons-material';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '@hooks/useCurrentUser';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { ProfileInfoTab } from '@components/profile/ProfileInfoTab';
-import { OrderHistoryTab } from '@components/profile/OrderHistoryTab';
-import { ChangePasswordTab } from '@components/profile/ChangePasswordTab';
-import { PreferencesTab } from '@components/profile/PreferencesTab';
-import { DeleteAccountTab } from '@components/profile/DeleteAccountTab';
 import {
   PageContainer,
   ContentContainer,
@@ -16,15 +11,33 @@ import {
   SidebarLayout,
   StyledTabs,
   MainContent,
-  TabPanel,
 } from './ProfilePage.sc';
 
 export const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
   const { data: user, isLoading, isError, error } = useCurrentUser();
 
+  const getActiveTab = () => {
+    const path = location.pathname;
+    if (path.includes('/orders')) return 1;
+    if (path.includes('/password')) return 2;
+    if (path.includes('/preferences')) return 3;
+    if (path.includes('/delete')) return 4;
+    return 0;
+  };
+
+  const activeTab = getActiveTab();
+
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
+    const routes = [
+      '/profile/info',
+      '/profile/orders',
+      '/profile/password',
+      '/profile/preferences',
+      '/profile/delete',
+    ];
+    navigate(routes[newValue]);
   };
 
   if (isLoading) {
@@ -105,50 +118,7 @@ export const ProfilePage = () => {
           </StyledTabs>
 
           <MainContent>
-            <TabPanel
-              $active={activeTab === 0}
-              role="tabpanel"
-              id="profile-tabpanel-0"
-              aria-labelledby="profile-tab-0"
-            >
-              <ProfileInfoTab user={user} />
-            </TabPanel>
-
-            <TabPanel
-              $active={activeTab === 1}
-              role="tabpanel"
-              id="profile-tabpanel-1"
-              aria-labelledby="profile-tab-1"
-            >
-              <OrderHistoryTab />
-            </TabPanel>
-
-            <TabPanel
-              $active={activeTab === 2}
-              role="tabpanel"
-              id="profile-tabpanel-2"
-              aria-labelledby="profile-tab-2"
-            >
-              <ChangePasswordTab />
-            </TabPanel>
-
-            <TabPanel
-              $active={activeTab === 3}
-              role="tabpanel"
-              id="profile-tabpanel-3"
-              aria-labelledby="profile-tab-3"
-            >
-              <PreferencesTab user={user} />
-            </TabPanel>
-
-            <TabPanel
-              $active={activeTab === 4}
-              role="tabpanel"
-              id="profile-tabpanel-4"
-              aria-labelledby="profile-tab-4"
-            >
-              <DeleteAccountTab />
-            </TabPanel>
+            <Outlet />
           </MainContent>
         </SidebarLayout>
       </ContentContainer>

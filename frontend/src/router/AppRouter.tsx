@@ -18,6 +18,12 @@ import { OrderConfirmationPage } from '@pages/customer/OrderConfirmationPage';
 import { LoginPage } from '@pages/auth/LoginPage';
 import { RegisterPage } from '@pages/auth/RegisterPage';
 
+import { ProfileInfoTab } from '@components/profile/ProfileInfoTab';
+import { OrderHistoryTab } from '@components/profile/OrderHistoryTab';
+import { ChangePasswordTab } from '@components/profile/ChangePasswordTab';
+import { PreferencesTab } from '@components/profile/PreferencesTab';
+import { DeleteAccountTab } from '@components/profile/DeleteAccountTab';
+
 import { ManagerDashboardPage } from '@pages/manager/ManagerDashboardPage';
 import { AllOrdersPage } from '@pages/manager/AllOrdersPage';
 import { OrderDetailPage } from '@pages/manager/OrderDetailPage';
@@ -41,7 +47,14 @@ export const AppRouter = () => {
 
           <Route element={<ProtectedRoute />}>
             <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
-            <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+            <Route path={ROUTES.PROFILE} element={<ProfilePage />}>
+              <Route index element={<Navigate to="info" replace />} />
+              <Route path="info" element={<ProfileInfoTab />} />
+              <Route path="orders" element={<OrderHistoryTab />} />
+              <Route path="password" element={<ChangePasswordTab />} />
+              <Route path="preferences" element={<PreferencesTab />} />
+              <Route path="delete" element={<DeleteAccountTab />} />
+            </Route>
             <Route path={ROUTES.ORDER_CONFIRMATION} element={<OrderConfirmationPage />} />
           </Route>
         </Route>

@@ -48,11 +48,5 @@ export const MainContent = styled(Box)(({ theme }) => ({
   alignItems: 'flex-start',
   padding: theme.spacing(3),
   height: '100%',
-}));
-
-export const TabPanel = styled(Box, {
-  shouldForwardProp: prop => prop !== '$active',
-})<{ $active: boolean }>(({ $active }) => ({
-  display: $active ? 'block' : 'none',
   width: '100%',
 }));

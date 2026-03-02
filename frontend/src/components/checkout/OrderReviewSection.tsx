@@ -1,5 +1,9 @@
 import { Typography, Box } from '@mui/material';
-import { OrderItem, ItemImage, ItemDetails } from '@pages/customer/CheckoutPage/CheckoutPage.sc';
+import {
+  OrderItem,
+  ItemImage,
+  ItemDetails,
+} from '@components/common/OrderComponents/OrderComponents.sc';
 import { formatCurrency } from '@utils/formatters';
 import type { CartItem } from '@types';
 

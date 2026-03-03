@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { CustomerLayout } from '@components/layout/customer/CustomerLayout';
-import { ManagerLayout } from '@components/layout/manager/ManagerLayout';
-import { ScrollToTop } from '@components/layout/common/ScrollToTop';
+import { CustomerLayout } from '@layout/customer/CustomerLayout';
+import { ManagerLayout } from '@layout/manager/ManagerLayout';
+import { ScrollToTop } from '@layout/common/ScrollToTop';
 import { ProtectedRoute } from './ProtectedRoute';
 import { ManagerRoute } from './ManagerRoute';
 import { ROUTES } from './routes';
@@ -18,11 +18,11 @@ import { OrderConfirmationPage } from '@pages/customer/OrderConfirmationPage';
 import { LoginPage } from '@pages/auth/LoginPage';
 import { RegisterPage } from '@pages/auth/RegisterPage';
 
-import { ProfileInfoTab } from '@components/profile/ProfileInfoTab';
-import { OrderHistoryTab } from '@components/profile/OrderHistoryTab';
-import { ChangePasswordTab } from '@components/profile/ChangePasswordTab';
-import { PreferencesTab } from '@components/profile/PreferencesTab';
-import { DeleteAccountTab } from '@components/profile/DeleteAccountTab';
+import { ProfileInfoTab } from '@components/customer/profile/ProfileInfoTab';
+import { OrderHistoryTab } from '@components/customer/profile/OrderHistoryTab';
+import { ChangePasswordTab } from '@components/customer/profile/ChangePasswordTab';
+import { PreferencesTab } from '@components/customer/profile/PreferencesTab';
+import { DeleteAccountTab } from '@components/customer/profile/DeleteAccountTab';
 
 import { ManagerDashboardPage } from '@pages/manager/ManagerDashboardPage';
 import { AllOrdersPage } from '@pages/manager/AllOrdersPage';

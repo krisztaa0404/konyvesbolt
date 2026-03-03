@@ -1,17 +1,17 @@
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@router/routes';
-import { HeroSection } from '@components/home/HeroSection/HeroSection';
-import { RankedBooksSection } from '@components/home/RankedBooksSection/RankedBooksSection';
-import { GenreStatisticsCard } from '@components/home/GenreStatisticsCard/GenreStatisticsCard';
-import { GenreStatisticsCardSkeleton } from '@components/home/GenreStatisticsCard/GenreStatisticsCardSkeleton';
+import { HeroSection } from '@components/customer/home/HeroSection/HeroSection';
+import { RankedBooksSection } from '@components/customer/home/RankedBooksSection/RankedBooksSection';
+import { GenreStatisticsCard } from '@components/customer/home/GenreStatisticsCard/GenreStatisticsCard';
+import { GenreStatisticsCardSkeleton } from '@components/customer/home/GenreStatisticsCard/GenreStatisticsCardSkeleton';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { NewestBooksSection } from '@components/home/NewestBooksSection/NewestBooksSection';
+import { NewestBooksSection } from '@components/customer/home/NewestBooksSection/NewestBooksSection';
 import { useNewestBooks } from '@hooks/useNewestBooks';
 import { useTopMonthlyBooks } from '@hooks/useTopBooks';
 import { useGenreStatistics } from '@hooks/useGenreStatistics';
 import { useActiveSeasonalDiscounts } from '@hooks/useActiveSeasonalDiscounts';
-import { SeasonalPromotionsSection } from '@components/home/SeasonalPromotionsSection/SeasonalPromotionsSection';
+import { SeasonalPromotionsSection } from '@components/customer/home/SeasonalPromotionsSection/SeasonalPromotionsSection';
 import { PageContainer, ContentContainer, GenresGrid, SectionTitle } from './HomePage.sc';
 
 export const HomePage = () => {

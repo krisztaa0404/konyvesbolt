@@ -2,8 +2,8 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import type { Book } from '@types';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { RankedBookCard } from '@components/home/RankedBookCard/RankedBookCard';
-import { RankedBookCardSkeleton } from '@components/home/RankedBookCard/RankedBookCardSkeleton';
+import { RankedBookCard } from '@components/customer/home/RankedBookCard/RankedBookCard';
+import { RankedBookCardSkeleton } from '@components/customer/home/RankedBookCard/RankedBookCardSkeleton';
 import {
   SectionContainer,
   SectionHeader,

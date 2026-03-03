@@ -11,11 +11,11 @@ import { useApplicableSeasonalDiscount } from '@hooks/useApplicableSeasonalDisco
 import { parseAddress, formatCheckoutAddress } from '@utils/addressUtils';
 import { calculateOrderTotals } from '@utils/orderCalculations';
 import { checkoutShippingSchema, type CheckoutShippingFormData } from '@schemas/checkoutSchemas';
-import { ShippingForm } from '@components/checkout/ShippingForm';
-import { OrderReviewSection } from '@components/checkout/OrderReviewSection';
-import { PaymentMethodSection } from '@components/checkout/PaymentMethodSection';
-import { DiscountSelector } from '@components/checkout/DiscountSelector/DiscountSelector';
-import { OrderSummary } from '@components/checkout/OrderSummary';
+import { ShippingForm } from '@components/customer/checkout/ShippingForm';
+import { OrderReviewSection } from '@components/customer/checkout/OrderReviewSection';
+import { PaymentMethodSection } from '@components/customer/checkout/PaymentMethodSection';
+import { DiscountSelector } from '@components/customer/checkout/DiscountSelector/DiscountSelector';
+import { OrderSummary } from '@components/customer/checkout/OrderSummary';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ROUTES } from '@router/routes';
 import type { CreateOrder, CreateOrderItem, DiscountType } from '@types';
@@ -23,7 +23,7 @@ import {
   OrderPageContainer,
   OrderContent,
   SectionCard,
-} from '@components/common/OrderComponents/OrderComponents.sc';
+} from '@layout/customer/OrderLayout.sc';
 import {
   FormContainer,
   EmptyCartContainer,

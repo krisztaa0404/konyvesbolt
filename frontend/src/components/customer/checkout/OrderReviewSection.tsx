@@ -3,7 +3,7 @@ import {
   OrderItem,
   ItemImage,
   ItemDetails,
-} from '@components/common/OrderComponents/OrderComponents.sc';
+} from '@layout/customer/OrderLayout.sc';
 import { formatCurrency } from '@utils/formatters';
 import type { CartItem } from '@types';
 

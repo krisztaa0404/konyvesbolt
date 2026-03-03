@@ -4,10 +4,10 @@ import { Typography, Pagination, Button } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrowseBooks } from '@hooks/useBrowseBooks';
 import { useFilterStore } from '@store/filterStore';
-import { FilterSidebar } from '@components/browse/FilterSidebar';
-import { BrowseToolbar } from '@components/browse/BrowseToolbar';
-import { BookGrid } from '@components/browse/BookGrid';
-import { BookList } from '@components/browse/BookList';
+import { FilterSidebar } from '@components/customer/browse/FilterSidebar';
+import { BrowseToolbar } from '@components/customer/browse/BrowseToolbar';
+import { BookGrid } from '@components/customer/browse/BookGrid';
+import { BookList } from '@components/customer/browse/BookList';
 import {
   PageContainer,
   ContentWrapper,

@@ -7,7 +7,7 @@ import { formatCurrency, formatDateLong, formatOrderId } from '@utils/formatters
 import { calculateOrderItemsSubtotal, calculateTaxAmount } from '@utils/orderCalculations';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { StatusChip } from '@components/profile/OrderHistoryTab/OrderHistoryTab.sc';
+import { StatusChip } from '@components/customer/profile/OrderHistoryTab/OrderHistoryTab.sc';
 import {
   OrderPageContainer,
   OrderContent,
@@ -17,7 +17,7 @@ import {
   ItemDetails,
   SummaryRow,
   TotalRow,
-} from '@components/common/OrderComponents/OrderComponents.sc';
+} from '@layout/customer/OrderLayout.sc';
 import {
   SuccessAlert,
   DetailsContainer,

@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
-export { PageContainer, ContentContainer } from '@components/layout/common/PageLayout.sc';
+export { PageContainer, ContentContainer } from '@layout/common/PageLayout.sc';
 
 export const GenresGrid = styled(Box)(({ theme }) => ({
   display: 'grid',

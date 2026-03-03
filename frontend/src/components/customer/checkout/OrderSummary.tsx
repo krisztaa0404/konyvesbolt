@@ -3,7 +3,7 @@ import {
   SummaryCard,
   SummaryRow,
   TotalRow,
-} from '@components/common/OrderComponents/OrderComponents.sc';
+} from '@layout/customer/OrderLayout.sc';
 import { formatCurrency } from '@utils/formatters';
 
 interface OrderSummaryProps {

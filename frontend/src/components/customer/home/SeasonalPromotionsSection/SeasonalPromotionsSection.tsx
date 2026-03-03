@@ -1,7 +1,7 @@
 import { Typography, Button, Skeleton, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@router/routes';
-import { PromotionCard } from '@components/home/PromotionCard/PromotionCard';
+import { PromotionCard } from '@components/customer/home/PromotionCard/PromotionCard';
 import type { SeasonalDiscount } from '@types';
 import {
   PromotionsContainer,

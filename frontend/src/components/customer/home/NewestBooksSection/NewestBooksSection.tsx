@@ -3,8 +3,8 @@ import { Typography } from '@mui/material';
 import type { Book } from '@types';
 import { BookCard } from '@components/common/BookCard/BookCard';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { FeaturedBookCard } from '@components/home/FeaturedBookCard/FeaturedBookCard';
-import { FeaturedBookCardSkeleton } from '@components/home/FeaturedBookCard/FeaturedBookCardSkeleton';
+import { FeaturedBookCard } from '@components/customer/home/FeaturedBookCard/FeaturedBookCard';
+import { FeaturedBookCardSkeleton } from '@components/customer/home/FeaturedBookCard/FeaturedBookCardSkeleton';
 import { BookCardSkeleton } from '@components/common/BookCard/BookCardSkeleton';
 import {
   SectionContainer,

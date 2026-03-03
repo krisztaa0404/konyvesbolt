@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Typography, Tab, Button } from '@mui/material';
 import { LibraryBooks as LibraryBooksIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { BookSection } from '@components/home/BookSection/BookSection';
+import { BookSection } from '@components/customer/home/BookSection/BookSection';
 import { useTopWeeklyBooks, useTopMonthlyBooks } from '@hooks/useTopBooks';
 import { ROUTES } from '@router/routes';
 import {

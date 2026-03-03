@@ -16,7 +16,7 @@ import {
   FormContainer,
   FormActions,
   LinkContainer,
-} from '@components/auth/AuthFormLayout/AuthFormLayout.sc';
+} from '@layout/common/AuthLayout.sc';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();

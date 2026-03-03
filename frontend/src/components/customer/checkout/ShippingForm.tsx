@@ -1,6 +1,6 @@
 import { Controller, type Control, type FieldErrors } from 'react-hook-form';
 import { TextField } from '@mui/material';
-import { FormRow } from '@pages/customer/CheckoutPage/CheckoutPage.sc';
+import { FormRow } from '@layout/customer/CheckoutLayout.sc';
 import type { CheckoutShippingFormData } from '@schemas/checkoutSchemas';
 
 interface ShippingFormProps {

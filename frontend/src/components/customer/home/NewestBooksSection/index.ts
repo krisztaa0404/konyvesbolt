@@ -1,0 +1,1 @@
+export { NewestBooksSection } from './NewestBooksSection';

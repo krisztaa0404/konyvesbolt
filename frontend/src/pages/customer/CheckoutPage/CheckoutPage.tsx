@@ -24,8 +24,8 @@ import {
   OrderContent,
   SectionCard,
 } from '@layout/customer/OrderLayout.sc';
+import { FormContainer } from '@layout/customer/CheckoutLayout.sc';
 import {
-  FormContainer,
   EmptyCartContainer,
   EmptyCartIcon,
 } from './CheckoutPage.sc';

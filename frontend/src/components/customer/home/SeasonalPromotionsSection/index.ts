@@ -1,0 +1,1 @@
+export { SeasonalPromotionsSection } from './SeasonalPromotionsSection';

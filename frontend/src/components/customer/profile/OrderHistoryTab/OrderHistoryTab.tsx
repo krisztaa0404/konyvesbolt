@@ -5,6 +5,7 @@ import { ShoppingBag } from '@mui/icons-material';
 import { useMyOrders } from '@hooks/useMyOrders';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { StatusChip } from '@components/common/StatusChip';
 import { formatCurrency, formatDateLong, formatOrderId } from '@utils/formatters';
 import { getOrderConfirmationRoute } from '@router/routes';
 import {
@@ -14,7 +15,6 @@ import {
   OrderHeader,
   OrderInfo,
   OrderMeta,
-  StatusChip,
   EmptyState,
   PaginationContainer,
 } from './OrderHistoryTab.sc';
@@ -58,7 +58,7 @@ export const OrderHistoryTab = () => {
   };
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value - 1); // Convert from 1-indexed to 0-indexed
+    setPage(value - 1);
   };
 
   return (
@@ -79,7 +79,7 @@ export const OrderHistoryTab = () => {
                   {formatDateLong(order.orderDate)}
                 </Typography>
               </OrderInfo>
-              <StatusChip $status={order.status ?? 'PENDING'} label={order.status} size="small" />
+              <StatusChip status={order.status ?? 'PENDING'} size="small" />
             </OrderHeader>
 
             <OrderMeta>
@@ -104,10 +104,10 @@ export const OrderHistoryTab = () => {
         ))}
       </OrdersContainer>
 
-      {(data.totalPages ?? 0) > 1 && (
+      {(data.page?.totalPages ?? 0) > 1 && (
         <PaginationContainer>
           <Pagination
-            count={data.totalPages}
+            count={data.page?.totalPages}
             page={page + 1} // Convert to 1-indexed for display
             onChange={handlePageChange}
             color="primary"

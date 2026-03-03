@@ -5,6 +5,7 @@ import { ScrollToTop } from '@layout/common/ScrollToTop';
 import { ProtectedRoute } from './ProtectedRoute';
 import { ManagerRoute } from './ManagerRoute';
 import { ROUTES } from './routes';
+import { useAuthStore, selectIsManager } from '@store/authStore';
 
 import { HomePage } from '@pages/customer/HomePage';
 import { BrowseBooksPage } from '@pages/customer/BrowseBooksPage';
@@ -31,13 +32,18 @@ import { ManageBooksPage } from '@pages/manager/ManageBooksPage';
 import { AddEditBookPage } from '@pages/manager/AddEditBookPage';
 import { UsersManagementPage } from '@pages/manager/UsersManagementPage';
 
+const RoleBasedHome = () => {
+  const isManager = useAuthStore(selectIsManager);
+  return isManager ? <Navigate to={ROUTES.MANAGER_DASHBOARD} replace /> : <HomePage />;
+};
+
 export const AppRouter = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
         <Route element={<CustomerLayout />}>
-          <Route path={ROUTES.HOME} element={<HomePage />} />
+          <Route path={ROUTES.HOME} element={<RoleBasedHome />} />
           <Route path={ROUTES.BROWSE_BOOKS} element={<BrowseBooksPage />} />
           <Route path={ROUTES.BOOK_DETAIL} element={<BookDetailPage />} />
           <Route path={ROUTES.BESTSELLERS} element={<BestsellersPage />} />

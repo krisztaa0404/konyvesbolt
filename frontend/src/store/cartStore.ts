@@ -38,7 +38,6 @@ export const useCartStore = create<CartState>()(
               ),
             };
           } else {
-            // Add new item
             return {
               items: [...state.items, { book, quantity, format }],
             };

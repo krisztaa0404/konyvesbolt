@@ -1,7 +1,7 @@
 import { Typography, Button } from '@mui/material';
 import { ShoppingCart as CartIcon, AccountCircle as AccountIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@store/authStore';
+import { useAuthStore, selectIsCustomer } from '@store/authStore';
 import { useCartStore } from '@store/cartStore';
 import { ROUTES } from '@router/routes';
 import {
@@ -23,6 +23,7 @@ export const Header = ({ variant }: HeaderProps) => {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const user = useAuthStore(state => state.user);
   const logout = useAuthStore(state => state.logout);
+  const isCustomer = useAuthStore(selectIsCustomer);
   const totalItems = useCartStore(state => state.getTotalItems());
 
   const handleLogoClick = () => {
@@ -56,9 +57,11 @@ export const Header = ({ variant }: HeaderProps) => {
 
           {isAuthenticated ? (
             <>
-              <StyledIconButton onClick={() => navigate(ROUTES.PROFILE)}>
-                <AccountIcon />
-              </StyledIconButton>
+              {isCustomer && (
+                <StyledIconButton onClick={() => navigate(ROUTES.PROFILE)}>
+                  <AccountIcon />
+                </StyledIconButton>
+              )}
               <Button color="inherit" onClick={handleLogout}>
                 Logout
               </Button>

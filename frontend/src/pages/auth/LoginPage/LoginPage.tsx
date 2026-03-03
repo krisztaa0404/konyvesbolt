@@ -58,8 +58,15 @@ export const LoginPage = () => {
 
       loginToStore(response.token, user);
 
-      const from = location.state?.from?.pathname || ROUTES.HOME;
-      navigate(from, { replace: true });
+      const from = location.state?.from?.pathname;
+
+      if (from) {
+        navigate(from, { replace: true });
+      } else {
+        const isManager = response.role === 'MANAGER' || response.role === 'ADMIN';
+        const defaultRoute = isManager ? ROUTES.MANAGER_DASHBOARD : ROUTES.HOME;
+        navigate(defaultRoute, { replace: true });
+      }
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error, 'Login failed. Please try again.');
       setApiError(errorMessage);

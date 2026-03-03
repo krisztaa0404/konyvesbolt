@@ -7,7 +7,7 @@ import { formatCurrency, formatDateLong, formatOrderId } from '@utils/formatters
 import { calculateOrderItemsSubtotal, calculateTaxAmount } from '@utils/orderCalculations';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { StatusChip } from '@components/customer/profile/OrderHistoryTab/OrderHistoryTab.sc';
+import { StatusChip } from '@components/common/StatusChip';
 import {
   OrderPageContainer,
   OrderContent,
@@ -95,11 +95,7 @@ export const OrderConfirmationPage = () => {
               <Typography variant="body2" color="text.secondary">
                 Status
               </Typography>
-              <StatusChip
-                label={order.status || 'PENDING'}
-                $status={order.status || 'PENDING'}
-                size="small"
-              />
+              <StatusChip status={order.status || 'PENDING'} size="small" />
             </OrderInfoRow>
           </SectionCard>
 

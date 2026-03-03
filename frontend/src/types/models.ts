@@ -27,9 +27,11 @@ export type BookSearchFilter = components['schemas']['BookSearchFilterDto'];
 export type Order = components['schemas']['OrderDto'];
 export type OrderDetail = components['schemas']['OrderDetailDto'];
 export type OrderItem = components['schemas']['OrderItemDto'];
-export type CreateOrder = components['schemas']['CreateOrderDto'];
 export type CreateOrderItem = components['schemas']['CreateOrderItemDto'];
 export type UpdateOrderStatus = components['schemas']['UpdateOrderStatusDto'];
+
+// Extended CreateOrder type with seasonalDiscountId
+export type CreateOrder = components['schemas']['CreateOrderDto'];
 
 // Genre types
 export type Genre = components['schemas']['GenreDto'];
@@ -46,6 +48,12 @@ export type AuthResponse = components['schemas']['AuthResponseDto'];
 
 // Dashboard types
 export type DashboardMetrics = components['schemas']['DashboardMetricsDto'];
+
+// Seasonal Discount types
+export type SeasonalDiscount = components['schemas']['SeasonalDiscountDto'];
+export type CreateSeasonalDiscount = components['schemas']['CreateSeasonalDiscountDto'];
+export type UpdateSeasonalDiscount = components['schemas']['UpdateSeasonalDiscountDto'];
+export type PageSeasonalDiscount = components['schemas']['PagedModelSeasonalDiscountDto'];
 
 // Pagination types
 export type Pageable = components['schemas']['Pageable'];
@@ -77,3 +85,6 @@ export interface BrowseBooksParams extends BookSearchFilter {
   size?: number;
   sort?: string | null;
 }
+
+// Discount types
+export type DiscountType = 'loyalty' | 'seasonal' | 'none';

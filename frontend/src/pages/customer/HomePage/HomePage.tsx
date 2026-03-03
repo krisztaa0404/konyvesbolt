@@ -12,6 +12,8 @@ import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { useNewestBooks } from '@hooks/useNewestBooks';
 import { useTopWeeklyBooks, useTopMonthlyBooks } from '@hooks/useTopBooks';
 import { useGenreStatistics } from '@hooks/useGenreStatistics';
+import { useActiveSeasonalDiscounts } from '@hooks/useActiveSeasonalDiscounts';
+import { SeasonalPromotionsSection } from '@components/home/SeasonalPromotionsSection/SeasonalPromotionsSection';
 import { PageContainer, ContentContainer, GenresGrid, SectionTitle } from './HomePage.sc';
 
 export const HomePage = () => {
@@ -41,12 +43,22 @@ export const HomePage = () => {
     isError: isErrorGenres,
     error: errorGenres,
   } = useGenreStatistics();
+  const {
+    data: activeDiscounts,
+    isLoading: isLoadingDiscounts,
+  } = useActiveSeasonalDiscounts();
 
   return (
     <PageContainer>
       <HeroSection />
 
       <ContentContainer>
+        {activeDiscounts && activeDiscounts.length > 0 && (
+          <SeasonalPromotionsSection
+            discounts={activeDiscounts.slice(0, 3)}
+            isLoading={isLoadingDiscounts}
+          />
+        )}
         <BookSection
           title="Newest Books"
           books={newestBooks?.content}

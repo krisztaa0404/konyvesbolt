@@ -10,6 +10,7 @@ export interface BrowseFilters {
   yearFrom?: number;
   yearTo?: number;
   inStock?: boolean;
+  discountId?: string;
 }
 
 interface FilterState {
@@ -54,6 +55,7 @@ export const useFilterStore = create<FilterState>((set, get) => ({
       filters.yearFrom !== undefined,
       filters.yearTo !== undefined,
       filters.inStock,
+      filters.discountId,
     ].filter(Boolean).length;
   },
 }));

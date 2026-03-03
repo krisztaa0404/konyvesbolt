@@ -59,3 +59,16 @@ export const formatOrderId = (orderId: string | undefined): string => {
   }
   return `Order #${orderId.substring(0, 8).toUpperCase()}`;
 };
+
+export const formatDateRange = (from?: string, to?: string): string => {
+  if (!from || !to) return '';
+  const fromDate = new Date(from);
+  const toDate = new Date(to);
+
+  const month = fromDate.toLocaleDateString('en-US', { month: 'long' });
+  const fromDay = fromDate.getDate();
+  const toDay = toDate.getDate();
+  const year = toDate.getFullYear();
+
+  return `${month} ${fromDay}-${toDay}, ${year}`;
+};

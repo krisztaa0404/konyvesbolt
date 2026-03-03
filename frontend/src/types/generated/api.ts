@@ -52,6 +52,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/seasonal-discounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDiscount"];
+        put: operations["updateDiscount"];
+        post?: never;
+        delete: operations["deleteDiscount"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/orders/{id}/status": {
         parameters: {
             query?: never;
@@ -126,6 +142,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["changePassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/seasonal-discounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllDiscounts"];
+        put?: never;
+        post: operations["createDiscount"];
         delete?: never;
         options?: never;
         head?: never;
@@ -244,6 +276,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/seasonal-discounts/{id}/deactivate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["deactivateDiscount"];
+        trace?: never;
+    };
     "/api/users/{id}": {
         parameters: {
             query?: never;
@@ -252,6 +300,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getUser"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/seasonal-discounts/active": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getActiveDiscounts"];
         put?: never;
         post?: never;
         delete?: never;
@@ -504,6 +568,45 @@ export interface components {
             addressData?: components["schemas"]["AddressDto"][];
             preferences?: components["schemas"]["PreferencesDto"];
         };
+        UpdateSeasonalDiscountDto: {
+            name?: string;
+            description?: string;
+            percentage?: number;
+            /** Format: date-time */
+            validFrom?: string;
+            /** Format: date-time */
+            validTo?: string;
+            /** Format: int32 */
+            maxUsageCount?: number;
+            minimumOrderAmount?: number;
+            isActive?: boolean;
+            bookIds?: string[];
+            genreIds?: string[];
+            allBooks?: boolean;
+        };
+        SeasonalDiscountDto: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            description?: string;
+            percentage?: number;
+            /** Format: date-time */
+            validFrom?: string;
+            /** Format: date-time */
+            validTo?: string;
+            isActive?: boolean;
+            /** @enum {string} */
+            scopeType?: "SPECIFIC_BOOKS" | "ALL_BOOKS";
+            /** Format: int32 */
+            maxUsageCount?: number;
+            /** Format: int32 */
+            currentUsageCount?: number;
+            minimumOrderAmount?: number;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         UpdateOrderStatusDto: {
             /** @enum {string} */
             status: "PENDING" | "PAID" | "SHIPPED" | "DELIVERED" | "CANCELLED";
@@ -632,10 +735,27 @@ export interface components {
             currentPassword: string;
             newPassword: string;
         };
+        CreateSeasonalDiscountDto: {
+            name: string;
+            description?: string;
+            percentage: number;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            validTo: string;
+            /** Format: int32 */
+            maxUsageCount?: number;
+            minimumOrderAmount?: number;
+            bookIds?: string[];
+            genreIds?: string[];
+            allBooks?: boolean;
+        };
         CreateOrderDto: {
             items: components["schemas"]["CreateOrderItemDto"][];
             shippingAddress: components["schemas"]["AddressDto"];
             paymentInfo?: components["schemas"]["PaymentInfoDto"];
+            /** Format: uuid */
+            discountId?: string;
         };
         CreateOrderItemDto: {
             /** Format: uuid */
@@ -709,6 +829,18 @@ export interface components {
             content?: components["schemas"]["UserDto"][];
             page?: components["schemas"]["PageMetadata"];
         };
+        DiscountFilterDto: {
+            name?: string;
+            isActive?: boolean;
+            /** @enum {string} */
+            scopeType?: "SPECIFIC_BOOKS" | "ALL_BOOKS";
+            /** Format: date-time */
+            activeAt?: string;
+        };
+        PagedModelSeasonalDiscountDto: {
+            content?: components["schemas"]["SeasonalDiscountDto"][];
+            page?: components["schemas"]["PageMetadata"];
+        };
         OrderDto: {
             /** Format: uuid */
             id?: string;
@@ -775,6 +907,8 @@ export interface components {
             /** Format: int32 */
             yearTo?: number;
             inStock?: boolean;
+            /** Format: uuid */
+            discountId?: string;
         };
         PagedModelBookDto: {
             content?: components["schemas"]["BookDto"][];
@@ -890,6 +1024,74 @@ export interface operations {
             query?: never;
             header?: never;
             path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getDiscount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SeasonalDiscountDto"];
+                };
+            };
+        };
+    };
+    updateDiscount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSeasonalDiscountDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SeasonalDiscountDto"];
+                };
+            };
+        };
+    };
+    deleteDiscount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -1133,6 +1335,53 @@ export interface operations {
             };
         };
     };
+    getAllDiscounts: {
+        parameters: {
+            query: {
+                filter: components["schemas"]["DiscountFilterDto"];
+                pageable: components["schemas"]["Pageable"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PagedModelSeasonalDiscountDto"];
+                };
+            };
+        };
+    };
+    createDiscount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSeasonalDiscountDto"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SeasonalDiscountDto"];
+                };
+            };
+        };
+    };
     getAllOrders: {
         parameters: {
             query: {
@@ -1359,6 +1608,26 @@ export interface operations {
             };
         };
     };
+    deactivateDiscount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getUser: {
         parameters: {
             query?: never;
@@ -1377,6 +1646,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["UserDto"];
+                };
+            };
+        };
+    };
+    getActiveDiscounts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SeasonalDiscountDto"][];
                 };
             };
         };

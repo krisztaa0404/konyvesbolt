@@ -10,6 +10,7 @@ export interface OrderTotals {
   discountAmount: number;
   taxAmount: number;
   totalAmount: number;
+  discountLabel: string;
 }
 
 const TAX_RATE = 0.08; // 8% sales tax
@@ -36,8 +37,22 @@ export const calculateTaxAmount = (subtotal: number, discountAmount: number = 0)
  */
 export const calculateOrderTotals = (
   subtotal: number,
-  discountPercent: number = 0
+  discountType: 'loyalty' | 'seasonal' | 'none' = 'none',
+  loyaltyDiscountPercent: number = 0,
+  seasonalDiscountPercent: number = 0,
+  seasonalDiscountName?: string
 ): OrderTotals => {
+  let discountPercent = 0;
+  let discountLabel = '';
+
+  if (discountType === 'loyalty' && loyaltyDiscountPercent > 0) {
+    discountPercent = loyaltyDiscountPercent;
+    discountLabel = 'Loyalty Discount';
+  } else if (discountType === 'seasonal' && seasonalDiscountPercent > 0) {
+    discountPercent = seasonalDiscountPercent;
+    discountLabel = `Seasonal Discount${seasonalDiscountName ? ': ' + seasonalDiscountName : ''}`;
+  }
+
   const discountAmount = (subtotal * discountPercent) / 100;
   const taxAmount = calculateTaxAmount(subtotal, discountAmount);
   const totalAmount = subtotal - discountAmount + taxAmount;
@@ -48,5 +63,6 @@ export const calculateOrderTotals = (
     discountAmount,
     taxAmount,
     totalAmount,
+    discountLabel,
   };
 };

@@ -1,4 +1,4 @@
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import { ArrowForward as ArrowIcon } from '@mui/icons-material';
 import { BookCard } from '@components/common/BookCard/BookCard';
 import { BookCardSkeleton } from '@components/common/BookCard/BookCardSkeleton';
@@ -41,16 +41,31 @@ export const BookSection = ({
       </SectionHeader>
       {isError ? (
         <ErrorMessage message={error?.message || 'Failed to load books'} />
-      ) : (
+      ) : isLoading ? (
         <BooksGrid>
-          {isLoading
-            ? Array.from({ length: 10 }).map((_, index) => <BookCardSkeleton key={index} />)
-            : books && books.length > 0
-              ? books.map(book => (
-                  <BookCard key={book.id} book={book} showSalesCount={showSalesCount} />
-                ))
-              : null}
+          {Array.from({ length: 10 }).map((_, index) => (
+            <BookCardSkeleton key={index} />
+          ))}
         </BooksGrid>
+      ) : books && books.length > 0 ? (
+        <BooksGrid>
+          {books.map(book => (
+            <BookCard key={book.id} book={book} showSalesCount={showSalesCount} />
+          ))}
+        </BooksGrid>
+      ) : (
+        <Box
+          sx={{
+            textAlign: 'center',
+            py: 6,
+            px: 3,
+            color: 'text.secondary',
+          }}
+        >
+          <Typography variant="body1">
+            No books available at the moment. Check back soon!
+          </Typography>
+        </Box>
       )}
     </SectionContainer>
   );

@@ -14,6 +14,7 @@ interface OrderSummaryProps {
   isValid: boolean;
   isPending: boolean;
   hasDiscount: boolean;
+  discountLabel: string;
 }
 
 export const OrderSummary = ({
@@ -24,6 +25,7 @@ export const OrderSummary = ({
   isValid,
   isPending,
   hasDiscount,
+  discountLabel,
 }: OrderSummaryProps) => {
   return (
     <SummaryCard>
@@ -42,7 +44,7 @@ export const OrderSummary = ({
         <>
           <SummaryRow>
             <Typography variant="body2" color="success.main">
-              Loyalty Discount
+              {discountLabel}
             </Typography>
             <Typography variant="body2" color="success.main">
               -{formatCurrency(discountAmount)}
@@ -50,7 +52,7 @@ export const OrderSummary = ({
           </SummaryRow>
           {discountAmount > 0 && (
             <Alert severity="success" sx={{ mt: 1 }}>
-              Loyalty discount applied!
+              {discountLabel} applied!
             </Alert>
           )}
         </>

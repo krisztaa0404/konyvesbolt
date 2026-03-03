@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Typography, Pagination, Button } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrowseBooks } from '@hooks/useBrowseBooks';
@@ -17,17 +18,32 @@ import {
 } from './BrowseBooksPage.sc';
 
 export const BrowseBooksPage = () => {
-  const { viewMode, filters, searchTerm, clearFilters, setSearchTerm } = useFilterStore(
+  const [searchParams] = useSearchParams();
+  const { viewMode, filters, searchTerm, clearFilters, setSearchTerm, updateFilters } = useFilterStore(
     useShallow(state => ({
       viewMode: state.viewMode,
       filters: state.filters,
       searchTerm: state.searchTerm,
       clearFilters: state.clearFilters,
       setSearchTerm: state.setSearchTerm,
+      updateFilters: state.updateFilters,
     }))
   );
   const [page, setPage] = useState(0);
   const [sort, setSort] = useState('createdAt,desc');
+
+  useEffect(() => {
+    const discountIdParam = searchParams.get('discountId');
+    const searchParam = searchParams.get('search') || searchParams.get('q');
+
+    if (discountIdParam && discountIdParam !== filters.discountId) {
+      updateFilters({ discountId: discountIdParam });
+    }
+
+    if (searchParam && searchParam !== searchTerm) {
+      setSearchTerm(searchParam);
+    }
+  }, [searchParams, filters.discountId, searchTerm, updateFilters, setSearchTerm]);
 
   useEffect(() => {
     setPage(0);

@@ -138,7 +138,7 @@ export const GenreFilter: React.FC<GenreFilterProps> = ({ value, onChange }) => 
       const handleScroll = (event: React.UIEvent<HTMLUListElement>) => {
         const listboxNode = event.currentTarget;
         const position = listboxNode.scrollTop + listboxNode.clientHeight;
-        const bottom = listboxNode.scrollHeight - 10; // 10px threshold
+        const bottom = listboxNode.scrollHeight - 10;
 
         if (position >= bottom && hasMore && !isLoading) {
           scrollPositionRef.current = listboxNode.scrollTop;

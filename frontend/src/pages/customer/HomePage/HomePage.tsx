@@ -1,16 +1,14 @@
-/**
- * Home Page - Landing page with featured content
- */
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@router/routes';
 import { HeroSection } from '@components/home/HeroSection/HeroSection';
-import { BookSection } from '@components/home/BookSection/BookSection';
+import { RankedBooksSection } from '@components/home/RankedBooksSection/RankedBooksSection';
 import { GenreStatisticsCard } from '@components/home/GenreStatisticsCard/GenreStatisticsCard';
 import { GenreStatisticsCardSkeleton } from '@components/home/GenreStatisticsCard/GenreStatisticsCardSkeleton';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { NewestBooksSection } from '@components/home/NewestBooksSection/NewestBooksSection';
 import { useNewestBooks } from '@hooks/useNewestBooks';
-import { useTopWeeklyBooks, useTopMonthlyBooks } from '@hooks/useTopBooks';
+import { useTopMonthlyBooks } from '@hooks/useTopBooks';
 import { useGenreStatistics } from '@hooks/useGenreStatistics';
 import { useActiveSeasonalDiscounts } from '@hooks/useActiveSeasonalDiscounts';
 import { SeasonalPromotionsSection } from '@components/home/SeasonalPromotionsSection/SeasonalPromotionsSection';
@@ -26,17 +24,11 @@ export const HomePage = () => {
     error: errorNewest,
   } = useNewestBooks(10);
   const {
-    data: weeklyBooks,
-    isLoading: isLoadingWeekly,
-    isError: isErrorWeekly,
-    error: errorWeekly,
-  } = useTopWeeklyBooks(10);
-  const {
     data: monthlyBooks,
     isLoading: isLoadingMonthly,
     isError: isErrorMonthly,
     error: errorMonthly,
-  } = useTopMonthlyBooks(10);
+  } = useTopMonthlyBooks(5);
   const {
     data: genreStats,
     isLoading: isLoadingGenres,
@@ -59,33 +51,24 @@ export const HomePage = () => {
             isLoading={isLoadingDiscounts}
           />
         )}
-        <BookSection
+        <NewestBooksSection
           title="Newest Books"
           books={newestBooks?.content}
           isLoading={isLoadingNewest}
           isError={isErrorNewest}
           error={errorNewest}
           onViewAll={() => navigate(ROUTES.BROWSE_BOOKS)}
+          viewAllButtonText="View Complete List"
         />
 
-        <BookSection
-          title="Top Books This Week"
-          books={weeklyBooks}
-          isLoading={isLoadingWeekly}
-          isError={isErrorWeekly}
-          error={errorWeekly}
-          showSalesCount
-          onViewAll={() => navigate(ROUTES.BESTSELLERS)}
-        />
-
-        <BookSection
-          title="Top Books This Month"
+        <RankedBooksSection
+          title="Bestsellers"
           books={monthlyBooks}
           isLoading={isLoadingMonthly}
           isError={isErrorMonthly}
           error={errorMonthly}
-          showSalesCount
           onViewAll={() => navigate(ROUTES.BESTSELLERS)}
+          viewAllButtonText="View Complete List"
         />
 
         <SectionTitle>

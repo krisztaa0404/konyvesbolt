@@ -2,6 +2,7 @@
  * Axios API client with authentication interceptors
  */
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import qs from 'qs';
 import { tokenStorage } from '@services/storage/tokenStorage';
 
 // Create axios instance with base configuration
@@ -9,6 +10,15 @@ export const apiClient = axios.create({
   baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
+  },
+  paramsSerializer: {
+    serialize: (params) => {
+      return qs.stringify(params, {
+        arrayFormat: 'repeat',
+        skipNulls: true,
+        allowDots: true,
+      });
+    },
   },
 });
 

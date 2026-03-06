@@ -75,4 +75,4 @@ export const selectUserRole = (state: AuthState) => state.user?.role;
 export const selectIsManager = (state: AuthState) =>
   state.user?.role === 'MANAGER' || state.user?.role === 'ADMIN';
 export const selectIsAdmin = (state: AuthState) => state.user?.role === 'ADMIN';
-export const selectIsCustomer = (state: AuthState) => state.user?.role === 'CUSTOMER';
+export const selectIsCustomer = (state: AuthState) => state.user?.role === 'USER';

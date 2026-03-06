@@ -14,3 +14,10 @@ export const EmptyStateContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(6),
   textAlign: 'center',
 }));
+
+export const PaginationContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  padding: theme.spacing(2),
+  borderTop: `1px solid ${theme.palette.divider}`,
+}));

@@ -10,6 +10,7 @@ import {
 } from '@mui/icons-material';
 import { useDashboardMetrics } from '@hooks/useDashboardMetrics';
 import { useRecentOrders } from '@hooks/useRecentOrders';
+import { useOrderFilterStore } from '@store/orderFilterStore';
 import { MetricCard, MetricCardSkeleton } from '@components/manager/common/MetricCard';
 import { AlertCard } from '@components/manager/common/AlertCard';
 import { QuickActions } from '@components/manager/dashboard/QuickActions';
@@ -21,6 +22,7 @@ import { PageContainer, PageHeader, MetricsGrid, SectionTitle } from './ManagerD
 
 export const ManagerDashboardPage = () => {
   const navigate = useNavigate();
+  const updateStatusFilter = useOrderFilterStore(state => state.updateStatusFilter);
 
   const {
     data: metrics,
@@ -116,7 +118,10 @@ export const ManagerDashboardPage = () => {
               count={metrics?.pendingOrders ?? 0}
               severity="warning"
               icon={<Notifications />}
-              onClick={() => navigate(`${ROUTES.MANAGER_ORDERS}?status=PENDING`)}
+              onClick={() => {
+                updateStatusFilter('PENDING');
+                navigate(ROUTES.MANAGER_ORDERS);
+              }}
             />
             <AlertCard
               title="Low Stock Books"

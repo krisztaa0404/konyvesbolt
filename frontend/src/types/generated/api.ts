@@ -841,12 +841,23 @@ export interface components {
             content?: components["schemas"]["SeasonalDiscountDto"][];
             page?: components["schemas"]["PageMetadata"];
         };
+        OrderFilterDto: {
+            search?: string;
+            statuses?: ("PENDING" | "PAID" | "SHIPPED" | "DELIVERED" | "CANCELLED")[];
+            /** Format: uuid */
+            userId?: string;
+            /** Format: date-time */
+            dateFrom?: string;
+            /** Format: date-time */
+            dateTo?: string;
+        };
         OrderDto: {
             /** Format: uuid */
             id?: string;
             /** Format: uuid */
             userId?: string;
             userEmail?: string;
+            customerName?: string;
             /** Format: date-time */
             orderDate?: string;
             /** @enum {string} */
@@ -1385,6 +1396,7 @@ export interface operations {
     getAllOrders: {
         parameters: {
             query: {
+                filter: components["schemas"]["OrderFilterDto"];
                 pageable: components["schemas"]["Pageable"];
             };
             header?: never;

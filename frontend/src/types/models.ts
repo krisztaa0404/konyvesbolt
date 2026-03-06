@@ -27,6 +27,7 @@ export type BookSearchFilter = components['schemas']['BookSearchFilterDto'];
 export type Order = components['schemas']['OrderDto'];
 export type OrderDetail = components['schemas']['OrderDetailDto'];
 export type OrderItem = components['schemas']['OrderItemDto'];
+export type OrderFilter = components['schemas']['OrderFilterDto'];
 export type CreateOrderItem = components['schemas']['CreateOrderItemDto'];
 export type UpdateOrderStatus = components['schemas']['UpdateOrderStatusDto'];
 

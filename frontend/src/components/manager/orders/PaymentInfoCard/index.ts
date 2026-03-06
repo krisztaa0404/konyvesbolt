@@ -1,0 +1,1 @@
+export { PaymentInfoCard } from './PaymentInfoCard';

@@ -3,14 +3,21 @@
  * Handles manager-specific endpoints (dashboard, admin operations)
  */
 import { apiClient } from './apiClient';
-import type {DashboardMetrics, PageOrder, Pageable, OrderFilter} from '@types';
+import type {
+  DashboardMetrics,
+  PageOrder,
+  Pageable,
+  OrderFilter,
+  OrderDetail,
+  OrderStatus,
+} from '@types';
 
 /**
  * Parameters for getAllOrders with filtering and pagination
  */
 export interface GetAllOrdersParams {
-  filter?: OrderFilter
-  pageable?: Pageable
+  filter?: OrderFilter;
+  pageable?: Pageable;
 }
 
 export const managerApi = {
@@ -34,6 +41,22 @@ export const managerApi = {
         sort: params?.pageable?.sort ?? ['orderDate,desc'],
       },
     });
+    return response.data;
+  },
+
+  /**
+   * Get detailed information for a specific order (manager view)
+   */
+  async getOrderById(orderId: string): Promise<OrderDetail> {
+    const response = await apiClient.get<OrderDetail>(`/orders/${orderId}`);
+    return response.data;
+  },
+
+  /**
+   * Update order status (manager only)
+   */
+  async updateOrderStatus(orderId: string, status: OrderStatus): Promise<OrderDetail> {
+    const response = await apiClient.put<OrderDetail>(`/orders/${orderId}/status`, { status });
     return response.data;
   },
 };

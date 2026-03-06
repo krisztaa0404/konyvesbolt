@@ -8,7 +8,6 @@ interface PromotionCardProps {
 }
 
 export const PromotionCard = ({ discount, onClick }: PromotionCardProps) => {
-
   const getScopeLabel = (scopeType?: string) => {
     if (scopeType === 'ALL_BOOKS') {
       return 'All Books';

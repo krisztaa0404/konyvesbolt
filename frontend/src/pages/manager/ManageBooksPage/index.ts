@@ -1,1 +1,1 @@
-export { ManageBooksPage } from './ManageBooksPage';
+export * from './ManageBooksPage';

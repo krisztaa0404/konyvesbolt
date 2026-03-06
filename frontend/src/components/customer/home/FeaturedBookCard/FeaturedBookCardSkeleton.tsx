@@ -40,12 +40,7 @@ export const FeaturedBookCardSkeleton: React.FC = () => {
   return (
     <SkeletonContainer>
       <CoverSkeleton>
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          height="100%"
-          sx={{ borderRadius: '12px' }}
-        />
+        <Skeleton variant="rectangular" width="100%" height="100%" sx={{ borderRadius: '12px' }} />
       </CoverSkeleton>
       <TaglineSkeleton>
         <Skeleton variant="text" width="80%" height={24} />

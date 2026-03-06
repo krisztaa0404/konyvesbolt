@@ -97,13 +97,10 @@ export const NewestBooksSection: React.FC<NewestBooksSectionProps> = ({
         <Typography variant="h4">{title}</Typography>
       </SectionHeader>
       <FeaturedLayout>
-        <FeaturedBookCard
-          book={featuredBook}
-          tagline="Barátság, sors, élet és halál"
-        />
+        <FeaturedBookCard book={featuredBook} tagline="Barátság, sors, élet és halál" />
         {gridBooks.length > 0 && (
           <BooksGrid>
-            {gridBooks.map((book) => (
+            {gridBooks.map(book => (
               <BookCard key={book.id} book={book} />
             ))}
           </BooksGrid>

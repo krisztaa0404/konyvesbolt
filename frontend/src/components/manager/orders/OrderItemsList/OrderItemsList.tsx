@@ -1,12 +1,6 @@
 import { Typography, Divider, Box } from '@mui/material';
 import { formatCurrency } from '@utils/formatters';
-import {
-  SectionCard,
-  OrderItem,
-  ItemImage,
-  ItemDetails,
-  ItemPriceInfo,
-} from './OrderItemsList.sc';
+import { SectionCard, OrderItem, ItemImage, ItemDetails, ItemPriceInfo } from './OrderItemsList.sc';
 
 interface OrderItemsListProps {
   items?: Array<{

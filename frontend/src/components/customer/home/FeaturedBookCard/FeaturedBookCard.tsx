@@ -46,7 +46,7 @@ export const FeaturedBookCard: React.FC<FeaturedBookCardProps> = ({
         <BookCover
           src={book.coverImageUrl || '/placeholder-book.jpg'}
           alt={book.title}
-          onError={(e) => {
+          onError={e => {
             e.currentTarget.src = '/placeholder-book.jpg';
           }}
         />

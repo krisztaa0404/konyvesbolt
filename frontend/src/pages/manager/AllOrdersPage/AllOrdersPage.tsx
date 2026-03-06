@@ -70,10 +70,7 @@ export const AllOrdersPage = () => {
       </PageHeader>
 
       <FiltersContainer>
-        <OrdersFilters
-          sortValue={sortValue}
-          onSortChange={setSortValue}
-        />
+        <OrdersFilters sortValue={sortValue} onSortChange={setSortValue} />
       </FiltersContainer>
 
       <TableWrapper>

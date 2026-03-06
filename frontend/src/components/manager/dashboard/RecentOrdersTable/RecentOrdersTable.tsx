@@ -1,22 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  Typography,
-  Button,
-  Skeleton,
-} from '@mui/material';
+import { Table, TableHead, TableBody, TableRow, Typography, Button, Skeleton } from '@mui/material';
 import { StatusChip } from '@components/common/StatusChip';
 import { formatCurrency, formatDate, formatOrderId } from '@utils/formatters';
 import { getManagerOrderDetailRoute } from '@router/routes';
 import type { Order } from '@types';
-import {
-  StyledTableContainer,
-  StyledTableCell,
-  EmptyStateContainer,
-} from './RecentOrdersTable.sc';
+import { StyledTableContainer, StyledTableCell, EmptyStateContainer } from './RecentOrdersTable.sc';
 
 interface RecentOrdersTableProps {
   orders: Order[];

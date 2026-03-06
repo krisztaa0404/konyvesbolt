@@ -3,34 +3,34 @@ import { InputLabel, MenuItem, Select, InputAdornment, IconButton } from '@mui/m
 import { Search as SearchIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
-import { OrderStatus } from '@types';
-import { useOrderFilterStore } from '@store/orderFilterStore';
-import { FiltersContainer, SearchField, FilterControl } from './OrdersFilters.sc';
+import { useBookFilterStore } from '@store/bookFilterStore';
+import { FiltersContainer, SearchField, FilterControl } from './BooksFilters.sc';
 
-interface OrdersFiltersProps {
+interface BooksFiltersProps {
   sortValue: string;
   onSortChange: (value: string) => void;
 }
 
-const statusOptions = [
-  { value: '', label: 'All Statuses' },
-  { value: OrderStatus.PENDING, label: 'Pending' },
-  { value: OrderStatus.PAID, label: 'Paid' },
-  { value: OrderStatus.SHIPPED, label: 'Shipped' },
-  { value: OrderStatus.DELIVERED, label: 'Delivered' },
-  { value: OrderStatus.CANCELLED, label: 'Cancelled' },
+const stockStatusOptions = [
+  { value: '', label: 'All Books' },
+  { value: 'IN_STOCK', label: 'In Stock' },
+  { value: 'LOW_STOCK', label: 'Low Stock' },
+  { value: 'OUT_OF_STOCK', label: 'Out of Stock' },
 ];
 
 const sortOptions = [
-  { value: 'orderDate,desc', label: 'Date: Newest First' },
-  { value: 'orderDate,asc', label: 'Date: Oldest First' },
-  { value: 'totalAmount,desc', label: 'Total: High to Low' },
-  { value: 'totalAmount,asc', label: 'Total: Low to High' },
-  { value: 'status,asc', label: 'Status: A-Z' },
+  { value: 'createdAt,desc', label: 'Date Added: Newest First' },
+  { value: 'createdAt,asc', label: 'Date Added: Oldest First' },
+  { value: 'title,asc', label: 'Title: A-Z' },
+  { value: 'title,desc', label: 'Title: Z-A' },
+  { value: 'price,desc', label: 'Price: High to Low' },
+  { value: 'price,asc', label: 'Price: Low to High' },
+  { value: 'stockQuantity,asc', label: 'Stock: Low to High' },
+  { value: 'stockQuantity,desc', label: 'Stock: High to Low' },
 ];
 
-export const OrdersFilters = ({ sortValue, onSortChange }: OrdersFiltersProps) => {
-  const { searchTerm, statusFilter, setSearchTerm, updateStatusFilter } = useOrderFilterStore(
+export const BooksFilters = ({ sortValue, onSortChange }: BooksFiltersProps) => {
+  const { searchTerm, statusFilter, setSearchTerm, updateStatusFilter } = useBookFilterStore(
     useShallow(state => ({
       searchTerm: state.searchTerm,
       statusFilter: state.statusFilter,
@@ -55,7 +55,7 @@ export const OrdersFilters = ({ sortValue, onSortChange }: OrdersFiltersProps) =
   return (
     <FiltersContainer>
       <SearchField
-        placeholder="Search by Order ID or Customer Email"
+        placeholder="Search by Title, Author, or ISBN"
         value={localSearchTerm}
         onChange={e => setLocalSearchTerm(e.target.value)}
         InputProps={{
@@ -76,13 +76,13 @@ export const OrdersFilters = ({ sortValue, onSortChange }: OrdersFiltersProps) =
       />
 
       <FilterControl size="small">
-        <InputLabel>Status</InputLabel>
+        <InputLabel>Stock Status</InputLabel>
         <Select
           value={statusFilter}
           onChange={e => updateStatusFilter(e.target.value)}
-          label="Status"
+          label="Stock Status"
         >
-          {statusOptions.map(option => (
+          {stockStatusOptions.map(option => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>

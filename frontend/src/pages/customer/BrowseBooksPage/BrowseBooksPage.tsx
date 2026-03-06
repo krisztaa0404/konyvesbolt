@@ -19,16 +19,17 @@ import {
 
 export const BrowseBooksPage = () => {
   const [searchParams] = useSearchParams();
-  const { viewMode, filters, searchTerm, clearFilters, setSearchTerm, updateFilters } = useFilterStore(
-    useShallow(state => ({
-      viewMode: state.viewMode,
-      filters: state.filters,
-      searchTerm: state.searchTerm,
-      clearFilters: state.clearFilters,
-      setSearchTerm: state.setSearchTerm,
-      updateFilters: state.updateFilters,
-    }))
-  );
+  const { viewMode, filters, searchTerm, clearFilters, setSearchTerm, updateFilters } =
+    useFilterStore(
+      useShallow(state => ({
+        viewMode: state.viewMode,
+        filters: state.filters,
+        searchTerm: state.searchTerm,
+        clearFilters: state.clearFilters,
+        setSearchTerm: state.setSearchTerm,
+        updateFilters: state.updateFilters,
+      }))
+    );
   const [page, setPage] = useState(0);
   const [sort, setSort] = useState('createdAt,desc');
 

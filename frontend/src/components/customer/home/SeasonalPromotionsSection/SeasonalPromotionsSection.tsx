@@ -76,9 +76,7 @@ export const SeasonalPromotionsSection = ({
 
           {featuredDiscount && (
             <FeaturedBanner onClick={() => handlePromotionClick(featuredDiscount.id)}>
-              <FeaturedPercentage>
-                {featuredDiscount.percentage}% OFF
-              </FeaturedPercentage>
+              <FeaturedPercentage>{featuredDiscount.percentage}% OFF</FeaturedPercentage>
               <FeaturedTitle>{featuredDiscount.name}</FeaturedTitle>
               {featuredDiscount.description && (
                 <FeaturedDescription>{featuredDiscount.description}</FeaturedDescription>

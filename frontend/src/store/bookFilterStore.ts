@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface OrderFilterState {
+interface BookFilterState {
   // Filter state
   searchTerm: string;
   statusFilter: string;
@@ -11,7 +11,7 @@ interface OrderFilterState {
   clearFilters: () => void;
 }
 
-export const useOrderFilterStore = create<OrderFilterState>(set => ({
+export const useBookFilterStore = create<BookFilterState>(set => ({
   searchTerm: '',
   statusFilter: '',
 

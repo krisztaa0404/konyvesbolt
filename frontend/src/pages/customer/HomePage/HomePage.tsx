@@ -35,10 +35,7 @@ export const HomePage = () => {
     isError: isErrorGenres,
     error: errorGenres,
   } = useGenreStatistics();
-  const {
-    data: activeDiscounts,
-    isLoading: isLoadingDiscounts,
-  } = useActiveSeasonalDiscounts();
+  const { data: activeDiscounts, isLoading: isLoadingDiscounts } = useActiveSeasonalDiscounts();
 
   return (
     <PageContainer>

@@ -1,22 +1,21 @@
 /**
- * React Query hook for fetching all orders with filtering and pagination
+ * React Query hook for fetching all books with filtering and pagination
  */
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
-import { managerApi, type GetAllOrdersParams } from '@services/api/managerApi';
-import { useOrderFilterStore } from '@store/orderFilterStore';
-import { OrderStatus } from '@types';
+import { managerApi, type GetAllBooksParams } from '@services/api/managerApi';
+import { useBookFilterStore } from '@store/bookFilterStore';
 
-interface UseAllOrdersParams {
+interface UseAllBooksParams {
   page: number;
   size: number;
   sort: string;
 }
 
-export const useAllOrders = ({ page, size, sort }: UseAllOrdersParams) => {
-  const { searchTerm, statusFilter } = useOrderFilterStore(
+export const useAllBooks = ({ page, size, sort }: UseAllBooksParams) => {
+  const { searchTerm, statusFilter } = useBookFilterStore(
     useShallow(state => ({
       searchTerm: state.searchTerm,
       statusFilter: state.statusFilter,
@@ -25,11 +24,11 @@ export const useAllOrders = ({ page, size, sort }: UseAllOrdersParams) => {
 
   const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
 
-  const params: GetAllOrdersParams = useMemo(
+  const params: GetAllBooksParams = useMemo(
     () => ({
       filter: {
         search: debouncedSearchTerm || undefined,
-        statuses: statusFilter ? [statusFilter as OrderStatus] : undefined,
+        stockStatus: statusFilter || undefined,
       },
       pageable: {
         page,
@@ -53,8 +52,8 @@ export const useAllOrders = ({ page, size, sort }: UseAllOrdersParams) => {
   );
 
   return useQuery({
-    queryKey: ['orders', 'all', cleanParams],
-    queryFn: () => managerApi.getAllOrders(params),
+    queryKey: ['books', 'all', cleanParams],
+    queryFn: () => managerApi.getAllBooks(params),
     placeholderData: previousData => previousData,
   });
 };

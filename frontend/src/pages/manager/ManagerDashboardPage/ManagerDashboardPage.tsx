@@ -32,11 +32,7 @@ export const ManagerDashboardPage = () => {
     refetch: refetchMetrics,
   } = useDashboardMetrics();
 
-  const {
-    data: ordersData,
-    isLoading: ordersLoading,
-    isError: ordersError,
-  } = useRecentOrders(5);
+  const { data: ordersData, isLoading: ordersLoading, isError: ordersError } = useRecentOrders(5);
 
   if (metricsError && !metricsLoading) {
     return (
@@ -138,11 +134,7 @@ export const ManagerDashboardPage = () => {
 
       <SectionTitle variant="h5">Recent Orders</SectionTitle>
       {ordersError && (
-        <ErrorMessage
-          message="Failed to load recent orders"
-          severity="warning"
-          sx={{ mb: 2 }}
-        />
+        <ErrorMessage message="Failed to load recent orders" severity="warning" sx={{ mb: 2 }} />
       )}
       <RecentOrdersTable orders={ordersData?.content || []} isLoading={ordersLoading} />
     </PageContainer>

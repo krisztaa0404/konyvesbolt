@@ -19,16 +19,9 @@ import { OrderSummary } from '@components/customer/checkout/OrderSummary';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ROUTES } from '@router/routes';
 import type { CreateOrder, CreateOrderItem, DiscountType } from '@types';
-import {
-  OrderPageContainer,
-  OrderContent,
-  SectionCard,
-} from '@layout/customer/OrderLayout.sc';
+import { OrderPageContainer, OrderContent, SectionCard } from '@layout/customer/OrderLayout.sc';
 import { FormContainer } from '@layout/customer/CheckoutLayout.sc';
-import {
-  EmptyCartContainer,
-  EmptyCartIcon,
-} from './CheckoutPage.sc';
+import { EmptyCartContainer, EmptyCartIcon } from './CheckoutPage.sc';
 
 export const CheckoutPage = () => {
   const navigate = useNavigate();

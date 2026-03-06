@@ -1,9 +1,5 @@
 import { Typography, Button, Divider, Alert } from '@mui/material';
-import {
-  SummaryCard,
-  SummaryRow,
-  TotalRow,
-} from '@layout/customer/OrderLayout.sc';
+import { SummaryCard, SummaryRow, TotalRow } from '@layout/customer/OrderLayout.sc';
 import { formatCurrency } from '@utils/formatters';
 
 interface OrderSummaryProps {

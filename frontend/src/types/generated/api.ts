@@ -623,6 +623,7 @@ export interface components {
             salesCount?: number;
             coverImageUrl?: string;
             genres?: components["schemas"]["GenreDto"][];
+            isbn?: string;
         };
         GenreDto: {
             /** Format: uuid */
@@ -920,6 +921,8 @@ export interface components {
             inStock?: boolean;
             /** Format: uuid */
             discountId?: string;
+            /** @enum {string} */
+            stockStatus?: "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK";
         };
         PagedModelBookDto: {
             content?: components["schemas"]["BookDto"][];

@@ -3,6 +3,7 @@ import {
   Dashboard as DashboardIcon,
   ShoppingBag as OrdersIcon,
   Book as BooksIcon,
+  Category as GenresIcon,
   People as UsersIcon,
 } from '@mui/icons-material';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
@@ -25,6 +26,7 @@ const menuItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: ROUTES.MANAGER_DASHBOARD },
   { text: 'Orders', icon: <OrdersIcon />, path: ROUTES.MANAGER_ORDERS },
   { text: 'Books', icon: <BooksIcon />, path: ROUTES.MANAGER_BOOKS },
+  { text: 'Genres', icon: <GenresIcon />, path: ROUTES.MANAGER_GENRES },
   { text: 'Users', icon: <UsersIcon />, path: ROUTES.MANAGER_USERS },
 ];
 

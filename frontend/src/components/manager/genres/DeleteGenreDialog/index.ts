@@ -1,0 +1,1 @@
+export { DeleteGenreDialog } from './DeleteGenreDialog';

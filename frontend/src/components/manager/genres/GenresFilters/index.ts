@@ -1,0 +1,1 @@
+export { GenresFilters } from './GenresFilters';

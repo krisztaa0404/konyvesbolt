@@ -14,6 +14,11 @@ import type {
   Book,
   CreateBook,
   UpdateBook,
+  Genre,
+  CreateGenre,
+  UpdateGenre,
+  GenreFilter,
+  PageGenre,
 } from '@types';
 
 /**
@@ -32,6 +37,14 @@ export interface GetAllBooksParams {
     search?: string;
     stockStatus?: string;
   };
+  pageable?: Pageable;
+}
+
+/**
+ * Parameters for getAllGenres with filtering and pagination
+ */
+export interface GetAllGenresParams {
+  filter?: GenreFilter;
   pageable?: Pageable;
 }
 
@@ -111,5 +124,43 @@ export const managerApi = {
   async updateBook(bookId: string, book: UpdateBook): Promise<Book> {
     const response = await apiClient.put<Book>(`/books/${bookId}`, book);
     return response.data;
+  },
+
+  /**
+   * Get all genres with pagination and filtering
+   */
+  async getAllGenres(params?: GetAllGenresParams): Promise<PageGenre> {
+    const response = await apiClient.get<PageGenre>('/genres', {
+      params: {
+        ...params?.filter,
+        page: params?.pageable?.page ?? 0,
+        size: params?.pageable?.size ?? 20,
+        sort: params?.pageable?.sort ?? ['name,asc'],
+      },
+    });
+    return response.data;
+  },
+
+  /**
+   * Create a new genre (manager only)
+   */
+  async createGenre(genre: CreateGenre): Promise<Genre> {
+    const response = await apiClient.post<Genre>('/genres', genre);
+    return response.data;
+  },
+
+  /**
+   * Update a genre (manager only)
+   */
+  async updateGenre(genreId: string, genre: UpdateGenre): Promise<Genre> {
+    const response = await apiClient.put<Genre>(`/genres/${genreId}`, genre);
+    return response.data;
+  },
+
+  /**
+   * Delete a genre (manager only)
+   */
+  async deleteGenre(genreId: string): Promise<void> {
+    await apiClient.delete(`/genres/${genreId}`);
   },
 };

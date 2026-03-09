@@ -1,0 +1,1 @@
+export { ManageGenresPage } from './ManageGenresPage';

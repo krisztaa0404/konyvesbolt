@@ -1,6 +1,6 @@
 import { Typography, Box } from '@mui/material';
 import { OrderItem, ItemImage, ItemDetails } from '@layout/customer/OrderLayout.sc';
-import { formatCurrency } from '@utils/formatters';
+import { formatCurrency, formatBookFormat } from '@utils/formatters';
 import type { CartItem } from '@types';
 
 interface OrderReviewSectionProps {
@@ -27,7 +27,7 @@ export const OrderReviewSection = ({ items }: OrderReviewSectionProps) => {
               </Typography>
               {item.format && (
                 <Typography variant="body2" color="text.secondary">
-                  Format: {item.format}
+                  Format: {formatBookFormat(item.format)}
                 </Typography>
               )}
               <Typography variant="body2" color="text.secondary">

@@ -4,7 +4,7 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { useShallow } from 'zustand/react/shallow';
 import { useAllGenres } from '@hooks/useAllGenres';
 import { useDeleteGenre } from '@hooks/useDeleteGenre';
-import { useGenreFilterStore } from '@store/genreFilterStore';
+import { useGenreFilterStore } from '@store/manager/managerFilterStore';
 import { GenresFilters } from '@components/manager/genres/GenresFilters';
 import { GenresTable } from '@components/manager/genres/GenresTable';
 import { GenreFormDialog } from '@components/manager/genres/GenreFormDialog';

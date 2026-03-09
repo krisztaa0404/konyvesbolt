@@ -33,9 +33,8 @@ export const NewestBooksSection: React.FC<NewestBooksSectionProps> = ({
   isError,
   error,
   onViewAll,
-  viewAllButtonText = 'Teljes lista',
+  viewAllButtonText = 'Full List',
 }) => {
-  // Loading state
   if (isLoading) {
     return (
       <SectionContainer>
@@ -61,7 +60,6 @@ export const NewestBooksSection: React.FC<NewestBooksSectionProps> = ({
     );
   }
 
-  // Error state
   if (isError) {
     return (
       <SectionContainer>
@@ -73,7 +71,6 @@ export const NewestBooksSection: React.FC<NewestBooksSectionProps> = ({
     );
   }
 
-  // Empty state
   if (!books || books.length === 0) {
     return (
       <SectionContainer>
@@ -87,7 +84,6 @@ export const NewestBooksSection: React.FC<NewestBooksSectionProps> = ({
     );
   }
 
-  // Get featured book (first) and grid books (next 4)
   const featuredBook = books[0];
   const gridBooks = books.slice(1, 5);
 
@@ -97,7 +93,7 @@ export const NewestBooksSection: React.FC<NewestBooksSectionProps> = ({
         <Typography variant="h4">{title}</Typography>
       </SectionHeader>
       <FeaturedLayout>
-        <FeaturedBookCard book={featuredBook} tagline="Barátság, sors, élet és halál" />
+        <FeaturedBookCard book={featuredBook} tagline="Check out the latest book" />
         {gridBooks.length > 0 && (
           <BooksGrid>
             {gridBooks.map(book => (

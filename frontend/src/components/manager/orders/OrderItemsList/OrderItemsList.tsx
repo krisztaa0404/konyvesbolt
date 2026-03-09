@@ -1,5 +1,5 @@
 import { Typography, Divider, Box } from '@mui/material';
-import { formatCurrency } from '@utils/formatters';
+import { formatCurrency, formatBookFormat } from '@utils/formatters';
 import { SectionCard, OrderItem, ItemImage, ItemDetails, ItemPriceInfo } from './OrderItemsList.sc';
 
 interface OrderItemsListProps {
@@ -40,7 +40,7 @@ export const OrderItemsList = ({ items }: OrderItemsListProps) => {
                 {item.book?.authors?.join(', ')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Format: {item.format}
+                Format: {formatBookFormat(item.format)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Quantity: {item.quantity}

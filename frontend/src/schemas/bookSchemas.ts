@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import type { BookFormat } from '@types';
 
 /**
- * Available book format options
+ * Available book format options (must match API enum values)
  */
-export const bookFormats = ['Hardcover', 'Paperback', 'eBook', 'Audiobook'] as const;
+export const bookFormats: readonly BookFormat[] = ['physical', 'ebook', 'audiobook'] as const;
 
 /**
  * Validation schema for creating a book

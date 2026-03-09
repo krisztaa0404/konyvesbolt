@@ -9,7 +9,7 @@ import {
   StockFilter,
 } from '../filters';
 import { FilterContainer, FilterSection, FilterHeader, ClearButton } from './FilterSidebar.sc';
-import { useFilterStore } from '@store/filterStore';
+import { useFilterStore } from '@store/customer/browseFilterStore';
 
 export const FilterSidebar: React.FC = () => {
   const { filters, updateFilters, clearFilters, getActiveFilterCount } = useFilterStore(

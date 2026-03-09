@@ -4,7 +4,7 @@ import { Search as SearchIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
 import { OrderStatus } from '@types';
-import { useOrderFilterStore } from '@store/orderFilterStore';
+import { useOrderFilterStore } from '@store/manager/managerFilterStore';
 import { FiltersContainer, SearchField, FilterControl } from './OrdersFilters.sc';
 
 interface OrdersFiltersProps {

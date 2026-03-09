@@ -13,7 +13,7 @@ import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { BookCard } from '@components/common/BookCard/BookCard';
 import { BookCardSkeleton } from '@components/common/BookCard/BookCardSkeleton';
-import { formatCurrency, truncateText } from '@utils/formatters';
+import { formatCurrency, truncateText, formatBookFormat, normalizeBookFormat } from '@utils/formatters';
 import {
   DetailContainer,
   MainContent,
@@ -47,7 +47,8 @@ export const BookDetailPage = () => {
 
   const cartItem = useMemo(() => {
     if (!book?.id) return null;
-    return items.find(item => item.book.id === book.id && item.format === selectedFormat);
+    const normalizedFormat = selectedFormat ? normalizeBookFormat(selectedFormat) : undefined;
+    return items.find(item => item.book.id === book.id && item.format === normalizedFormat);
   }, [items, book?.id, selectedFormat]);
 
   const isInCart = !!cartItem;
@@ -147,7 +148,7 @@ export const BookDetailPage = () => {
                 {book.availableFormats.map(format => (
                   <Chip
                     key={format}
-                    label={format}
+                    label={formatBookFormat(format)}
                     onClick={() => setSelectedFormat(format)}
                     color={selectedFormat === format ? 'primary' : 'default'}
                     clickable

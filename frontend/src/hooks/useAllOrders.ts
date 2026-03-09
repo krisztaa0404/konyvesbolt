@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
 import { managerApi, type GetAllOrdersParams } from '@services/api/managerApi';
-import { useOrderFilterStore } from '@store/orderFilterStore';
+import { useOrderFilterStore } from '@store/manager/managerFilterStore';
 import { OrderStatus } from '@types';
 
 interface UseAllOrdersParams {

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
 import { booksApi } from '@services/api/booksApi';
-import { useFilterStore } from '@store/filterStore';
+import { useFilterStore } from '@store/customer/browseFilterStore';
 import type { BrowseBooksParams } from '@types';
 
 interface UseBrowseBooksParams {

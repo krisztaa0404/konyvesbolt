@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
 import { managerApi, type GetAllGenresParams } from '@services/api/managerApi';
-import { useGenreFilterStore } from '@store/genreFilterStore';
+import { useGenreFilterStore } from '@store/manager/managerFilterStore';
 
 interface UseAllGenresParams {
   page: number;

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
 import { managerApi, type GetAllBooksParams } from '@services/api/managerApi';
-import { useBookFilterStore } from '@store/bookFilterStore';
+import { useBookFilterStore } from '@store/manager/managerFilterStore';
 
 interface UseAllBooksParams {
   page: number;

@@ -101,7 +101,7 @@ export const CheckoutPage = () => {
     const orderItems: CreateOrderItem[] = items.map(item => ({
       bookId: item.book.id!,
       quantity: item.quantity,
-      format: (item.format || 'PHYSICAL').toLowerCase(),
+      format: item.format || 'physical',
     }));
 
     const orderData: CreateOrder = {
@@ -110,7 +110,7 @@ export const CheckoutPage = () => {
       paymentInfo: {
         method: formData.paymentMethod,
       },
-      seasonalDiscountId:
+      discountId:
         selectedDiscountType === 'seasonal' ? applicableSeasonalDiscount?.id : undefined,
     };
 

@@ -63,11 +63,14 @@ export type PageUser = components['schemas']['PagedModelUserDto'];
 export type PageBook = components['schemas']['PagedModelBookDto'];
 export type PageOrder = components['schemas']['PagedModelOrderDto'];
 
+// Book format type (matches API enum)
+export type BookFormat = 'physical' | 'ebook' | 'audiobook';
+
 // Cart types (client-side only)
 export interface CartItem {
   book: Book;
   quantity: number;
-  format?: string;
+  format?: BookFormat;
 }
 
 // Notification types (client-side only)

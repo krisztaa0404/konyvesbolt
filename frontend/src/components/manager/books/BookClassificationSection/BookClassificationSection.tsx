@@ -13,6 +13,7 @@ import {
 import { FormSection, SectionTitle } from '@layout/manager/BookFormLayout.sc';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { bookFormats, type CreateBookFormData } from '@schemas/bookSchemas';
+import { formatBookFormat } from '@utils/formatters';
 import type { Genre } from '@types';
 
 interface BookClassificationSectionProps {
@@ -141,7 +142,7 @@ export const BookClassificationSection = ({
                       disabled={disabled}
                     />
                   }
-                  label={format}
+                  label={formatBookFormat(format)}
                 />
               ))}
             </FormGroup>

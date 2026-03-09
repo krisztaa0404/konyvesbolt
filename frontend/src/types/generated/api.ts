@@ -651,7 +651,8 @@ export interface components {
             /** Format: uuid */
             id?: string;
             book?: components["schemas"]["BookDto"];
-            format?: string;
+            /** @enum {string} */
+            format?: "physical" | "ebook" | "audiobook";
             /** Format: int32 */
             quantity?: number;
             priceAtOrder?: number;
@@ -767,7 +768,8 @@ export interface components {
         CreateOrderItemDto: {
             /** Format: uuid */
             bookId: string;
-            format: string;
+            /** @enum {string} */
+            format: "physical" | "ebook" | "audiobook";
             /** Format: int32 */
             quantity: number;
         };

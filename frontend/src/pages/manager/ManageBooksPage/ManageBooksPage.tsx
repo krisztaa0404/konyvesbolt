@@ -4,7 +4,7 @@ import { Typography, Button } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { useShallow } from 'zustand/react/shallow';
 import { useAllBooks } from '@hooks/useAllBooks';
-import { useBookFilterStore } from '@store/bookFilterStore';
+import { useBookFilterStore } from '@store/manager/managerFilterStore';
 import { BooksFilters } from '@components/manager/books/BooksFilters';
 import { BooksTable } from '@components/manager/books/BooksTable';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';

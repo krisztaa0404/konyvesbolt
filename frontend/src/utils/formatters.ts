@@ -1,4 +1,5 @@
 import { format, parseISO } from 'date-fns';
+import type { BookFormat } from '@types';
 
 export const formatCurrency = (amount: number | undefined): string => {
   if (amount === undefined || amount === null) {
@@ -71,4 +72,37 @@ export const formatDateRange = (from?: string, to?: string): string => {
   const year = toDate.getFullYear();
 
   return `${month} ${fromDay}-${toDay}, ${year}`;
+};
+
+export const formatBookFormat = (format: BookFormat | string | undefined): string => {
+  if (!format) return 'Physical';
+
+  const formatMap: Record<string, string> = {
+    physical: 'Physical',
+    ebook: 'E-Book',
+    audiobook: 'Audiobook',
+  };
+
+  return formatMap[format.toLowerCase()] || format;
+};
+
+/**
+ * Normalizes book formats to API-compatible values
+ */
+export const normalizeBookFormat = (format: string | undefined): BookFormat => {
+  if (!format) return 'physical';
+
+  const normalized = format.toLowerCase();
+
+  if (normalized === 'hardcover' || normalized === 'paperback') {
+    return 'physical';
+  }
+  if (normalized === 'ebook') {
+    return 'ebook';
+  }
+  if (normalized === 'audiobook') {
+    return 'audiobook';
+  }
+
+  return 'physical';
 };

@@ -3,7 +3,7 @@ import { InputLabel, MenuItem, Select, InputAdornment, IconButton } from '@mui/m
 import { Search as SearchIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
-import { useBookFilterStore } from '@store/bookFilterStore';
+import { useBookFilterStore } from '@store/manager/managerFilterStore';
 import { FiltersContainer, SearchField, FilterControl } from './BooksFilters.sc';
 
 interface BooksFiltersProps {

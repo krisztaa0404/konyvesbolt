@@ -18,7 +18,7 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import { useState, useEffect } from 'react';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
-import { useFilterStore, type ViewMode } from '@store/filterStore';
+import { useFilterStore, type ViewMode } from '@store/customer/browseFilterStore';
 import {
   ToolbarContainer,
   TopRow,

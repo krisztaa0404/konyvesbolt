@@ -10,7 +10,7 @@ import {
 } from '@mui/icons-material';
 import { useDashboardMetrics } from '@hooks/useDashboardMetrics';
 import { useRecentOrders } from '@hooks/useRecentOrders';
-import { useOrderFilterStore } from '@store/orderFilterStore';
+import { useOrderFilterStore } from '@store/manager/managerFilterStore';
 import { MetricCard, MetricCardSkeleton } from '@components/manager/common/MetricCard';
 import { AlertCard } from '@components/manager/common/AlertCard';
 import { QuickActions } from '@components/manager/dashboard/QuickActions';

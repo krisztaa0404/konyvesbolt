@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '@store/cartStore';
-import { formatCurrency } from '@utils/formatters';
+import { formatCurrency, formatBookFormat } from '@utils/formatters';
 import { ROUTES, getBookDetailRoute } from '@router/routes';
 import {
   CartContainer,
@@ -115,7 +115,7 @@ export const CartPage = () => {
                   <Typography variant="body2" color="text.secondary" noWrap>
                     {item.book.authors?.join(', ')}
                   </Typography>
-                  {item.format && <Chip label={item.format} size="small" variant="outlined" />}
+                  {item.format && <Chip label={formatBookFormat(item.format)} size="small" variant="outlined" />}
                   <Typography variant="body2" color="text.secondary">
                     Price: {formatCurrency(item.book.price ?? 0)}
                   </Typography>

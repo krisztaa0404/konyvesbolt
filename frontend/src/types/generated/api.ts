@@ -674,9 +674,15 @@ export interface components {
             rating?: number;
             /** Format: int32 */
             numRatings?: number;
-            language?: string;
+            readingAge?: string;
             dimensions?: string;
+            language?: string;
             coverImageUrl?: string;
+            bestsellerRanks?: string;
+            categoryHierarchy?: string;
+            seriesName?: string;
+            /** Format: int32 */
+            seriesPosition?: number;
         };
         UpdateBookDto: {
             title?: string;

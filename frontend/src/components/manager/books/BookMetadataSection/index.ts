@@ -1,0 +1,1 @@
+export { BookMetadataSection } from './BookMetadataSection';

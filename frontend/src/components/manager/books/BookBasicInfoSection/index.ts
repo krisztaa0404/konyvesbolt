@@ -1,0 +1,1 @@
+export { BookBasicInfoSection } from './BookBasicInfoSection';

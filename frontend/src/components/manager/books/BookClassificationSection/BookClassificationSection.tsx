@@ -6,31 +6,24 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  CircularProgress,
   Box,
   Typography,
 } from '@mui/material';
 import { FormSection, SectionTitle } from '@layout/manager/BookFormLayout.sc';
-import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { AsyncPaginateSelect } from '@components/common/AsyncPaginateSelect';
+import { loadGenresOptions } from '@utils/selectAdapters';
 import { bookFormats, type CreateBookFormData } from '@schemas/bookSchemas';
 import { formatBookFormat } from '@utils/formatters';
-import type { Genre } from '@types';
 
 interface BookClassificationSectionProps {
   control: Control<CreateBookFormData>;
   errors: FieldErrors<CreateBookFormData>;
-  genres: Genre[];
-  isLoadingGenres: boolean;
-  isGenresError: boolean;
   disabled?: boolean;
 }
 
 export const BookClassificationSection = ({
   control,
   errors,
-  genres,
-  isLoadingGenres,
-  isGenresError,
   disabled,
 }: BookClassificationSectionProps) => {
   return (
@@ -40,51 +33,19 @@ export const BookClassificationSection = ({
       <Controller
         name="genreIds"
         control={control}
-        render={({ field: { value, onChange } }) => {
-          const selectedGenres = genres.filter(g => g.id && value.includes(g.id));
-          return (
-            <Autocomplete
-              multiple
-              options={genres}
-              value={selectedGenres}
-              onChange={(_, newValue) =>
-                onChange(newValue.map(g => g.id).filter(Boolean) as string[])
-              }
-              getOptionLabel={option => option.name || ''}
-              loading={isLoadingGenres}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const { key, ...tagProps } = getTagProps({ index });
-                  return <Chip key={key} label={option.name || ''} {...tagProps} />;
-                })
-              }
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  label="Genres *"
-                  error={!!errors.genreIds}
-                  helperText={errors.genreIds?.message || 'Select 1-5 genres'}
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <>
-                        {isLoadingGenres ? <CircularProgress size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </>
-                    ),
-                  }}
-                />
-              )}
-              disabled={disabled || isGenresError}
-              sx={{ mb: 2 }}
-            />
-          );
-        }}
+        render={({ field: { value, onChange } }) => (
+          <AsyncPaginateSelect
+            loadOptions={loadGenresOptions}
+            value={value || []}
+            onChange={onChange}
+            label="Genres"
+            helperText={errors.genreIds?.message || 'Select 1-5 genres (type to search)'}
+            error={!!errors.genreIds}
+            disabled={disabled}
+            required
+          />
+        )}
       />
-
-      {isGenresError && (
-        <ErrorMessage message="Failed to load genres" severity="warning" sx={{ mb: 2 }} />
-      )}
 
       <Controller
         name="tags"

@@ -15,7 +15,6 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useBook } from '@hooks/useBook';
-import { useGenres } from '@hooks/useGenres';
 import { useCreateBook } from '@hooks/useCreateBook';
 import { useUpdateBook } from '@hooks/useUpdateBook';
 import { useDeleteBook } from '@hooks/useDeleteBook';
@@ -50,11 +49,6 @@ export const AddEditBookPage = () => {
     isError: isBookError,
     error: bookError,
   } = useBook(id || '');
-  const {
-    data: genresData,
-    isLoading: isLoadingGenres,
-    isError: isGenresError,
-  } = useGenres({ size: 200 });
 
   const { mutate: createBook, isPending: isCreating } = useCreateBook();
   const { mutate: updateBook, isPending: isUpdating } = useUpdateBook();
@@ -191,7 +185,6 @@ export const AddEditBookPage = () => {
     );
   }
 
-  const genres = genresData?.content || [];
   const isPending = isCreating || isUpdating || isDeleting;
 
   return (
@@ -234,9 +227,6 @@ export const AddEditBookPage = () => {
           <BookClassificationSection
             control={control}
             errors={errors}
-            genres={genres}
-            isLoadingGenres={isLoadingGenres}
-            isGenresError={isGenresError}
             disabled={isPending}
           />
           <BookDetailsSection

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -11,12 +11,9 @@ import {
   FormControlLabel,
   Radio,
   Typography,
-  Autocomplete,
-  Chip,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useDebounce } from 'use-debounce';
 import {
   createDiscountSchema,
   updateDiscountSchema,
@@ -25,11 +22,11 @@ import {
 } from '@schemas/discountSchemas';
 import { useCreateDiscount } from '@hooks/useCreateDiscount';
 import { useUpdateDiscount } from '@hooks/useUpdateDiscount';
-import { useGenres } from '@hooks/useGenres';
-import { useBooks } from '@hooks/useBooks';
 import { toDatetimeLocal, fromDatetimeLocal } from '@utils/formatters';
 import type { SeasonalDiscount } from '@types';
 import { DISCOUNT_SCOPE } from '@types';
+import { AsyncPaginateSelect } from '@components/common/AsyncPaginateSelect';
+import { loadBooksOptions, loadGenresOptions } from '@utils/selectAdapters';
 import { FormContent, FieldContainer, RadioGroupContainer } from './DiscountFormDialog.sc';
 
 interface DiscountFormDialogProps {
@@ -56,24 +53,6 @@ export const DiscountFormDialog = ({ open, onClose, discount }: DiscountFormDial
   const isEditMode = !!discount;
   const createDiscount = useCreateDiscount();
   const updateDiscount = useUpdateDiscount();
-
-  const [bookSearch, setBookSearch] = useState('');
-  const [genreSearch, setGenreSearch] = useState('');
-
-  const [debouncedBookSearch] = useDebounce(bookSearch, 300);
-  const [debouncedGenreSearch] = useDebounce(genreSearch, 300);
-
-  const { data: genresData, isLoading: isLoadingGenres, isError: isGenresError } = useGenres({
-    search: debouncedGenreSearch,
-    size: 100
-  });
-  const genres = genresData?.content || [];
-
-  const { data: booksData, isLoading: isLoadingBooks, isError: isBooksError } = useBooks({
-    search: debouncedBookSearch,
-    size: 100
-  });
-  const books = booksData?.content || [];
 
   const {
     control,
@@ -280,50 +259,17 @@ export const DiscountFormDialog = ({ open, onClose, discount }: DiscountFormDial
                   <Controller
                     name="bookIds"
                     control={control}
-                    render={({ field: { value, onChange } }) => {
-                      const selectedBooks = books.filter(b => b.id && value?.includes(b.id));
-                      return (
-                        <Autocomplete
-                          multiple
-                          options={books}
-                          value={selectedBooks}
-                          onChange={(_, newValue) =>
-                            onChange(newValue.map(b => b.id).filter(Boolean) as string[])
-                          }
-                          onInputChange={(_, newInputValue) => {
-                            if (newInputValue !== undefined) {
-                              setBookSearch(newInputValue);
-                            }
-                          }}
-                          getOptionLabel={option => option.title || ''}
-                          loading={isLoadingBooks}
-                          filterOptions={(x) => x}
-                          renderTags={(value, getTagProps) =>
-                            value.map((option, index) => {
-                              const { key, ...tagProps } = getTagProps({ index });
-                              return <Chip key={key} label={option.title || ''} {...tagProps} />;
-                            })
-                          }
-                          renderInput={params => (
-                            <TextField
-                              {...params}
-                              label="Books"
-                              helperText="Type to search books"
-                              InputProps={{
-                                ...params.InputProps,
-                                endAdornment: (
-                                  <>
-                                    {isLoadingBooks ? <CircularProgress size={20} /> : null}
-                                    {params.InputProps.endAdornment}
-                                  </>
-                                ),
-                              }}
-                            />
-                          )}
-                          disabled={isPending || isBooksError}
-                        />
-                      );
-                    }}
+                    render={({ field: { value, onChange } }) => (
+                      <AsyncPaginateSelect
+                        loadOptions={loadBooksOptions}
+                        value={value || []}
+                        onChange={onChange}
+                        label="Books"
+                        helperText="Type to search books"
+                        disabled={isPending}
+                        error={!!errors.bookIds}
+                      />
+                    )}
                   />
                 </FieldContainer>
 
@@ -331,50 +277,17 @@ export const DiscountFormDialog = ({ open, onClose, discount }: DiscountFormDial
                   <Controller
                     name="genreIds"
                     control={control}
-                    render={({ field: { value, onChange } }) => {
-                      const selectedGenres = genres.filter(g => g.id && value?.includes(g.id));
-                      return (
-                        <Autocomplete
-                          multiple
-                          options={genres}
-                          value={selectedGenres}
-                          onChange={(_, newValue) =>
-                            onChange(newValue.map(g => g.id).filter(Boolean) as string[])
-                          }
-                          onInputChange={(_, newInputValue) => {
-                            if (newInputValue !== undefined) {
-                              setGenreSearch(newInputValue);
-                            }
-                          }}
-                          getOptionLabel={option => option.name || ''}
-                          loading={isLoadingGenres}
-                          filterOptions={(x) => x}
-                          renderTags={(value, getTagProps) =>
-                            value.map((option, index) => {
-                              const { key, ...tagProps } = getTagProps({ index });
-                              return <Chip key={key} label={option.name || ''} {...tagProps} />;
-                            })
-                          }
-                          renderInput={params => (
-                            <TextField
-                              {...params}
-                              label="Genres"
-                              helperText="Type to search genres"
-                              InputProps={{
-                                ...params.InputProps,
-                                endAdornment: (
-                                  <>
-                                    {isLoadingGenres ? <CircularProgress size={20} /> : null}
-                                    {params.InputProps.endAdornment}
-                                  </>
-                                ),
-                              }}
-                            />
-                          )}
-                          disabled={isPending || isGenresError}
-                        />
-                      );
-                    }}
+                    render={({ field: { value, onChange } }) => (
+                      <AsyncPaginateSelect
+                        loadOptions={loadGenresOptions}
+                        value={value || []}
+                        onChange={onChange}
+                        label="Genres"
+                        helperText="Type to search genres"
+                        disabled={isPending}
+                        error={!!errors.genreIds}
+                      />
+                    )}
                   />
                 </FieldContainer>
               </>

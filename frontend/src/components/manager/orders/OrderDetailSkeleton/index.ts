@@ -1,0 +1,1 @@
+export { OrderDetailSkeleton } from './OrderDetailSkeleton';

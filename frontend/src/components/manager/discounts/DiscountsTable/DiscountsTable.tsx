@@ -166,7 +166,9 @@ export const DiscountsTable = ({
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography variant="body2">
-                    {discount.scopeType === DISCOUNT_SCOPE.ALL_BOOKS ? 'All Books' : 'Specific Books'}
+                    {discount.scopeType === DISCOUNT_SCOPE.ALL_BOOKS
+                      ? 'All Books'
+                      : 'Specific Books'}
                   </Typography>
                 </StyledTableCell>
                 <StyledTableCell>
@@ -210,7 +212,9 @@ export const DiscountsTable = ({
                   <IconButton
                     size="small"
                     color="error"
-                    onClick={() => discount.id && discount.name && onDelete(discount.id, discount.name)}
+                    onClick={() =>
+                      discount.id && discount.name && onDelete(discount.id, discount.name)
+                    }
                     disabled={!discount.id || !discount.name}
                     sx={{ ml: 1 }}
                   >

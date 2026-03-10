@@ -115,7 +115,9 @@ export const CartPage = () => {
                   <Typography variant="body2" color="text.secondary" noWrap>
                     {item.book.authors?.join(', ')}
                   </Typography>
-                  {item.format && <Chip label={formatBookFormat(item.format)} size="small" variant="outlined" />}
+                  {item.format && (
+                    <Chip label={formatBookFormat(item.format)} size="small" variant="outlined" />
+                  )}
                   <Typography variant="body2" color="text.secondary">
                     Price: {formatCurrency(item.book.price ?? 0)}
                   </Typography>

@@ -16,8 +16,7 @@ export const useUpdateGenre = () => {
   const addNotification = useNotificationStore(state => state.addNotification);
 
   return useMutation({
-    mutationFn: ({ genreId, genre }: UpdateGenreParams) =>
-      managerApi.updateGenre(genreId, genre),
+    mutationFn: ({ genreId, genre }: UpdateGenreParams) => managerApi.updateGenre(genreId, genre),
     onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ['genres'] });
 

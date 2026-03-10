@@ -66,7 +66,9 @@ export const useCartStore = create<CartState>()(
 
         set(state => ({
           items: state.items.map(item =>
-            item.book.id === bookId && item.format === normalizedFormat ? { ...item, quantity } : item
+            item.book.id === bookId && item.format === normalizedFormat
+              ? { ...item, quantity }
+              : item
           ),
         }));
       },

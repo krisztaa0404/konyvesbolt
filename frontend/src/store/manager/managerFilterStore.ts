@@ -13,7 +13,7 @@ interface ManagerFilterState<T extends string = string> {
  * Generic factory for books, orders, genres, etc.
  */
 export const createManagerFilterStore = <T extends string = string>() =>
-  create<ManagerFilterState<T>>((set) => ({
+  create<ManagerFilterState<T>>(set => ({
     searchTerm: '',
     statusFilter: undefined,
 
@@ -36,6 +36,4 @@ export const useOrderFilterStore = createManagerFilterStore<
 
 export const useGenreFilterStore = createManagerFilterStore();
 
-export const useDiscountFilterStore = createManagerFilterStore<
-  'ACTIVE' | 'INACTIVE' | 'EXPIRED'
->();
+export const useDiscountFilterStore = createManagerFilterStore<'ACTIVE' | 'INACTIVE' | 'EXPIRED'>();

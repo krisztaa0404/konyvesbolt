@@ -28,7 +28,8 @@
       "@store/*": ["src/store/*"],
       "@router/*": ["src/router/*"],
       "@theme/*": ["src/theme/*"],
-      "@schemas/*": ["src/schemas/*"]
+      "@schemas/*": ["src/schemas/*"],
+      "@constants/*": ["src/constants/*"]
     },
     "strict": true,
     "noUnusedLocals": true,

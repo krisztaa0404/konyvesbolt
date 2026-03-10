@@ -29,7 +29,10 @@ type PartialDiscountData = Partial<BaseDiscountData>;
 
 const scopeTypeRefinement = (data: BaseDiscountData | PartialDiscountData): boolean => {
   if (data.scopeType === DISCOUNT_SCOPE.SPECIFIC_BOOKS) {
-    return ((data.bookIds && data.bookIds.length > 0) || (data.genreIds && data.genreIds.length > 0)) ?? false;
+    return (
+      ((data.bookIds && data.bookIds.length > 0) || (data.genreIds && data.genreIds.length > 0)) ??
+      false
+    );
   }
   return true;
 };

@@ -13,7 +13,12 @@ import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { BookCard } from '@components/common/BookCard/BookCard';
 import { BookCardSkeleton } from '@components/common/BookCard/BookCardSkeleton';
-import { formatCurrency, truncateText, formatBookFormat, normalizeBookFormat } from '@utils/formatters';
+import {
+  formatCurrency,
+  truncateText,
+  formatBookFormat,
+  normalizeBookFormat,
+} from '@utils/formatters';
 import {
   DetailContainer,
   MainContent,

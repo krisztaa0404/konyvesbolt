@@ -11,7 +11,7 @@ import { DiscountsFilters } from '@components/manager/discounts/DiscountsFilters
 import { DiscountsTable } from '@components/manager/discounts/DiscountsTable';
 import { DiscountFormDialog } from '@components/manager/discounts/DiscountFormDialog';
 import { DeleteDiscountDialog } from '@components/manager/discounts/DeleteDiscountDialog';
-import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { PageErrorState } from '@components/manager/common/PageErrorState';
 import type { SeasonalDiscount } from '@types';
 import {
   PageContainer,
@@ -27,7 +27,9 @@ export const ManageDiscountsPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedDiscount, setSelectedDiscount] = useState<SeasonalDiscount | null>(null);
-  const [discountToDelete, setDiscountToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [discountToDelete, setDiscountToDelete] = useState<{ id: string; name: string } | null>(
+    null
+  );
 
   const { searchTerm, statusFilter } = useDiscountFilterStore(
     useShallow(state => ({
@@ -96,20 +98,11 @@ export const ManageDiscountsPage = () => {
 
   if (isError && !isLoading) {
     return (
-      <PageContainer>
-        <PageHeader>
-          <Typography variant="h4" gutterBottom>
-            Discount Management
-          </Typography>
-        </PageHeader>
-        <ErrorMessage
-          message={(error as Error)?.message || 'Failed to load discounts'}
-          severity="error"
-        />
-        <Button variant="contained" onClick={() => refetch()} sx={{ mt: 2 }}>
-          Retry
-        </Button>
-      </PageContainer>
+      <PageErrorState
+        title="Discount Management"
+        message={(error as Error)?.message || 'Failed to load discounts'}
+        onRetry={() => refetch()}
+      />
     );
   }
 

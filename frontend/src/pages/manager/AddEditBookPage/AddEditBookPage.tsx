@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Typography,
   Button,
   CircularProgress,
-  Link,
-  Box,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -26,6 +24,7 @@ import { BookPricingSection } from '@components/manager/books/BookPricingSection
 import { BookClassificationSection } from '@components/manager/books/BookClassificationSection';
 import { BookDetailsSection } from '@components/manager/books/BookDetailsSection';
 import { BookMetadataSection } from '@components/manager/books/BookMetadataSection';
+import { PageBreadcrumbs } from '@components/manager/common/PageBreadcrumbs';
 import { ROUTES } from '@router/routes';
 import {
   PageContainer,
@@ -189,13 +188,12 @@ export const AddEditBookPage = () => {
 
   return (
     <PageContainer>
-      <Box display="flex" alignItems="center" gap={1} mb={2}>
-        <Link component={RouterLink} to={ROUTES.MANAGER_BOOKS} underline="hover">
-          Books
-        </Link>
-        <Typography color="text.secondary">/</Typography>
-        <Typography color="text.secondary">{isEdit ? 'Edit Book' : 'Add New Book'}</Typography>
-      </Box>
+      <PageBreadcrumbs
+        items={[
+          { label: 'Books', path: ROUTES.MANAGER_BOOKS },
+          { label: isEdit ? 'Edit Book' : 'Add New Book' },
+        ]}
+      />
 
       <PageHeader>
         <HeaderContent>
@@ -224,11 +222,7 @@ export const AddEditBookPage = () => {
         <FormContainer>
           <BookBasicInfoSection control={control} errors={errors} disabled={isPending} />
           <BookPricingSection control={control} errors={errors} disabled={isPending} />
-          <BookClassificationSection
-            control={control}
-            errors={errors}
-            disabled={isPending}
-          />
+          <BookClassificationSection control={control} errors={errors} disabled={isPending} />
           <BookDetailsSection
             control={control}
             errors={errors}

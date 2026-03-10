@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Typography, Button } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
 import { useAllOrders } from '@hooks/useAllOrders';
 import { useOrderFilterStore } from '@store/manager/managerFilterStore';
 import { OrdersFilters } from '@components/manager/orders/OrdersFilters';
 import { OrdersTable } from '@components/manager/orders/OrdersTable';
-import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { PageErrorState } from '@components/manager/common/PageErrorState';
 import {
   PageContainer,
   PageHeader,
+  HeaderContent,
   FiltersContainer,
   TableWrapper,
 } from '@layout/manager/ManagerPageLayout.sc';
@@ -46,32 +47,27 @@ export const AllOrdersPage = () => {
 
   if (isError && !isLoading) {
     return (
-      <PageContainer>
-        <PageHeader>
-          <Typography variant="h4" gutterBottom>
-            Order Management
-          </Typography>
-        </PageHeader>
-        <ErrorMessage
-          message={(error as Error)?.message || 'Failed to load orders'}
-          severity="error"
-        />
-        <Button variant="contained" onClick={() => refetch()} sx={{ mt: 2 }}>
-          Retry
-        </Button>
-      </PageContainer>
+      <PageErrorState
+        title="Order Management"
+        message={(error as Error)?.message || 'Failed to load orders'}
+        onRetry={() => refetch()}
+      />
     );
   }
 
   return (
     <PageContainer>
       <PageHeader>
-        <Typography variant="h4" gutterBottom>
-          Order Management
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          View and manage all orders
-        </Typography>
+        <HeaderContent>
+          <div>
+            <Typography variant="h4" gutterBottom>
+              Order Management
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              View and manage all orders
+            </Typography>
+          </div>
+        </HeaderContent>
       </PageHeader>
 
       <FiltersContainer>

@@ -110,8 +110,7 @@ export const CheckoutPage = () => {
       paymentInfo: {
         method: formData.paymentMethod,
       },
-      discountId:
-        selectedDiscountType === 'seasonal' ? applicableSeasonalDiscount?.id : undefined,
+      discountId: selectedDiscountType === 'seasonal' ? applicableSeasonalDiscount?.id : undefined,
     };
 
     createOrder(orderData);

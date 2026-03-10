@@ -8,8 +8,13 @@ export const useUpdateDiscount = () => {
   const addNotification = useNotificationStore(state => state.addNotification);
 
   return useMutation({
-    mutationFn: ({ discountId, discount }: { discountId: string; discount: UpdateSeasonalDiscount }) =>
-      managerApi.updateDiscount(discountId, discount),
+    mutationFn: ({
+      discountId,
+      discount,
+    }: {
+      discountId: string;
+      discount: UpdateSeasonalDiscount;
+    }) => managerApi.updateDiscount(discountId, discount),
     onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ['discounts'] });
       addNotification(`Discount "${data.name}" updated successfully`, 'success');

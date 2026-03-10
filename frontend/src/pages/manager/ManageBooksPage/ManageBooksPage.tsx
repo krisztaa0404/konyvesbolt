@@ -7,7 +7,7 @@ import { useAllBooks } from '@hooks/useAllBooks';
 import { useBookFilterStore } from '@store/manager/managerFilterStore';
 import { BooksFilters } from '@components/manager/books/BooksFilters';
 import { BooksTable } from '@components/manager/books/BooksTable';
-import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { PageErrorState } from '@components/manager/common/PageErrorState';
 import { ROUTES } from '@router/routes';
 import {
   PageContainer,
@@ -54,20 +54,11 @@ export const ManageBooksPage = () => {
 
   if (isError && !isLoading) {
     return (
-      <PageContainer>
-        <PageHeader>
-          <Typography variant="h4" gutterBottom>
-            Book Management
-          </Typography>
-        </PageHeader>
-        <ErrorMessage
-          message={(error as Error)?.message || 'Failed to load books'}
-          severity="error"
-        />
-        <Button variant="contained" onClick={() => refetch()} sx={{ mt: 2 }}>
-          Retry
-        </Button>
-      </PageContainer>
+      <PageErrorState
+        title="Book Management"
+        message={(error as Error)?.message || 'Failed to load books'}
+        onRetry={() => refetch()}
+      />
     );
   }
 

@@ -55,5 +55,13 @@ export const useUrlFilters = () => {
       }
       return;
     }
-  }, [searchParams, filters.genreIds, filters.discountId, searchTerm, clearFilters, setSearchTerm, updateFilters]);
+  }, [
+    searchParams,
+    filters.genreIds,
+    filters.discountId,
+    searchTerm,
+    clearFilters,
+    setSearchTerm,
+    updateFilters,
+  ]);
 };

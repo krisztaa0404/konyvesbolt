@@ -9,7 +9,7 @@ import { GenresFilters } from '@components/manager/genres/GenresFilters';
 import { GenresTable } from '@components/manager/genres/GenresTable';
 import { GenreFormDialog } from '@components/manager/genres/GenreFormDialog';
 import { DeleteGenreDialog } from '@components/manager/genres/DeleteGenreDialog';
-import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { PageErrorState } from '@components/manager/common/PageErrorState';
 import type { Genre } from '@types';
 import {
   PageContainer,
@@ -83,20 +83,11 @@ export const ManageGenresPage = () => {
 
   if (isError && !isLoading) {
     return (
-      <PageContainer>
-        <PageHeader>
-          <Typography variant="h4" gutterBottom>
-            Genre Management
-          </Typography>
-        </PageHeader>
-        <ErrorMessage
-          message={(error as Error)?.message || 'Failed to load genres'}
-          severity="error"
-        />
-        <Button variant="contained" onClick={() => refetch()} sx={{ mt: 2 }}>
-          Retry
-        </Button>
-      </PageContainer>
+      <PageErrorState
+        title="Genre Management"
+        message={(error as Error)?.message || 'Failed to load genres'}
+        onRetry={() => refetch()}
+      />
     );
   }
 

@@ -49,10 +49,13 @@ export const AsyncPaginateSelect = ({
   const [selectedOptions, setSelectedOptions] = useState<MultiValue<OptionType>>([]);
 
   const loadOptionsWithCache = useCallback(
-    async (search: string, loadedOptions: OptionsOrGroups<OptionType, GroupBase<OptionType>>, additional?: { page: number }) => {
+    async (
+      search: string,
+      loadedOptions: OptionsOrGroups<OptionType, GroupBase<OptionType>>,
+      additional?: { page: number }
+    ) => {
       const result = await loadOptions(search, loadedOptions, additional);
 
-      // Cache options (we know our adapters always return flat arrays of options, not groups)
       (result.options as OptionType[]).forEach(option => {
         optionsCache.current.set(option.value, option);
       });

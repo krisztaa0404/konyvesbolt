@@ -31,6 +31,7 @@ import { OrderDetailPage } from '@pages/manager/OrderDetailPage';
 import { ManageBooksPage } from '@pages/manager/ManageBooksPage';
 import { AddEditBookPage } from '@pages/manager/AddEditBookPage';
 import { ManageGenresPage } from '@pages/manager/ManageGenresPage';
+import { ManageDiscountsPage } from '@pages/manager/ManageDiscountsPage';
 import { UsersManagementPage } from '@pages/manager/UsersManagementPage';
 
 const RoleBasedHome = () => {
@@ -75,6 +76,7 @@ export const AppRouter = () => {
             <Route path={ROUTES.MANAGER_ADD_BOOK} element={<AddEditBookPage />} />
             <Route path={ROUTES.MANAGER_EDIT_BOOK} element={<AddEditBookPage />} />
             <Route path={ROUTES.MANAGER_GENRES} element={<ManageGenresPage />} />
+            <Route path={ROUTES.MANAGER_DISCOUNTS} element={<ManageDiscountsPage />} />
             <Route path={ROUTES.MANAGER_USERS} element={<UsersManagementPage />} />
           </Route>
         </Route>

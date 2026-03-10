@@ -66,6 +66,15 @@ export type PageOrder = components['schemas']['PagedModelOrderDto'];
 // Book format type (matches API enum)
 export type BookFormat = 'physical' | 'ebook' | 'audiobook';
 
+// Discount scope type (matches API enum)
+export type DiscountScopeType = 'ALL_BOOKS' | 'SPECIFIC_BOOKS';
+
+// Discount scope type constants
+export const DISCOUNT_SCOPE = {
+  ALL_BOOKS: 'ALL_BOOKS' as const,
+  SPECIFIC_BOOKS: 'SPECIFIC_BOOKS' as const,
+} satisfies Record<string, DiscountScopeType>;
+
 // Cart types (client-side only)
 export interface CartItem {
   book: Book;

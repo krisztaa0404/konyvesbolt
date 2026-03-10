@@ -1,5 +1,10 @@
 import { Paper, TableCell, Box, styled } from '@mui/material';
 
+/**
+ * Shared styled components for manager table sections
+ * Used across Books, Orders, Genres, and Discounts tables
+ */
+
 export const StyledTableContainer = styled(Paper)(({ theme }) => ({
   borderRadius: theme.spacing(2),
   border: `1px solid ${theme.palette.divider}`,
@@ -8,11 +13,16 @@ export const StyledTableContainer = styled(Paper)(({ theme }) => ({
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   padding: theme.spacing(2),
+  borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
 export const EmptyStateContainer = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(6),
-  textAlign: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(8),
+  minHeight: 400,
 }));
 
 export const PaginationContainer = styled(Box)(({ theme }) => ({

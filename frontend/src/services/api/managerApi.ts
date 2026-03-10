@@ -19,6 +19,11 @@ import type {
   UpdateGenre,
   GenreFilter,
   PageGenre,
+  PageSeasonalDiscount,
+  SeasonalDiscount,
+  CreateSeasonalDiscount,
+  UpdateSeasonalDiscount,
+  DiscountScopeType,
 } from '@types';
 
 /**
@@ -45,6 +50,19 @@ export interface GetAllBooksParams {
  */
 export interface GetAllGenresParams {
   filter?: GenreFilter;
+  pageable?: Pageable;
+}
+
+/**
+ * Parameters for getAllDiscounts with filtering and pagination
+ */
+export interface GetAllDiscountsParams {
+  filter?: {
+    name?: string;
+    isActive?: boolean;
+    scopeType?: DiscountScopeType;
+    activeAt?: string;
+  };
   pageable?: Pageable;
 }
 
@@ -162,5 +180,71 @@ export const managerApi = {
    */
   async deleteGenre(genreId: string): Promise<void> {
     await apiClient.delete(`/genres/${genreId}`);
+  },
+
+  /**
+   * Get all discounts with pagination and filtering
+   */
+  async getAllDiscounts(params?: GetAllDiscountsParams): Promise<PageSeasonalDiscount> {
+    const response = await apiClient.get<PageSeasonalDiscount>('/seasonal-discounts', {
+      params: {
+        ...params?.filter,
+        page: params?.pageable?.page ?? 0,
+        size: params?.pageable?.size ?? 20,
+        sort: params?.pageable?.sort ?? ['createdAt,desc'],
+      },
+    });
+    return response.data;
+  },
+
+  /**
+   * Get a specific discount by ID
+   */
+  async getDiscountById(discountId: string): Promise<SeasonalDiscount> {
+    const response = await apiClient.get<SeasonalDiscount>(`/seasonal-discounts/${discountId}`);
+    return response.data;
+  },
+
+  /**
+   * Create a new discount (manager only)
+   */
+  async createDiscount(discount: CreateSeasonalDiscount): Promise<SeasonalDiscount> {
+    const response = await apiClient.post<SeasonalDiscount>('/seasonal-discounts', discount);
+    return response.data;
+  },
+
+  /**
+   * Update a discount (manager only)
+   */
+  async updateDiscount(
+    discountId: string,
+    discount: UpdateSeasonalDiscount
+  ): Promise<SeasonalDiscount> {
+    const response = await apiClient.put<SeasonalDiscount>(
+      `/seasonal-discounts/${discountId}`,
+      discount
+    );
+    return response.data;
+  },
+
+  /**
+   * Deactivate a discount (manager only)
+   */
+  async deactivateDiscount(discountId: string): Promise<void> {
+    await apiClient.patch(`/seasonal-discounts/${discountId}/deactivate`);
+  },
+
+  /**
+   * Activate a discount (manager only)
+   */
+  async activateDiscount(discountId: string): Promise<void> {
+    await apiClient.patch(`/seasonal-discounts/${discountId}/activate`);
+  },
+
+  /**
+   * Delete a discount (manager only)
+   */
+  async deleteDiscount(discountId: string): Promise<void> {
+    await apiClient.delete(`/seasonal-discounts/${discountId}`);
   },
 };

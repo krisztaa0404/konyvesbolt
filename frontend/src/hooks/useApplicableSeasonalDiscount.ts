@@ -4,6 +4,7 @@
 import { useMemo } from 'react';
 import { useActiveSeasonalDiscounts } from './useActiveSeasonalDiscounts';
 import type { SeasonalDiscount } from '@types';
+import { DISCOUNT_SCOPE } from '@types';
 
 interface UseApplicableSeasonalDiscountProps {
   cartSubtotal: number;
@@ -39,7 +40,7 @@ export const useApplicableSeasonalDiscount = ({
 
       // For SPECIFIC_BOOKS scope, we'll let the backend validate
       // Frontend just needs to check if cart is not empty
-      if (discount.scopeType === 'SPECIFIC_BOOKS' && cartBookIds.length === 0) {
+      if (discount.scopeType === DISCOUNT_SCOPE.SPECIFIC_BOOKS && cartBookIds.length === 0) {
         return false;
       }
 

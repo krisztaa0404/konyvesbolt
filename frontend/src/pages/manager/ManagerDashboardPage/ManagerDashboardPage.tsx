@@ -10,7 +10,7 @@ import {
 } from '@mui/icons-material';
 import { useDashboardMetrics } from '@hooks/useDashboardMetrics';
 import { useRecentOrders } from '@hooks/useRecentOrders';
-import { useOrderFilterStore } from '@store/manager/managerFilterStore';
+import { useOrderFilterStore, useBookFilterStore } from '@store/manager/managerFilterStore';
 import { MetricCard, MetricCardSkeleton } from '@components/manager/common/MetricCard';
 import { AlertCard } from '@components/manager/common/AlertCard';
 import { QuickActions } from '@components/manager/dashboard/QuickActions';
@@ -22,7 +22,8 @@ import { PageContainer, PageHeader, MetricsGrid, SectionTitle } from './ManagerD
 
 export const ManagerDashboardPage = () => {
   const navigate = useNavigate();
-  const updateStatusFilter = useOrderFilterStore(state => state.updateStatusFilter);
+  const updateOrderStatusFilter = useOrderFilterStore(state => state.updateStatusFilter);
+  const updateBookStatusFilter = useBookFilterStore(state => state.updateStatusFilter);
 
   const {
     data: metrics,
@@ -115,7 +116,7 @@ export const ManagerDashboardPage = () => {
               severity="warning"
               icon={<Notifications />}
               onClick={() => {
-                updateStatusFilter('PENDING');
+                updateOrderStatusFilter('PENDING');
                 navigate(ROUTES.MANAGER_ORDERS);
               }}
             />
@@ -124,7 +125,10 @@ export const ManagerDashboardPage = () => {
               count={metrics?.lowStockBooks ?? 0}
               severity="error"
               icon={<Warning />}
-              onClick={() => navigate(`${ROUTES.MANAGER_BOOKS}?lowStock=true`)}
+              onClick={() => {
+                updateBookStatusFilter('LOW_STOCK');
+                navigate(ROUTES.MANAGER_BOOKS);
+              }}
             />
           </>
         )}

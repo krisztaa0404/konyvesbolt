@@ -15,7 +15,7 @@ import {
   HeaderContent,
   FiltersContainer,
   TableWrapper,
-} from './ManageBooksPage.sc';
+} from '@layout/manager/ManagerPageLayout.sc';
 
 export const ManageBooksPage = () => {
   const navigate = useNavigate();

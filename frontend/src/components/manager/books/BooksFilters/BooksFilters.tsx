@@ -4,7 +4,7 @@ import { Search as SearchIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
 import { useBookFilterStore } from '@store/manager/managerFilterStore';
-import { FiltersContainer, SearchField, FilterControl } from './BooksFilters.sc';
+import { FiltersContainer, SearchField, FilterControl } from '@layout/manager/ManagerFilterLayout.sc';
 
 interface BooksFiltersProps {
   sortValue: string;

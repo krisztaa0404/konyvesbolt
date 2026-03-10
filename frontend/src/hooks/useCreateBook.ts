@@ -18,6 +18,10 @@ export const useCreateBook = () => {
     onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ['books'] });
 
+      queryClient.invalidateQueries({
+        queryKey: ['dashboard', 'metrics'],
+      });
+
       addNotification(`Book "${data.title}" created successfully`, 'success');
 
       navigate(ROUTES.MANAGER_BOOKS);

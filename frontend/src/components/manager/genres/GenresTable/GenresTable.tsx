@@ -17,7 +17,7 @@ import {
   StyledTableCell,
   EmptyStateContainer,
   PaginationContainer,
-} from './GenresTable.sc';
+} from '@layout/manager/ManagerTableLayout.sc';
 
 interface GenresTableProps {
   data?: PageGenre;

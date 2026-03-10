@@ -31,6 +31,7 @@ export const ROUTES = {
   MANAGER_ADD_BOOK: '/manager/books/new',
   MANAGER_EDIT_BOOK: '/manager/books/:id/edit',
   MANAGER_GENRES: '/manager/genres',
+  MANAGER_DISCOUNTS: '/manager/discounts',
   MANAGER_USERS: '/manager/users',
 } as const;
 

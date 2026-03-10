@@ -4,7 +4,7 @@ import { StatusChip } from '@components/common/StatusChip';
 import { formatCurrency, formatDate, formatOrderId } from '@utils/formatters';
 import { getManagerOrderDetailRoute } from '@router/routes';
 import type { Order } from '@types';
-import { StyledTableContainer, StyledTableCell, EmptyStateContainer } from './RecentOrdersTable.sc';
+import { StyledTableContainer, StyledTableCell, EmptyStateContainer } from '@layout/manager/ManagerTableLayout.sc';
 
 interface RecentOrdersTableProps {
   orders: Order[];

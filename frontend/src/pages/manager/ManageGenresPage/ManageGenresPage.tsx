@@ -17,7 +17,7 @@ import {
   HeaderContent,
   FiltersContainer,
   TableWrapper,
-} from './ManageGenresPage.sc';
+} from '@layout/manager/ManagerPageLayout.sc';
 
 export const ManageGenresPage = () => {
   const [page, setPage] = useState(0);

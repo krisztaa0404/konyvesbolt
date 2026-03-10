@@ -35,3 +35,7 @@ export const useOrderFilterStore = createManagerFilterStore<
 >();
 
 export const useGenreFilterStore = createManagerFilterStore();
+
+export const useDiscountFilterStore = createManagerFilterStore<
+  'ACTIVE' | 'INACTIVE' | 'EXPIRED'
+>();

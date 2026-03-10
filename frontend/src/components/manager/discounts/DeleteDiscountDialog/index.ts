@@ -1,0 +1,1 @@
+export { DeleteDiscountDialog } from './DeleteDiscountDialog';

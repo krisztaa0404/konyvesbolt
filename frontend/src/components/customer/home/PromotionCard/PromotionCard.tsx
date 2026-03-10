@@ -1,6 +1,7 @@
 import { Card, CardActionArea, Typography, Box, Chip } from '@mui/material';
 import { formatDateRange } from '@utils/formatters';
 import type { SeasonalDiscount } from '@types';
+import { DISCOUNT_SCOPE } from '@types';
 
 interface PromotionCardProps {
   discount: SeasonalDiscount;
@@ -9,7 +10,7 @@ interface PromotionCardProps {
 
 export const PromotionCard = ({ discount, onClick }: PromotionCardProps) => {
   const getScopeLabel = (scopeType?: string) => {
-    if (scopeType === 'ALL_BOOKS') {
+    if (scopeType === DISCOUNT_SCOPE.ALL_BOOKS) {
       return 'All Books';
     }
     return 'Selected Books';

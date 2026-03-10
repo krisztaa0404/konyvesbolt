@@ -7,7 +7,12 @@ import { useOrderFilterStore } from '@store/manager/managerFilterStore';
 import { OrdersFilters } from '@components/manager/orders/OrdersFilters';
 import { OrdersTable } from '@components/manager/orders/OrdersTable';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
-import { PageContainer, PageHeader, FiltersContainer, TableWrapper } from './AllOrdersPage.sc';
+import {
+  PageContainer,
+  PageHeader,
+  FiltersContainer,
+  TableWrapper,
+} from '@layout/manager/ManagerPageLayout.sc';
 
 export const AllOrdersPage = () => {
   const [searchParams] = useSearchParams();

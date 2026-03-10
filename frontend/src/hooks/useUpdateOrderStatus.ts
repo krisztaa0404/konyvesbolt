@@ -28,6 +28,10 @@ export const useUpdateOrderStatus = () => {
         queryKey: ['orders', 'all'],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ['dashboard', 'metrics'],
+      });
+
       addNotification('Order status updated successfully', 'success');
     },
     onError: (error: unknown) => {

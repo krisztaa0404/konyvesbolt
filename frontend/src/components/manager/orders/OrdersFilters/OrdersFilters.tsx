@@ -5,7 +5,7 @@ import { useDebounce } from 'use-debounce';
 import { useShallow } from 'zustand/react/shallow';
 import { OrderStatus } from '@types';
 import { useOrderFilterStore } from '@store/manager/managerFilterStore';
-import { FiltersContainer, SearchField, FilterControl } from './OrdersFilters.sc';
+import { FiltersContainer, SearchField, FilterControl } from '@layout/manager/ManagerFilterLayout.sc';
 
 interface OrdersFiltersProps {
   sortValue: string;

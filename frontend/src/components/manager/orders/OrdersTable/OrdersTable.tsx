@@ -18,7 +18,7 @@ import {
   StyledTableCell,
   EmptyStateContainer,
   PaginationContainer,
-} from './OrdersTable.sc';
+} from '@layout/manager/ManagerTableLayout.sc';
 
 interface OrdersTableProps {
   data?: PageOrder;

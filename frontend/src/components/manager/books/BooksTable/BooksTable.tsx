@@ -19,8 +19,8 @@ import {
   StyledTableCell,
   EmptyStateContainer,
   PaginationContainer,
-  StockIndicator,
-} from './BooksTable.sc';
+} from '@layout/manager/ManagerTableLayout.sc';
+import { StockIndicator } from './BooksTable.sc';
 
 const LOW_STOCK_THRESHOLD = 10;
 

@@ -35,6 +35,19 @@ export const formatDateLong = (date: string | Date | undefined): string => {
   return format(dateObj, 'MMMM dd, yyyy');
 };
 
+/**
+ * Formats date as numeric MM/DD/YYYY
+ */
+export const formatDateNumeric = (dateString?: string): string => {
+  if (!dateString) return '—';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+  });
+};
+
 export const formatTime = (date: string | Date): string => {
   const dateObj = typeof date === 'string' ? parseISO(date) : date;
   return format(dateObj, 'HH:mm:ss');
@@ -105,4 +118,26 @@ export const normalizeBookFormat = (format: string | undefined): BookFormat => {
   }
 
   return 'physical';
+};
+
+/**
+ * Converts ISO datetime string to HTML datetime-local input format (YYYY-MM-DDTHH:mm)
+ */
+export const toDatetimeLocal = (date?: string): string => {
+  if (!date) return '';
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
+/**
+ * Converts HTML datetime-local input format to ISO datetime string
+ */
+export const fromDatetimeLocal = (datetimeLocal: string): string => {
+  if (!datetimeLocal) return '';
+  return new Date(datetimeLocal).toISOString();
 };

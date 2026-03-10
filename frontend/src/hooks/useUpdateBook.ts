@@ -24,6 +24,10 @@ export const useUpdateBook = () => {
       queryClient.invalidateQueries({ queryKey: ['books'] });
       queryClient.invalidateQueries({ queryKey: ['books', variables.bookId] });
 
+      queryClient.invalidateQueries({
+        queryKey: ['dashboard', 'metrics'],
+      });
+
       addNotification(`Book "${data.title}" updated successfully`, 'success');
 
       navigate(ROUTES.MANAGER_BOOKS);

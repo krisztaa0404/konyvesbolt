@@ -15,6 +15,7 @@ export type UpdateUserRole = components['schemas']['UpdateUserRoleDto'];
 export type UpdateLoyalty = components['schemas']['UpdateLoyaltyDto'];
 export type ChangePassword = components['schemas']['ChangePasswordDto'];
 export type Preferences = components['schemas']['PreferencesDto'];
+export type UserFilter = components['schemas']['UserSearchFilterDto'];
 
 // Book types
 export type Book = components['schemas']['BookDto'];

@@ -292,6 +292,22 @@ export interface paths {
         patch: operations["deactivateDiscount"];
         trace?: never;
     };
+    "/api/seasonal-discounts/{id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["activateDiscount"];
+        trace?: never;
+    };
     "/api/users/{id}": {
         parameters: {
             query?: never;
@@ -817,6 +833,12 @@ export interface components {
             email: string;
             password: string;
         };
+        UserSearchFilterDto: {
+            search?: string;
+            /** @enum {string} */
+            role?: "USER" | "MANAGER" | "ADMIN";
+            isLoyaltyMember?: boolean;
+        };
         Pageable: {
             /** Format: int32 */
             page?: number;
@@ -1292,6 +1314,7 @@ export interface operations {
     getAllUsers: {
         parameters: {
             query: {
+                filter: components["schemas"]["UserSearchFilterDto"];
                 pageable: components["schemas"]["Pageable"];
             };
             header?: never;
@@ -1632,6 +1655,26 @@ export interface operations {
         };
     };
     deactivateDiscount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    activateDiscount: {
         parameters: {
             query?: never;
             header?: never;

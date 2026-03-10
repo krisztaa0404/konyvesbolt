@@ -24,6 +24,12 @@ import type {
   CreateSeasonalDiscount,
   UpdateSeasonalDiscount,
   DiscountScopeType,
+  PageUser,
+  User,
+  CreateUser,
+  UpdateUserRole,
+  UpdateLoyalty,
+  UserFilter,
 } from '@types';
 
 /**
@@ -63,6 +69,14 @@ export interface GetAllDiscountsParams {
     scopeType?: DiscountScopeType;
     activeAt?: string;
   };
+  pageable?: Pageable;
+}
+
+/**
+ * Parameters for getAllUsers with filtering and pagination
+ */
+export interface GetAllUsersParams {
+  filter?: UserFilter;
   pageable?: Pageable;
 }
 
@@ -246,5 +260,52 @@ export const managerApi = {
    */
   async deleteDiscount(discountId: string): Promise<void> {
     await apiClient.delete(`/seasonal-discounts/${discountId}`);
+  },
+
+  /**
+   * Get all users with filtering and pagination
+   */
+  async getAllUsers(params?: GetAllUsersParams): Promise<PageUser> {
+    const response = await apiClient.get<PageUser>('/users', {
+      params: {
+        ...params?.filter,
+        page: params?.pageable?.page ?? 0,
+        size: params?.pageable?.size ?? 20,
+        sort: params?.pageable?.sort ?? ['registrationDate,desc'],
+      },
+    });
+    return response.data;
+  },
+
+  /**
+   * Get user by ID
+   */
+  async getUserById(userId: string): Promise<User> {
+    const response = await apiClient.get<User>(`/users/${userId}`);
+    return response.data;
+  },
+
+  /**
+   * Update user role (ADMIN only)
+   */
+  async updateUserRole(userId: string, role: UpdateUserRole): Promise<User> {
+    const response = await apiClient.put<User>(`/users/${userId}/role`, role);
+    return response.data;
+  },
+
+  /**
+   * Update user loyalty status
+   */
+  async updateUserLoyalty(userId: string, loyalty: UpdateLoyalty): Promise<User> {
+    const response = await apiClient.put<User>(`/users/${userId}/loyalty`, loyalty);
+    return response.data;
+  },
+
+  /**
+   * Create a new user (ADMIN only)
+   */
+  async createUser(user: CreateUser): Promise<User> {
+    const response = await apiClient.post<User>('/users', user);
+    return response.data;
   },
 };

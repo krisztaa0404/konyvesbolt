@@ -37,3 +37,37 @@ export const useOrderFilterStore = createManagerFilterStore<
 export const useGenreFilterStore = createManagerFilterStore();
 
 export const useDiscountFilterStore = createManagerFilterStore<'ACTIVE' | 'INACTIVE' | 'EXPIRED'>();
+
+/**
+ * User filter store with extended filters (role + loyalty)
+ */
+interface UserManagerFilterState {
+  searchTerm: string;
+  roleFilter?: 'USER' | 'MANAGER' | 'ADMIN';
+  loyaltyFilter?: boolean;
+  setSearchTerm: (term: string) => void;
+  updateRoleFilter: (role?: string) => void;
+  updateLoyaltyFilter: (isLoyalty?: boolean) => void;
+  clearFilters: () => void;
+}
+
+export const useUserFilterStore = create<UserManagerFilterState>(set => ({
+  searchTerm: '',
+  roleFilter: undefined,
+  loyaltyFilter: undefined,
+
+  setSearchTerm: (term: string) => set({ searchTerm: term }),
+
+  updateRoleFilter: (role?: string) =>
+    set({ roleFilter: role ? (role as 'USER' | 'MANAGER' | 'ADMIN') : undefined }),
+
+  updateLoyaltyFilter: (isLoyalty?: boolean) =>
+    set({ loyaltyFilter: isLoyalty }),
+
+  clearFilters: () =>
+    set({
+      searchTerm: '',
+      roleFilter: undefined,
+      loyaltyFilter: undefined,
+    }),
+}));

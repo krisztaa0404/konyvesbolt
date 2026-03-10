@@ -57,3 +57,26 @@ export const discountSortOptions = [
   { value: 'validFrom,desc', label: 'Valid From (Newest First)' },
   { value: 'validFrom,asc', label: 'Valid From (Oldest First)' },
 ];
+
+export const userRoleOptions = [
+  { value: '', label: 'All Roles' },
+  { value: 'USER', label: 'User' },
+  { value: 'MANAGER', label: 'Manager' },
+  { value: 'ADMIN', label: 'Admin' },
+];
+
+export const userLoyaltyOptions = [
+  { value: '', label: 'All Users' },
+  { value: 'true', label: 'Loyalty Members' },
+  { value: 'false', label: 'Non-Members' },
+];
+
+export const userSortOptions = [
+  { value: 'registrationDate,desc', label: 'Registration: Newest First' },
+  { value: 'registrationDate,asc', label: 'Registration: Oldest First' },
+  { value: 'lastName,asc', label: 'Name: A-Z' },
+  { value: 'lastName,desc', label: 'Name: Z-A' },
+  { value: 'email,asc', label: 'Email: A-Z' },
+  { value: 'totalSpent,desc', label: 'Total Spent: High to Low' },
+  { value: 'totalSpent,asc', label: 'Total Spent: Low to High' },
+];

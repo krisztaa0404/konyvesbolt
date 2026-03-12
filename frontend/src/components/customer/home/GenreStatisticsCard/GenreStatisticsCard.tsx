@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import { ROUTES } from '@router/routes';
 import { formatNumber } from '@utils/formatters';
+import { useFilterStore } from '@store/customer/browseFilterStore';
 import type { GenreStatistics } from '@types';
 import { StyledCard, StyledCardContent, StatNumber } from './GenreStatisticsCard.sc';
 
@@ -11,9 +13,21 @@ interface GenreStatisticsCardProps {
 
 export const GenreStatisticsCard = ({ genre }: GenreStatisticsCardProps) => {
   const navigate = useNavigate();
+  const { clearFilters, updateFilters, setSearchTerm } = useFilterStore(
+    useShallow(state => ({
+      clearFilters: state.clearFilters,
+      updateFilters: state.updateFilters,
+      setSearchTerm: state.setSearchTerm,
+    }))
+  );
 
   const handleClick = () => {
-    navigate(`${ROUTES.BROWSE_BOOKS}?genre=${genre.genreId}`);
+    clearFilters();
+    setSearchTerm('');
+    if (genre.genreId) {
+      updateFilters({ genreIds: [genre.genreId] });
+    }
+    navigate(ROUTES.BROWSE_BOOKS);
   };
 
   return (

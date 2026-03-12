@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Typography, Pagination, Button } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrowseBooks } from '@hooks/useBrowseBooks';
-import { useUrlFilters } from '@hooks/useUrlFilters';
 import { useFilterStore } from '@store/customer/browseFilterStore';
 import { FilterSidebar } from '@components/customer/browse/FilterSidebar';
 import { BrowseToolbar } from '@components/customer/browse/BrowseToolbar';
@@ -18,8 +17,6 @@ import {
 } from './BrowseBooksPage.sc';
 
 export const BrowseBooksPage = () => {
-  useUrlFilters();
-
   const { viewMode, filters, searchTerm, clearFilters, setSearchTerm } = useFilterStore(
     useShallow(state => ({
       viewMode: state.viewMode,

@@ -7,7 +7,10 @@ import {
   Button,
   TextField,
   CircularProgress,
+  IconButton,
+  Box,
 } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -91,7 +94,14 @@ export const GenreFormDialog = ({ open, onClose, genre }: GenreFormDialogProps) 
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{isEditMode ? 'Edit Genre' : 'Add New Genre'}</DialogTitle>
+      <DialogTitle>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>{isEditMode ? 'Edit Genre' : 'Add New Genre'}</span>
+          <IconButton aria-label="close" onClick={handleClose} disabled={isPending} size="small">
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <FormContent>

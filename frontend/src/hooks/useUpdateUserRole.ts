@@ -13,8 +13,7 @@ export const useUpdateUserRole = () => {
   const addNotification = useNotificationStore(state => state.addNotification);
 
   return useMutation({
-    mutationFn: ({ userId, role }: UpdateUserRoleParams) =>
-      managerApi.updateUserRole(userId, role),
+    mutationFn: ({ userId, role }: UpdateUserRoleParams) => managerApi.updateUserRole(userId, role),
     onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       addNotification(`User role updated to ${data.role} successfully`, 'success');

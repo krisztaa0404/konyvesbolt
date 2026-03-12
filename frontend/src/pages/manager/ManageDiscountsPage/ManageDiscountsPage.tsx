@@ -3,6 +3,7 @@ import { Typography, Button } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { useShallow } from 'zustand/react/shallow';
 import { useAllDiscounts } from '@hooks/useAllDiscounts';
+import { useDiscountById } from '@hooks/useDiscountById';
 import { useDeleteDiscount } from '@hooks/useDeleteDiscount';
 import { useActivateDiscount } from '@hooks/useActivateDiscount';
 import { useDeactivateDiscount } from '@hooks/useDeactivateDiscount';
@@ -26,7 +27,7 @@ export const ManageDiscountsPage = () => {
   const [sortValue, setSortValue] = useState('createdAt,desc');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedDiscount, setSelectedDiscount] = useState<SeasonalDiscount | null>(null);
+  const [selectedDiscountId, setSelectedDiscountId] = useState<string | undefined>(undefined);
   const [discountToDelete, setDiscountToDelete] = useState<{ id: string; name: string } | null>(
     null
   );
@@ -48,17 +49,20 @@ export const ManageDiscountsPage = () => {
     sort: sortValue,
   });
 
+  const { data: selectedDiscount, isLoading: isLoadingDiscount } =
+    useDiscountById(selectedDiscountId);
+
   const deleteDiscount = useDeleteDiscount();
   const activateDiscount = useActivateDiscount();
   const deactivateDiscount = useDeactivateDiscount();
 
   const handleAddNew = () => {
-    setSelectedDiscount(null);
+    setSelectedDiscountId(undefined);
     setDialogOpen(true);
   };
 
   const handleEdit = (discount: SeasonalDiscount) => {
-    setSelectedDiscount(discount);
+    setSelectedDiscountId(discount.id);
     setDialogOpen(true);
   };
 
@@ -88,7 +92,7 @@ export const ManageDiscountsPage = () => {
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
-    setSelectedDiscount(null);
+    setSelectedDiscountId(undefined);
   };
 
   const handleCloseDeleteDialog = () => {
@@ -146,6 +150,7 @@ export const ManageDiscountsPage = () => {
         open={dialogOpen}
         onClose={handleCloseDialog}
         discount={selectedDiscount}
+        isLoadingDiscount={isLoadingDiscount}
       />
 
       <DeleteDiscountDialog

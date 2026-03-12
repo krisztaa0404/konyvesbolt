@@ -1,6 +1,8 @@
 import { Typography, Button, Skeleton, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import { ROUTES } from '@router/routes';
+import { useFilterStore } from '@store/customer/browseFilterStore';
 import { PromotionCard } from '@components/customer/home/PromotionCard/PromotionCard';
 import type { SeasonalDiscount } from '@types';
 import {
@@ -22,10 +24,20 @@ export const SeasonalPromotionsSection = ({
   isLoading,
 }: SeasonalPromotionsSectionProps) => {
   const navigate = useNavigate();
+  const { clearFilters, updateFilters, setSearchTerm } = useFilterStore(
+    useShallow(state => ({
+      clearFilters: state.clearFilters,
+      updateFilters: state.updateFilters,
+      setSearchTerm: state.setSearchTerm,
+    }))
+  );
 
   const handlePromotionClick = (discountId?: string) => {
     if (discountId) {
-      navigate(`${ROUTES.BROWSE_BOOKS}?discountId=${discountId}`);
+      clearFilters();
+      setSearchTerm('');
+      updateFilters({ discountId });
+      navigate(ROUTES.BROWSE_BOOKS);
     }
   };
 

@@ -12,7 +12,9 @@ import {
   FormControlLabel,
   Switch,
   TextField,
+  IconButton,
 } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { useForm, Controller, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateLoyaltySchema, type UpdateLoyaltyFormData } from '@schemas/userSchemas';
@@ -80,14 +82,29 @@ export const EditUserLoyaltyDialog = ({ open, onClose, user }: EditUserLoyaltyDi
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Edit User Loyalty</DialogTitle>
+      <DialogTitle>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>Edit User Loyalty</span>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            disabled={updateUserLoyalty.isPending}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <FormContent>
             {user && (
               <Box sx={{ mb: 2 }}>
                 <Typography variant="body2" color="text.secondary">
-                  User: <strong>{user.firstName} {user.lastName}</strong>
+                  User:{' '}
+                  <strong>
+                    {user.firstName} {user.lastName}
+                  </strong>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Email: <strong>{user.email}</strong>
@@ -99,7 +116,8 @@ export const EditUserLoyaltyDialog = ({ open, onClose, user }: EditUserLoyaltyDi
             )}
 
             <Alert severity="info" sx={{ mb: 2 }}>
-              Loyalty members receive exclusive discounts on all purchases. Set the discount percentage below.
+              Loyalty members receive exclusive discounts on all purchases. Set the discount
+              percentage below.
             </Alert>
 
             <FieldContainer>
@@ -135,7 +153,9 @@ export const EditUserLoyaltyDialog = ({ open, onClose, user }: EditUserLoyaltyDi
                       fullWidth
                       inputProps={{ min: 0, max: 100, step: 1 }}
                       error={!!errors.discountPercent}
-                      helperText={errors.discountPercent?.message || 'Enter a value between 0 and 100'}
+                      helperText={
+                        errors.discountPercent?.message || 'Enter a value between 0 and 100'
+                      }
                       disabled={updateUserLoyalty.isPending}
                       value={field.value || 0}
                       onChange={e => field.onChange(Number(e.target.value))}

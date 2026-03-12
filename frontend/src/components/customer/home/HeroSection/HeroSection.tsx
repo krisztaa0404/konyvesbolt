@@ -2,16 +2,26 @@ import { useState } from 'react';
 import { Typography, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import { ROUTES } from '@router/routes';
+import { useFilterStore } from '@store/customer/browseFilterStore';
 import { HeroContainer, SearchBox, StyledTextField } from './HeroSection.sc';
 
 export const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const { clearFilters, setSearchTerm: setStoreSearchTerm } = useFilterStore(
+    useShallow(state => ({
+      clearFilters: state.clearFilters,
+      setSearchTerm: state.setSearchTerm,
+    }))
+  );
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
-      navigate(`${ROUTES.BROWSE_BOOKS}?search=${encodeURIComponent(searchTerm)}`);
+      clearFilters();
+      setStoreSearchTerm(searchTerm);
+      navigate(ROUTES.BROWSE_BOOKS);
     }
   };
 

@@ -61,8 +61,7 @@ export const useUserFilterStore = create<UserManagerFilterState>(set => ({
   updateRoleFilter: (role?: string) =>
     set({ roleFilter: role ? (role as 'USER' | 'MANAGER' | 'ADMIN') : undefined }),
 
-  updateLoyaltyFilter: (isLoyalty?: boolean) =>
-    set({ loyaltyFilter: isLoyalty }),
+  updateLoyaltyFilter: (isLoyalty?: boolean) => set({ loyaltyFilter: isLoyalty }),
 
   clearFilters: () =>
     set({

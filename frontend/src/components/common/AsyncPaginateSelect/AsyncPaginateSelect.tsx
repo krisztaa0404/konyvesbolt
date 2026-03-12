@@ -29,6 +29,7 @@ interface AsyncPaginateSelectProps {
   disabled?: boolean;
   placeholder?: string;
   required?: boolean;
+  initialOptions?: OptionType[];
 }
 
 export const AsyncPaginateSelect = ({
@@ -41,12 +42,19 @@ export const AsyncPaginateSelect = ({
   disabled = false,
   placeholder = 'Type to search...',
   required = false,
+  initialOptions = [],
 }: AsyncPaginateSelectProps) => {
   const theme = useTheme();
   const customStyles = useMemo(() => getReactSelectStyles(theme, error), [theme, error]);
 
   const optionsCache = useRef<Map<string, OptionType>>(new Map());
   const [selectedOptions, setSelectedOptions] = useState<MultiValue<OptionType>>([]);
+
+  useEffect(() => {
+    initialOptions.forEach(option => {
+      optionsCache.current.set(option.value, option);
+    });
+  }, [initialOptions]);
 
   const loadOptionsWithCache = useCallback(
     async (

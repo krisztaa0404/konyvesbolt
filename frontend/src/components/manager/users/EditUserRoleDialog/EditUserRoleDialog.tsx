@@ -11,7 +11,9 @@ import {
   Box,
   MenuItem,
   TextField,
+  IconButton,
 } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUserRoleSchema, type UpdateUserRoleFormData } from '@schemas/userSchemas';
@@ -70,14 +72,29 @@ export const EditUserRoleDialog = ({ open, onClose, user }: EditUserRoleDialogPr
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Edit User Role</DialogTitle>
+      <DialogTitle>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>Edit User Role</span>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            disabled={updateUserRole.isPending}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <FormContent>
             {user && (
               <Box sx={{ mb: 2 }}>
                 <Typography variant="body2" color="text.secondary">
-                  User: <strong>{user.firstName} {user.lastName}</strong>
+                  User:{' '}
+                  <strong>
+                    {user.firstName} {user.lastName}
+                  </strong>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Email: <strong>{user.email}</strong>
@@ -86,7 +103,8 @@ export const EditUserRoleDialog = ({ open, onClose, user }: EditUserRoleDialogPr
             )}
 
             <Alert severity="warning" sx={{ mb: 2 }}>
-              Changing user roles affects their access permissions. ADMIN users have full system access.
+              Changing user roles affects their access permissions. ADMIN users have full system
+              access.
             </Alert>
 
             <FieldContainer>

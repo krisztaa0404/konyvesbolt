@@ -10,42 +10,53 @@ import {
   Typography,
 } from '@mui/material';
 import { FormSection, SectionTitle } from '@layout/manager/BookFormLayout.sc';
-import { AsyncPaginateSelect } from '@components/common/AsyncPaginateSelect';
+import { AsyncPaginateSelect, type OptionType } from '@components/common/AsyncPaginateSelect';
 import { loadGenresOptions } from '@utils/selectAdapters';
 import { bookFormats, type CreateBookFormData } from '@schemas/bookSchemas';
 import { formatBookFormat } from '@utils/formatters';
+import type { Genre } from '@types';
 
 interface BookClassificationSectionProps {
   control: Control<CreateBookFormData>;
   errors: FieldErrors<CreateBookFormData>;
   disabled?: boolean;
+  initialGenres?: Genre[];
 }
 
 export const BookClassificationSection = ({
   control,
   errors,
   disabled,
+  initialGenres = [],
 }: BookClassificationSectionProps) => {
+  const initialGenreOptions: OptionType[] = initialGenres.map(genre => ({
+    label: genre.name || '',
+    value: genre.id || '',
+  }));
+
   return (
     <FormSection>
       <SectionTitle>Classification</SectionTitle>
 
-      <Controller
-        name="genreIds"
-        control={control}
-        render={({ field: { value, onChange } }) => (
-          <AsyncPaginateSelect
-            loadOptions={loadGenresOptions}
-            value={value || []}
-            onChange={onChange}
-            label="Genres"
-            helperText={errors.genreIds?.message || 'Select 1-5 genres (type to search)'}
-            error={!!errors.genreIds}
-            disabled={disabled}
-            required
-          />
-        )}
-      />
+      <Box sx={{ mb: 3 }}>
+        <Controller
+          name="genreIds"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <AsyncPaginateSelect
+              loadOptions={loadGenresOptions}
+              value={value || []}
+              onChange={onChange}
+              label="Genres"
+              helperText={errors.genreIds?.message || 'Select 1-5 genres (type to search)'}
+              error={!!errors.genreIds}
+              disabled={disabled}
+              required
+              initialOptions={initialGenreOptions}
+            />
+          )}
+        />
+      </Box>
 
       <Controller
         name="tags"

@@ -1,18 +1,8 @@
 import { useState } from 'react';
-import {
-  Typography,
-  Button,
-  FormControlLabel,
-  Checkbox,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Alert,
-} from '@mui/material';
+import { Typography, Button, FormControlLabel, Checkbox, Alert } from '@mui/material';
 import { Warning } from '@mui/icons-material';
 import { useDeleteAccount } from '@hooks/useDeleteAccount';
+import { DeleteConfirmDialog } from '@components/manager/common/DeleteConfirmDialog';
 import { FormContainer, ButtonContainer } from '../ProfileLayout.sc';
 import { WarningBox, ConsequencesList, CheckboxContainer } from './DeleteAccountTab.sc';
 
@@ -92,23 +82,15 @@ export const DeleteAccountTab = () => {
         </Button>
       </ButtonContainer>
 
-      <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-        <DialogTitle>Confirm Account Deletion</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you absolutely sure you want to delete your account? This action is permanent and
-            cannot be undone. All your data will be lost forever.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} variant="outlined">
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmDelete} color="error" variant="contained" autoFocus>
-            Yes, Delete My Account
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DeleteConfirmDialog
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirmDelete}
+        isPending={isPending}
+        title="Confirm Account Deletion"
+        message="Are you absolutely sure you want to delete your account? This action is permanent and cannot be undone. All your data will be lost forever."
+        confirmButtonText="Yes, Delete My Account"
+      />
     </FormContainer>
   );
 };

@@ -2,16 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Typography,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from '@mui/material';
+import { Typography, Button, CircularProgress } from '@mui/material';
 import { useBook } from '@hooks/useBook';
 import { useCreateBook } from '@hooks/useCreateBook';
 import { useUpdateBook } from '@hooks/useUpdateBook';
@@ -19,12 +10,14 @@ import { useDeleteBook } from '@hooks/useDeleteBook';
 import { createBookSchema, type CreateBookFormData } from '@schemas/bookSchemas';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { UnsavedChangesDialog } from '@components/common/UnsavedChangesDialog';
 import { BookBasicInfoSection } from '@components/manager/books/BookBasicInfoSection';
 import { BookPricingSection } from '@components/manager/books/BookPricingSection';
 import { BookClassificationSection } from '@components/manager/books/BookClassificationSection';
 import { BookDetailsSection } from '@components/manager/books/BookDetailsSection';
 import { BookMetadataSection } from '@components/manager/books/BookMetadataSection';
 import { PageBreadcrumbs } from '@components/manager/common/PageBreadcrumbs';
+import { DeleteConfirmDialog } from '@components/manager/common/DeleteConfirmDialog';
 import { ROUTES } from '@router/routes';
 import {
   PageContainer,
@@ -222,7 +215,12 @@ export const AddEditBookPage = () => {
         <FormContainer>
           <BookBasicInfoSection control={control} errors={errors} disabled={isPending} />
           <BookPricingSection control={control} errors={errors} disabled={isPending} />
-          <BookClassificationSection control={control} errors={errors} disabled={isPending} />
+          <BookClassificationSection
+            control={control}
+            errors={errors}
+            disabled={isPending}
+            initialGenres={bookData?.genres}
+          />
           <BookDetailsSection
             control={control}
             errors={errors}
@@ -251,37 +249,21 @@ export const AddEditBookPage = () => {
         </FormContainer>
       </form>
 
-      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete Book</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete "{bookData?.title}"? This action cannot be undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} disabled={isPending}>
-            Cancel
-          </Button>
-          <Button onClick={handleDelete} color="error" disabled={isPending} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+        entityName={bookData?.title || ''}
+        entityType="Book"
+        isPending={isPending}
+        warningMessage="Warning: This action cannot be undone."
+      />
 
-      <Dialog open={cancelDialogOpen} onClose={() => setCancelDialogOpen(false)}>
-        <DialogTitle>Unsaved Changes</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            You have unsaved changes. Are you sure you want to leave?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setCancelDialogOpen(false)}>Stay</Button>
-          <Button onClick={() => navigate(ROUTES.MANAGER_BOOKS)} color="warning" autoFocus>
-            Leave
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <UnsavedChangesDialog
+        open={cancelDialogOpen}
+        onClose={() => setCancelDialogOpen(false)}
+        onLeave={() => navigate(ROUTES.MANAGER_BOOKS)}
+      />
     </PageContainer>
   );
 };

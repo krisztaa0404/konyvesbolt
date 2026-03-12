@@ -6,7 +6,10 @@ import {
   DialogActions,
   Button,
   CircularProgress,
+  IconButton,
+  Box,
 } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -18,7 +21,7 @@ import {
 import { useCreateDiscount } from '@hooks/useCreateDiscount';
 import { useUpdateDiscount } from '@hooks/useUpdateDiscount';
 import { toDatetimeLocal, fromDatetimeLocal } from '@utils/formatters';
-import type { SeasonalDiscount, CreateSeasonalDiscount } from '@types';
+import type { DetailedSeasonalDiscount, CreateSeasonalDiscount } from '@types';
 import { DISCOUNT_SCOPE } from '@types';
 import { BasicInfoSection } from './BasicInfoSection';
 import { DateRangeSection } from './DateRangeSection';
@@ -29,11 +32,12 @@ import { FormContent } from './DiscountFormDialog.sc';
 interface DiscountFormDialogProps {
   open: boolean;
   onClose: () => void;
-  discount?: SeasonalDiscount | null;
+  discount?: DetailedSeasonalDiscount | null;
+  isLoadingDiscount?: boolean;
 }
 
 const getFormDefaultValues = (
-  discount?: SeasonalDiscount | null
+  discount?: DetailedSeasonalDiscount | null
 ): CreateDiscountFormData | UpdateDiscountFormData => ({
   name: discount?.name || '',
   description: discount?.description || '',
@@ -43,12 +47,17 @@ const getFormDefaultValues = (
   scopeType: discount?.scopeType || DISCOUNT_SCOPE.ALL_BOOKS,
   maxUsageCount: discount?.maxUsageCount || undefined,
   minimumOrderAmount: discount?.minimumOrderAmount || undefined,
-  bookIds: [],
-  genreIds: [],
+  bookIds: discount?.books?.map(book => book.id || '') || [],
+  genreIds: discount?.genres?.map(genre => genre.id || '') || [],
   allBooks: discount?.scopeType === DISCOUNT_SCOPE.ALL_BOOKS,
 });
 
-export const DiscountFormDialog = ({ open, onClose, discount }: DiscountFormDialogProps) => {
+export const DiscountFormDialog = ({
+  open,
+  onClose,
+  discount,
+  isLoadingDiscount,
+}: DiscountFormDialogProps) => {
   const isEditMode = !!discount;
   const createDiscount = useCreateDiscount();
   const updateDiscount = useUpdateDiscount();
@@ -115,20 +124,35 @@ export const DiscountFormDialog = ({ open, onClose, discount }: DiscountFormDial
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle>{isEditMode ? 'Edit Discount' : 'Create New Discount'}</DialogTitle>
+      <DialogTitle>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>{isEditMode ? 'Edit Discount' : 'Create New Discount'}</span>
+          <IconButton aria-label="close" onClick={handleClose} disabled={isPending} size="small">
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <FormContent>
-            <BasicInfoSection control={control} errors={errors} isPending={isPending} />
-            <DateRangeSection control={control} errors={errors} isPending={isPending} />
-            <ScopeSection
-              control={control}
-              errors={errors}
-              scopeType={scopeType ?? ''}
-              isPending={isPending}
-            />
-            <ConstraintsSection control={control} errors={errors} isPending={isPending} />
-          </FormContent>
+          {isLoadingDiscount ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <FormContent>
+              <BasicInfoSection control={control} errors={errors} isPending={isPending} />
+              <DateRangeSection control={control} errors={errors} isPending={isPending} />
+              <ScopeSection
+                control={control}
+                errors={errors}
+                scopeType={scopeType ?? ''}
+                isPending={isPending}
+                initialBooks={discount?.books}
+                initialGenres={discount?.genres}
+              />
+              <ConstraintsSection control={control} errors={errors} isPending={isPending} />
+            </FormContent>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} disabled={isPending}>

@@ -244,6 +244,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refresh"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/logout": {
         parameters: {
             query?: never;
@@ -821,6 +837,9 @@ export interface components {
         };
         AuthResponseDto: {
             token?: string;
+            refreshToken?: string;
+            /** Format: int64 */
+            expiresIn?: number;
             /** Format: uuid */
             userId?: string;
             email?: string;
@@ -828,6 +847,18 @@ export interface components {
             lastName?: string;
             /** @enum {string} */
             role?: "USER" | "MANAGER" | "ADMIN";
+        };
+        RefreshTokenRequestDto: {
+            refreshToken: string;
+        };
+        RefreshTokenResponseDto: {
+            accessToken?: string;
+            refreshToken?: string;
+            /** Format: int64 */
+            expiresIn?: number;
+        };
+        LogoutRequestDto: {
+            refreshToken?: string;
         };
         LoginRequestDto: {
             email: string;
@@ -871,6 +902,36 @@ export interface components {
         PagedModelSeasonalDiscountDto: {
             content?: components["schemas"]["SeasonalDiscountDto"][];
             page?: components["schemas"]["PageMetadata"];
+        };
+        DetailedSeasonalDiscountDto: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            description?: string;
+            percentage?: number;
+            /** Format: date-time */
+            validFrom?: string;
+            /** Format: date-time */
+            validTo?: string;
+            isActive?: boolean;
+            /** @enum {string} */
+            scopeType?: "SPECIFIC_BOOKS" | "ALL_BOOKS";
+            /** Format: int32 */
+            maxUsageCount?: number;
+            /** Format: int32 */
+            currentUsageCount?: number;
+            minimumOrderAmount?: number;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            books?: components["schemas"]["NamedEntityRefDto"][];
+            genres?: components["schemas"]["NamedEntityRefDto"][];
+        };
+        NamedEntityRefDto: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
         };
         OrderFilterDto: {
             search?: string;
@@ -1098,7 +1159,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SeasonalDiscountDto"];
+                    "*/*": components["schemas"]["DetailedSeasonalDiscountDto"];
                 };
             };
         };
@@ -1612,6 +1673,30 @@ export interface operations {
             };
         };
     };
+    refresh: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefreshTokenRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefreshTokenResponseDto"];
+                };
+            };
+        };
+    };
     logout: {
         parameters: {
             query?: never;
@@ -1619,7 +1704,11 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["LogoutRequestDto"];
+            };
+        };
         responses: {
             /** @description OK */
             200: {

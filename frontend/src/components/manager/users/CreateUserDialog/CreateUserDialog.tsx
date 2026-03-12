@@ -11,8 +11,9 @@ import {
   MenuItem,
   InputAdornment,
   IconButton,
+  Box,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff, Close as CloseIcon } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createUserSchema } from '@schemas/userSchemas';
@@ -86,7 +87,19 @@ export const CreateUserDialog = ({ open, onClose }: CreateUserDialogProps) => {
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Create New User</DialogTitle>
+      <DialogTitle>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>Create New User</span>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            disabled={createUser.isPending}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <FormContent>
@@ -164,7 +177,10 @@ export const CreateUserDialog = ({ open, onClose }: CreateUserDialogProps) => {
                     required
                     fullWidth
                     error={!!errors.password}
-                    helperText={errors.password?.message || 'Must be at least 8 characters with uppercase, lowercase, and number'}
+                    helperText={
+                      errors.password?.message ||
+                      'Must be at least 8 characters with uppercase, lowercase, and number'
+                    }
                     disabled={createUser.isPending}
                     InputProps={{
                       endAdornment: (

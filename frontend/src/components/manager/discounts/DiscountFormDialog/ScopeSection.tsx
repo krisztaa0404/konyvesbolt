@@ -1,8 +1,9 @@
 import { RadioGroup, FormControlLabel, Radio, Typography } from '@mui/material';
 import { Controller, type Control, type FieldErrors } from 'react-hook-form';
 import type { CreateDiscountFormData, UpdateDiscountFormData } from '@schemas/discountSchemas';
+import type { NamedEntityRef } from '@types';
 import { DISCOUNT_SCOPE } from '@types';
-import { AsyncPaginateSelect } from '@components/common/AsyncPaginateSelect';
+import { AsyncPaginateSelect, type OptionType } from '@components/common/AsyncPaginateSelect';
 import { loadBooksOptions, loadGenresOptions } from '@utils/selectAdapters';
 import { FieldContainer, RadioGroupContainer } from './DiscountFormDialog.sc';
 
@@ -11,10 +12,29 @@ interface ScopeSectionProps {
   errors: FieldErrors<CreateDiscountFormData | UpdateDiscountFormData>;
   scopeType: string;
   isPending: boolean;
+  initialBooks?: NamedEntityRef[];
+  initialGenres?: NamedEntityRef[];
 }
 
-export const ScopeSection = ({ control, errors, scopeType, isPending }: ScopeSectionProps) => {
+export const ScopeSection = ({
+  control,
+  errors,
+  scopeType,
+  isPending,
+  initialBooks = [],
+  initialGenres = [],
+}: ScopeSectionProps) => {
   const isSpecificBooks = scopeType === DISCOUNT_SCOPE.SPECIFIC_BOOKS;
+
+  const initialBookOptions: OptionType[] = initialBooks.map(book => ({
+    label: book.name || '',
+    value: book.id || '',
+  }));
+
+  const initialGenreOptions: OptionType[] = initialGenres.map(genre => ({
+    label: genre.name || '',
+    value: genre.id || '',
+  }));
 
   return (
     <>
@@ -66,6 +86,7 @@ export const ScopeSection = ({ control, errors, scopeType, isPending }: ScopeSec
                   helperText="Type to search books"
                   disabled={isPending}
                   error={!!errors.bookIds}
+                  initialOptions={initialBookOptions}
                 />
               )}
             />
@@ -84,6 +105,7 @@ export const ScopeSection = ({ control, errors, scopeType, isPending }: ScopeSec
                   helperText="Type to search genres"
                   disabled={isPending}
                   error={!!errors.genreIds}
+                  initialOptions={initialGenreOptions}
                 />
               )}
             />

@@ -21,17 +21,23 @@ interface UsersFiltersProps {
 }
 
 export const UsersFilters = ({ sortValue, onSortChange }: UsersFiltersProps) => {
-  const { searchTerm, roleFilter, loyaltyFilter, setSearchTerm, updateRoleFilter, updateLoyaltyFilter } =
-    useUserFilterStore(
-      useShallow(state => ({
-        searchTerm: state.searchTerm,
-        roleFilter: state.roleFilter,
-        loyaltyFilter: state.loyaltyFilter,
-        setSearchTerm: state.setSearchTerm,
-        updateRoleFilter: state.updateRoleFilter,
-        updateLoyaltyFilter: state.updateLoyaltyFilter,
-      }))
-    );
+  const {
+    searchTerm,
+    roleFilter,
+    loyaltyFilter,
+    setSearchTerm,
+    updateRoleFilter,
+    updateLoyaltyFilter,
+  } = useUserFilterStore(
+    useShallow(state => ({
+      searchTerm: state.searchTerm,
+      roleFilter: state.roleFilter,
+      loyaltyFilter: state.loyaltyFilter,
+      setSearchTerm: state.setSearchTerm,
+      updateRoleFilter: state.updateRoleFilter,
+      updateLoyaltyFilter: state.updateLoyaltyFilter,
+    }))
+  );
 
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
   const [debouncedSearchTerm] = useDebounce(localSearchTerm, 500);

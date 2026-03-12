@@ -21,6 +21,7 @@ import type {
   PageGenre,
   PageSeasonalDiscount,
   SeasonalDiscount,
+  DetailedSeasonalDiscount,
   CreateSeasonalDiscount,
   UpdateSeasonalDiscount,
   DiscountScopeType,
@@ -214,8 +215,10 @@ export const managerApi = {
   /**
    * Get a specific discount by ID
    */
-  async getDiscountById(discountId: string): Promise<SeasonalDiscount> {
-    const response = await apiClient.get<SeasonalDiscount>(`/seasonal-discounts/${discountId}`);
+  async getDiscountById(discountId: string): Promise<DetailedSeasonalDiscount> {
+    const response = await apiClient.get<DetailedSeasonalDiscount>(
+      `/seasonal-discounts/${discountId}`
+    );
     return response.data;
   },
 

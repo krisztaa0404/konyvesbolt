@@ -53,9 +53,11 @@ export type DashboardMetrics = components['schemas']['DashboardMetricsDto'];
 
 // Seasonal Discount types
 export type SeasonalDiscount = components['schemas']['SeasonalDiscountDto'];
+export type DetailedSeasonalDiscount = components['schemas']['DetailedSeasonalDiscountDto'];
 export type CreateSeasonalDiscount = components['schemas']['CreateSeasonalDiscountDto'];
 export type UpdateSeasonalDiscount = components['schemas']['UpdateSeasonalDiscountDto'];
 export type PageSeasonalDiscount = components['schemas']['PagedModelSeasonalDiscountDto'];
+export type NamedEntityRef = components['schemas']['NamedEntityRefDto'];
 
 // Pagination types
 export type Pageable = components['schemas']['Pageable'];

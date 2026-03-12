@@ -85,15 +85,17 @@ export const managerApi = {
   /**
    * Get dashboard metrics for manager overview
    */
-  async getDashboardMetrics(): Promise<DashboardMetrics> {
-    const response = await apiClient.get<DashboardMetrics>('/manager/dashboard/metrics');
+  async getDashboardMetrics(signal?: AbortSignal): Promise<DashboardMetrics> {
+    const response = await apiClient.get<DashboardMetrics>('/manager/dashboard/metrics', {
+      signal,
+    });
     return response.data;
   },
 
   /**
    * Get all orders with pagination and filtering (manager view)
    */
-  async getAllOrders(params?: GetAllOrdersParams): Promise<PageOrder> {
+  async getAllOrders(params?: GetAllOrdersParams, signal?: AbortSignal): Promise<PageOrder> {
     const response = await apiClient.get<PageOrder>('/orders', {
       params: {
         ...params?.filter,
@@ -101,6 +103,7 @@ export const managerApi = {
         size: params?.pageable?.size ?? 20,
         sort: params?.pageable?.sort ?? ['orderDate,desc'],
       },
+      signal,
     });
     return response.data;
   },
@@ -108,8 +111,10 @@ export const managerApi = {
   /**
    * Get detailed information for a specific order (manager view)
    */
-  async getOrderById(orderId: string): Promise<OrderDetail> {
-    const response = await apiClient.get<OrderDetail>(`/orders/${orderId}`);
+  async getOrderById(orderId: string, signal?: AbortSignal): Promise<OrderDetail> {
+    const response = await apiClient.get<OrderDetail>(`/orders/${orderId}`, {
+      signal,
+    });
     return response.data;
   },
 
@@ -124,7 +129,7 @@ export const managerApi = {
   /**
    * Get all books with pagination and filtering (manager view)
    */
-  async getAllBooks(params?: GetAllBooksParams): Promise<PageBook> {
+  async getAllBooks(params?: GetAllBooksParams, signal?: AbortSignal): Promise<PageBook> {
     const response = await apiClient.get<PageBook>('/books', {
       params: {
         ...params?.filter,
@@ -132,6 +137,7 @@ export const managerApi = {
         size: params?.pageable?.size ?? 20,
         sort: params?.pageable?.sort ?? ['createdAt,desc'],
       },
+      signal,
     });
     return response.data;
   },
@@ -162,7 +168,7 @@ export const managerApi = {
   /**
    * Get all genres with pagination and filtering
    */
-  async getAllGenres(params?: GetAllGenresParams): Promise<PageGenre> {
+  async getAllGenres(params?: GetAllGenresParams, signal?: AbortSignal): Promise<PageGenre> {
     const response = await apiClient.get<PageGenre>('/genres', {
       params: {
         ...params?.filter,
@@ -170,6 +176,7 @@ export const managerApi = {
         size: params?.pageable?.size ?? 20,
         sort: params?.pageable?.sort ?? ['name,asc'],
       },
+      signal,
     });
     return response.data;
   },
@@ -200,7 +207,10 @@ export const managerApi = {
   /**
    * Get all discounts with pagination and filtering
    */
-  async getAllDiscounts(params?: GetAllDiscountsParams): Promise<PageSeasonalDiscount> {
+  async getAllDiscounts(
+    params?: GetAllDiscountsParams,
+    signal?: AbortSignal
+  ): Promise<PageSeasonalDiscount> {
     const response = await apiClient.get<PageSeasonalDiscount>('/seasonal-discounts', {
       params: {
         ...params?.filter,
@@ -208,6 +218,7 @@ export const managerApi = {
         size: params?.pageable?.size ?? 20,
         sort: params?.pageable?.sort ?? ['createdAt,desc'],
       },
+      signal,
     });
     return response.data;
   },
@@ -215,9 +226,13 @@ export const managerApi = {
   /**
    * Get a specific discount by ID
    */
-  async getDiscountById(discountId: string): Promise<DetailedSeasonalDiscount> {
+  async getDiscountById(
+    discountId: string,
+    signal?: AbortSignal
+  ): Promise<DetailedSeasonalDiscount> {
     const response = await apiClient.get<DetailedSeasonalDiscount>(
-      `/seasonal-discounts/${discountId}`
+      `/seasonal-discounts/${discountId}`,
+      { signal }
     );
     return response.data;
   },
@@ -268,7 +283,7 @@ export const managerApi = {
   /**
    * Get all users with filtering and pagination
    */
-  async getAllUsers(params?: GetAllUsersParams): Promise<PageUser> {
+  async getAllUsers(params?: GetAllUsersParams, signal?: AbortSignal): Promise<PageUser> {
     const response = await apiClient.get<PageUser>('/users', {
       params: {
         ...params?.filter,
@@ -276,6 +291,7 @@ export const managerApi = {
         size: params?.pageable?.size ?? 20,
         sort: params?.pageable?.sort ?? ['registrationDate,desc'],
       },
+      signal,
     });
     return response.data;
   },
@@ -283,8 +299,10 @@ export const managerApi = {
   /**
    * Get user by ID
    */
-  async getUserById(userId: string): Promise<User> {
-    const response = await apiClient.get<User>(`/users/${userId}`);
+  async getUserById(userId: string, signal?: AbortSignal): Promise<User> {
+    const response = await apiClient.get<User>(`/users/${userId}`, {
+      signal,
+    });
     return response.data;
   },
 

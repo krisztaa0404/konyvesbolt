@@ -7,7 +7,7 @@ import { managerApi } from '@services/api/managerApi';
 export const useDiscountById = (id: string | undefined) => {
   return useQuery({
     queryKey: ['discounts', id],
-    queryFn: () => managerApi.getDiscountById(id!),
+    queryFn: ({ signal }) => managerApi.getDiscountById(id!, signal),
     enabled: !!id,
   });
 };

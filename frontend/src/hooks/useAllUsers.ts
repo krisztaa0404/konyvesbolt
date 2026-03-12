@@ -52,7 +52,7 @@ export const useAllUsers = ({ page, size, sort }: UseAllUsersParams) => {
 
   return useQuery({
     queryKey: ['users', 'all', cleanParams],
-    queryFn: () => managerApi.getAllUsers(params),
+    queryFn: ({ signal }) => managerApi.getAllUsers(params, signal),
     placeholderData: previousData => previousData,
   });
 };

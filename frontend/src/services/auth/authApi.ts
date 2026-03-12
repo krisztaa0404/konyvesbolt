@@ -52,8 +52,10 @@ export const authApi = {
   /**
    * Get current user profile
    */
-  async getCurrentUser(): Promise<User> {
-    const response = await apiClient.get<User>('/users/me');
+  async getCurrentUser(signal?: AbortSignal): Promise<User> {
+    const response = await apiClient.get<User>('/users/me', {
+      signal,
+    });
     return response.data;
   },
 

@@ -11,18 +11,25 @@ interface GetGenresParams {
 }
 
 export const genresApi = {
-  async getGenreStatistics(): Promise<GenreStatistics[]> {
-    const response = await apiClient.get<GenreStatistics[]>('/genres/statistics');
+  async getGenreStatistics(signal?: AbortSignal): Promise<GenreStatistics[]> {
+    const response = await apiClient.get<GenreStatistics[]>('/genres/statistics', {
+      signal,
+    });
     return response.data;
   },
 
-  async getGenres(params?: GetGenresParams): Promise<PageGenre> {
-    const response = await apiClient.get<PageGenre>('/genres', { params });
+  async getGenres(params?: GetGenresParams, signal?: AbortSignal): Promise<PageGenre> {
+    const response = await apiClient.get<PageGenre>('/genres', {
+      params,
+      signal,
+    });
     return response.data;
   },
 
-  async getGenre(id: string): Promise<Genre> {
-    const response = await apiClient.get<Genre>(`/genres/${id}`);
+  async getGenre(id: string, signal?: AbortSignal): Promise<Genre> {
+    const response = await apiClient.get<Genre>(`/genres/${id}`, {
+      signal,
+    });
     return response.data;
   },
 };

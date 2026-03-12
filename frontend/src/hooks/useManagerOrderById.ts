@@ -7,7 +7,7 @@ import { managerApi } from '@services/api/managerApi';
 export const useManagerOrderById = (orderId: string | undefined) => {
   return useQuery({
     queryKey: ['orders', 'manager', orderId],
-    queryFn: () => managerApi.getOrderById(orderId!),
+    queryFn: ({ signal }) => managerApi.getOrderById(orderId!, signal),
     enabled: !!orderId,
     retry: 1,
   });

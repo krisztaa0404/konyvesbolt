@@ -7,6 +7,6 @@ import { ordersApi } from '@services/api/ordersApi';
 export const useMyOrders = (page: number = 0, size: number = 20) => {
   return useQuery({
     queryKey: ['orders', 'my-orders', page, size],
-    queryFn: () => ordersApi.getMyOrders(page, size),
+    queryFn: ({ signal }) => ordersApi.getMyOrders(page, size, signal),
   });
 };

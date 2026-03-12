@@ -56,7 +56,7 @@ export const useAllDiscounts = ({ page, size, sort }: UseAllDiscountsParams) => 
 
   return useQuery({
     queryKey: ['discounts', 'all', cleanParams],
-    queryFn: () => managerApi.getAllDiscounts(params),
+    queryFn: ({ signal }) => managerApi.getAllDiscounts(params, signal),
     placeholderData: previousData => previousData,
   });
 };

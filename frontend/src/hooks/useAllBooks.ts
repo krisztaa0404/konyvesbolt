@@ -53,7 +53,7 @@ export const useAllBooks = ({ page, size, sort }: UseAllBooksParams) => {
 
   return useQuery({
     queryKey: ['books', 'all', cleanParams],
-    queryFn: () => managerApi.getAllBooks(params),
+    queryFn: ({ signal }) => managerApi.getAllBooks(params, signal),
     placeholderData: previousData => previousData,
   });
 };

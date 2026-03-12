@@ -54,7 +54,7 @@ export const useAllOrders = ({ page, size, sort }: UseAllOrdersParams) => {
 
   return useQuery({
     queryKey: ['orders', 'all', cleanParams],
-    queryFn: () => managerApi.getAllOrders(params),
+    queryFn: ({ signal }) => managerApi.getAllOrders(params, signal),
     placeholderData: previousData => previousData,
   });
 };

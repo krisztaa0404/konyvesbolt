@@ -7,7 +7,7 @@ import { booksApi } from '@services/api/booksApi';
 export const useBookRecommendations = (id: string, limit: number = 6) => {
   return useQuery({
     queryKey: ['books', id, 'recommendations', limit],
-    queryFn: () => booksApi.getBookRecommendations(id, limit),
+    queryFn: ({ signal }) => booksApi.getBookRecommendations(id, limit, signal),
     enabled: !!id,
   });
 };

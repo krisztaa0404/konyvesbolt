@@ -10,7 +10,7 @@ type QueryOptions = Omit<UseQueryOptions<Book[]>, 'queryKey' | 'queryFn'>;
 export const useTopWeeklyBooks = (limit: number = 10, options?: QueryOptions) => {
   return useQuery({
     queryKey: ['books', 'top-weekly', limit],
-    queryFn: () => booksApi.getTopWeeklyBooks(limit),
+    queryFn: ({ signal }) => booksApi.getTopWeeklyBooks(limit, signal),
     ...options,
   });
 };
@@ -18,7 +18,7 @@ export const useTopWeeklyBooks = (limit: number = 10, options?: QueryOptions) =>
 export const useTopMonthlyBooks = (limit: number = 10, options?: QueryOptions) => {
   return useQuery({
     queryKey: ['books', 'top-monthly', limit],
-    queryFn: () => booksApi.getTopMonthlyBooks(limit),
+    queryFn: ({ signal }) => booksApi.getTopMonthlyBooks(limit, signal),
     ...options,
   });
 };

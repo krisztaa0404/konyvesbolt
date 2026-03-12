@@ -9,9 +9,10 @@ export const ordersApi = {
   /**
    * Get current user's orders with pagination
    */
-  async getMyOrders(page: number = 0, size: number = 20): Promise<PageOrder> {
+  async getMyOrders(page: number = 0, size: number = 20, signal?: AbortSignal): Promise<PageOrder> {
     const response = await apiClient.get<PageOrder>('/orders/my-orders', {
       params: { page, size },
+      signal,
     });
     return response.data;
   },
@@ -19,8 +20,10 @@ export const ordersApi = {
   /**
    * Get detailed information for a specific order
    */
-  async getMyOrderById(orderId: string): Promise<OrderDetail> {
-    const response = await apiClient.get<OrderDetail>(`/orders/my-orders/${orderId}`);
+  async getMyOrderById(orderId: string, signal?: AbortSignal): Promise<OrderDetail> {
+    const response = await apiClient.get<OrderDetail>(`/orders/my-orders/${orderId}`, {
+      signal,
+    });
     return response.data;
   },
 

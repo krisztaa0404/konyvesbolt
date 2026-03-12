@@ -51,7 +51,7 @@ export const useAllGenres = ({ page, size, sort }: UseAllGenresParams) => {
 
   return useQuery({
     queryKey: ['genres', 'all', cleanParams],
-    queryFn: () => managerApi.getAllGenres(params),
+    queryFn: ({ signal }) => managerApi.getAllGenres(params, signal),
     placeholderData: previousData => previousData,
   });
 };

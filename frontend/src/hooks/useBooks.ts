@@ -14,12 +14,15 @@ interface UseBooksParams {
 export const useBooks = (params?: UseBooksParams) => {
   return useQuery({
     queryKey: ['books', params?.search || '', params?.page || 0, params?.size || 500],
-    queryFn: () =>
-      booksApi.getBooksWithFilters({
-        search: params?.search,
-        page: params?.page || 0,
-        size: params?.size || 500,
-      }),
+    queryFn: ({ signal }) =>
+      booksApi.getBooksWithFilters(
+        {
+          search: params?.search,
+          page: params?.page || 0,
+          size: params?.size || 500,
+        },
+        signal
+      ),
     staleTime: 1000 * 60 * 5, // 5 minutes - books change occasionally
     enabled: true,
   });

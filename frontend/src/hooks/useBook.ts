@@ -7,7 +7,7 @@ import { booksApi } from '@services/api/booksApi';
 export const useBook = (id: string) => {
   return useQuery({
     queryKey: ['books', id],
-    queryFn: () => booksApi.getBook(id),
+    queryFn: ({ signal }) => booksApi.getBook(id, signal),
     enabled: !!id,
   });
 };

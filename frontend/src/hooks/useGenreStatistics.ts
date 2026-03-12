@@ -7,6 +7,6 @@ import { genresApi } from '@services/api/genresApi';
 export const useGenreStatistics = () => {
   return useQuery({
     queryKey: ['genres', 'statistics'],
-    queryFn: () => genresApi.getGenreStatistics(),
+    queryFn: ({ signal }) => genresApi.getGenreStatistics(signal),
   });
 };

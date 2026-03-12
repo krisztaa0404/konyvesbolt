@@ -7,7 +7,7 @@ import { authApi } from '@services/auth/authApi';
 export const useCurrentUser = () => {
   return useQuery({
     queryKey: ['users', 'me'],
-    queryFn: () => authApi.getCurrentUser(),
+    queryFn: ({ signal }) => authApi.getCurrentUser(signal),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };

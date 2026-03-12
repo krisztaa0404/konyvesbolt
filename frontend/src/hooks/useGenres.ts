@@ -13,12 +13,15 @@ interface UseGenresParams {
 export const useGenres = (params?: UseGenresParams) => {
   return useQuery({
     queryKey: ['genres', params?.search || '', params?.page || 0, params?.size || 20],
-    queryFn: () =>
-      genresApi.getGenres({
-        name: params?.search,
-        page: params?.page || 0,
-        size: params?.size || 20,
-      }),
+    queryFn: ({ signal }) =>
+      genresApi.getGenres(
+        {
+          name: params?.search,
+          page: params?.page || 0,
+          size: params?.size || 20,
+        },
+        signal
+      ),
     staleTime: 1000 * 60 * 60, // 1 hour - genres rarely change
     enabled: true,
   });

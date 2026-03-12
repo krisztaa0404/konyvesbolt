@@ -7,7 +7,7 @@ import { managerApi } from '@services/api/managerApi';
 export const useDashboardMetrics = () => {
   return useQuery({
     queryKey: ['dashboard', 'metrics'],
-    queryFn: () => managerApi.getDashboardMetrics(),
+    queryFn: ({ signal }) => managerApi.getDashboardMetrics(signal),
     staleTime: 10 * 60 * 1000, // 10 minutes
   });
 };

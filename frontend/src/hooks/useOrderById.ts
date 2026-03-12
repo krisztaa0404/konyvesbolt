@@ -7,7 +7,7 @@ import { ordersApi } from '@services/api/ordersApi';
 export const useOrderById = (orderId: string | undefined) => {
   return useQuery({
     queryKey: ['orders', 'my-orders', orderId],
-    queryFn: () => ordersApi.getMyOrderById(orderId!),
+    queryFn: ({ signal }) => ordersApi.getMyOrderById(orderId!, signal),
     enabled: !!orderId,
     retry: 1,
   });

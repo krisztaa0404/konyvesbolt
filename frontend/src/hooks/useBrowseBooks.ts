@@ -43,7 +43,7 @@ export const useBrowseBooks = ({ page, size, sort }: UseBrowseBooksParams) => {
 
   return useQuery({
     queryKey: ['books', 'browse', cleanParams],
-    queryFn: () => booksApi.getBooksWithFilters(cleanParams),
+    queryFn: ({ signal }) => booksApi.getBooksWithFilters(cleanParams, signal),
     placeholderData: previousData => previousData,
   });
 };

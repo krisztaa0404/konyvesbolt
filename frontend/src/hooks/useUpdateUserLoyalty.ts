@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError } from '@utils/errorUtils';
 import type { UpdateLoyalty } from '@types';
 
 interface UpdateUserLoyaltyParams {
@@ -22,9 +23,9 @@ export const useUpdateUserLoyalty = () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       addNotification(`User loyalty updated: ${statusText}`, 'success');
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to update user loyalty';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to update user loyalty');
+      addNotification(apiError.message, 'error');
     },
   });
 };

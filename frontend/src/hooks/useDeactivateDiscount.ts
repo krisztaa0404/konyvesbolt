@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError } from '@utils/errorUtils';
 
 export const useDeactivateDiscount = () => {
   const queryClient = useQueryClient();
@@ -12,9 +13,9 @@ export const useDeactivateDiscount = () => {
       queryClient.invalidateQueries({ queryKey: ['discounts'] });
       addNotification('Discount deactivated successfully', 'success');
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to deactivate discount';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to deactivate discount');
+      addNotification(apiError.message, 'error');
     },
   });
 };

@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError, isValidationError } from '@utils/errorUtils';
 import type { CreateGenre } from '@types';
 
-/**
- * React Query hook for creating a new genre
- */
 export const useCreateGenre = () => {
   const queryClient = useQueryClient();
   const addNotification = useNotificationStore(state => state.addNotification);
@@ -17,9 +15,15 @@ export const useCreateGenre = () => {
 
       addNotification(`Genre "${data.name}" created successfully`, 'success');
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to create genre';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to create genre');
+
+      if (isValidationError(apiError)) {
+        addNotification('Please check the form and fix any errors', 'warning');
+        return;
+      }
+
+      addNotification(apiError.message, 'error');
     },
   });
 };

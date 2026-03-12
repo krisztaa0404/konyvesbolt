@@ -2,11 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError } from '@utils/errorUtils';
 import { ROUTES } from '@router/routes';
 
-/**
- * React Query hook for deleting a book
- */
 export const useDeleteBook = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -21,9 +19,9 @@ export const useDeleteBook = () => {
 
       navigate(ROUTES.MANAGER_BOOKS);
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to delete book';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to delete book');
+      addNotification(apiError.message, 'error');
     },
   });
 };

@@ -2,12 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError, isValidationError } from '@utils/errorUtils';
 import { ROUTES } from '@router/routes';
 import type { CreateBook } from '@types';
 
-/**
- * React Query hook for creating a new book
- */
 export const useCreateBook = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -26,9 +24,15 @@ export const useCreateBook = () => {
 
       navigate(ROUTES.MANAGER_BOOKS);
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to create book';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to create book');
+
+      if (isValidationError(apiError)) {
+        addNotification('Please check the form and fix any errors', 'warning');
+        return;
+      }
+
+      addNotification(apiError.message, 'error');
     },
   });
 };

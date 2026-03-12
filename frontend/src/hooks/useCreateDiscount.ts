@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError, isValidationError } from '@utils/errorUtils';
 import type { CreateSeasonalDiscount } from '@types';
 
 export const useCreateDiscount = () => {
@@ -13,9 +14,15 @@ export const useCreateDiscount = () => {
       queryClient.invalidateQueries({ queryKey: ['discounts'] });
       addNotification(`Discount "${data.name}" created successfully`, 'success');
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to create discount';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to create discount');
+
+      if (isValidationError(apiError)) {
+        addNotification('Please check the form and fix any errors', 'warning');
+        return;
+      }
+
+      addNotification(apiError.message, 'error');
     },
   });
 };

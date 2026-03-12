@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError, isValidationError } from '@utils/errorUtils';
 import { ROUTES } from '@router/routes';
 import type { UpdateBook } from '@types';
 
@@ -10,9 +11,6 @@ interface UpdateBookParams {
   book: UpdateBook;
 }
 
-/**
- * React Query hook for updating an existing book
- */
 export const useUpdateBook = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -32,9 +30,15 @@ export const useUpdateBook = () => {
 
       navigate(ROUTES.MANAGER_BOOKS);
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to update book';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to update book');
+
+      if (isValidationError(apiError)) {
+        addNotification('Please check the form and fix any errors', 'warning');
+        return;
+      }
+
+      addNotification(apiError.message, 'error');
     },
   });
 };

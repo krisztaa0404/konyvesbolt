@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError } from '@utils/errorUtils';
 import type { UpdateUserRole } from '@types';
 
 interface UpdateUserRoleParams {
@@ -18,9 +19,9 @@ export const useUpdateUserRole = () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       addNotification(`User role updated to ${data.role} successfully`, 'success');
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to update user role';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to update user role');
+      addNotification(apiError.message, 'error');
     },
   });
 };

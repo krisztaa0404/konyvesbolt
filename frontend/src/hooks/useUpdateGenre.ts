@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { managerApi } from '@services/api/managerApi';
 import { useNotificationStore } from '@store/notificationStore';
+import { parseError, isValidationError } from '@utils/errorUtils';
 import type { UpdateGenre } from '@types';
 
 interface UpdateGenreParams {
@@ -8,9 +9,6 @@ interface UpdateGenreParams {
   genre: UpdateGenre;
 }
 
-/**
- * React Query hook for updating an existing genre
- */
 export const useUpdateGenre = () => {
   const queryClient = useQueryClient();
   const addNotification = useNotificationStore(state => state.addNotification);
@@ -22,9 +20,15 @@ export const useUpdateGenre = () => {
 
       addNotification(`Genre "${data.name}" updated successfully`, 'success');
     },
-    onError: (error: Error) => {
-      const errorMessage = error.message || 'Failed to update genre';
-      addNotification(errorMessage, 'error');
+    onError: (error: unknown) => {
+      const apiError = parseError(error, 'Failed to update genre');
+
+      if (isValidationError(apiError)) {
+        addNotification('Please check the form and fix any errors', 'warning');
+        return;
+      }
+
+      addNotification(apiError.message, 'error');
     },
   });
 };

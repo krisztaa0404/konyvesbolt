@@ -1,0 +1,1 @@
+export { ManagerPageLoader } from './ManagerPageLoader';

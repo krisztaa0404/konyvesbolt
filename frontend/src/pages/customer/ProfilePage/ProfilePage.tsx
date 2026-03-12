@@ -1,9 +1,11 @@
+import { Suspense } from 'react';
 import { Typography, Tab } from '@mui/material';
 import { Person, History, Lock, DeleteForever, Settings } from '@mui/icons-material';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '@hooks/useCurrentUser';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { ProfileTabSkeleton } from '@components/customer/profile/ProfileTabSkeleton';
 import {
   PageContainer,
   ContentContainer,
@@ -118,7 +120,9 @@ export const ProfilePage = () => {
           </StyledTabs>
 
           <MainContent>
-            <Outlet />
+            <Suspense fallback={<ProfileTabSkeleton />}>
+              <Outlet />
+            </Suspense>
           </MainContent>
         </SidebarLayout>
       </ContentContainer>

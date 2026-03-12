@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Typography } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
@@ -10,6 +11,7 @@ import {
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Header } from '../common/Header/Header';
 import { ROUTES } from '@router/routes';
+import { ManagerPageLoader } from '@components/manager/common/ManagerPageLoader';
 import {
   LayoutContainer,
   StyledDrawer,
@@ -60,7 +62,9 @@ export const ManagerLayout = () => {
       <MainContainer>
         <Header variant="manager" />
         <MainContent>
-          <Outlet />
+          <Suspense fallback={<ManagerPageLoader />}>
+            <Outlet />
+          </Suspense>
         </MainContent>
       </MainContainer>
     </LayoutContainer>

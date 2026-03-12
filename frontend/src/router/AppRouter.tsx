@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CustomerLayout } from '@layout/customer/CustomerLayout';
 import { ManagerLayout } from '@layout/manager/ManagerLayout';
@@ -7,33 +8,83 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { ManagerRoute } from './ManagerRoute';
 import { ROUTES } from './routes';
 import { useAuthStore, selectIsManager } from '@store/authStore';
+import { RouteErrorBoundary } from '@components/common/RouteErrorBoundary';
+import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 
 import { HomePage } from '@pages/customer/HomePage';
-import { BrowseBooksPage } from '@pages/customer/BrowseBooksPage';
-import { BookDetailPage } from '@pages/customer/BookDetailPage';
-import { BestsellersPage } from '@pages/customer/BestsellersPage';
-import { CartPage } from '@pages/customer/CartPage';
-import { CheckoutPage } from '@pages/customer/CheckoutPage';
-import { ProfilePage } from '@pages/customer/ProfilePage';
-import { OrderConfirmationPage } from '@pages/customer/OrderConfirmationPage';
-
 import { LoginPage } from '@pages/auth/LoginPage';
-import { RegisterPage } from '@pages/auth/RegisterPage';
 
-import { ProfileInfoTab } from '@components/customer/profile/ProfileInfoTab';
-import { OrderHistoryTab } from '@components/customer/profile/OrderHistoryTab';
-import { ChangePasswordTab } from '@components/customer/profile/ChangePasswordTab';
-import { PreferencesTab } from '@components/customer/profile/PreferencesTab';
-import { DeleteAccountTab } from '@components/customer/profile/DeleteAccountTab';
+const BrowseBooksPage = lazy(() =>
+  import('@pages/customer/BrowseBooksPage').then(m => ({ default: m.BrowseBooksPage }))
+);
+const BookDetailPage = lazy(() =>
+  import('@pages/customer/BookDetailPage').then(m => ({ default: m.BookDetailPage }))
+);
+const BestsellersPage = lazy(() =>
+  import('@pages/customer/BestsellersPage').then(m => ({ default: m.BestsellersPage }))
+);
+const CartPage = lazy(() =>
+  import('@pages/customer/CartPage').then(m => ({ default: m.CartPage }))
+);
+const CheckoutPage = lazy(() =>
+  import('@pages/customer/CheckoutPage').then(m => ({ default: m.CheckoutPage }))
+);
+const ProfilePage = lazy(() =>
+  import('@pages/customer/ProfilePage').then(m => ({ default: m.ProfilePage }))
+);
+const OrderConfirmationPage = lazy(() =>
+  import('@pages/customer/OrderConfirmationPage').then(m => ({ default: m.OrderConfirmationPage }))
+);
+const RegisterPage = lazy(() =>
+  import('@pages/auth/RegisterPage').then(m => ({ default: m.RegisterPage }))
+);
 
-import { ManagerDashboardPage } from '@pages/manager/ManagerDashboardPage';
-import { AllOrdersPage } from '@pages/manager/AllOrdersPage';
-import { OrderDetailPage } from '@pages/manager/OrderDetailPage';
-import { ManageBooksPage } from '@pages/manager/ManageBooksPage';
-import { AddEditBookPage } from '@pages/manager/AddEditBookPage';
-import { ManageGenresPage } from '@pages/manager/ManageGenresPage';
-import { ManageDiscountsPage } from '@pages/manager/ManageDiscountsPage';
-import { UsersManagementPage } from '@pages/manager/UsersManagementPage';
+const ProfileInfoTab = lazy(() =>
+  import('@components/customer/profile/ProfileInfoTab').then(m => ({ default: m.ProfileInfoTab }))
+);
+const OrderHistoryTab = lazy(() =>
+  import('@components/customer/profile/OrderHistoryTab').then(m => ({
+    default: m.OrderHistoryTab,
+  }))
+);
+const ChangePasswordTab = lazy(() =>
+  import('@components/customer/profile/ChangePasswordTab').then(m => ({
+    default: m.ChangePasswordTab,
+  }))
+);
+const PreferencesTab = lazy(() =>
+  import('@components/customer/profile/PreferencesTab').then(m => ({ default: m.PreferencesTab }))
+);
+const DeleteAccountTab = lazy(() =>
+  import('@components/customer/profile/DeleteAccountTab').then(m => ({
+    default: m.DeleteAccountTab,
+  }))
+);
+
+const ManagerDashboardPage = lazy(() =>
+  import('@pages/manager/ManagerDashboardPage').then(m => ({ default: m.ManagerDashboardPage }))
+);
+const AllOrdersPage = lazy(() =>
+  import('@pages/manager/AllOrdersPage').then(m => ({ default: m.AllOrdersPage }))
+);
+const OrderDetailPage = lazy(() =>
+  import('@pages/manager/OrderDetailPage').then(m => ({ default: m.OrderDetailPage }))
+);
+const ManageBooksPage = lazy(() =>
+  import('@pages/manager/ManageBooksPage').then(m => ({ default: m.ManageBooksPage }))
+);
+const AddEditBookPage = lazy(() =>
+  import('@pages/manager/AddEditBookPage').then(m => ({ default: m.AddEditBookPage }))
+);
+const ManageGenresPage = lazy(() =>
+  import('@pages/manager/ManageGenresPage').then(m => ({ default: m.ManageGenresPage }))
+);
+const ManageDiscountsPage = lazy(() =>
+  import('@pages/manager/ManageDiscountsPage').then(m => ({ default: m.ManageDiscountsPage }))
+);
+const UsersManagementPage = lazy(() =>
+  import('@pages/manager/UsersManagementPage').then(m => ({ default: m.UsersManagementPage }))
+);
 
 const RoleBasedHome = () => {
   const isManager = useAuthStore(selectIsManager);
@@ -45,46 +96,50 @@ export const AppRouter = () => {
     <BrowserRouter>
       <ScrollToTop />
       <AuthEventHandler />
-      <Routes>
-        <Route element={<CustomerLayout />}>
-          <Route path={ROUTES.HOME} element={<RoleBasedHome />} />
-          <Route path={ROUTES.BROWSE_BOOKS} element={<BrowseBooksPage />} />
-          <Route path={ROUTES.BOOK_DETAIL} element={<BookDetailPage />} />
-          <Route path={ROUTES.BESTSELLERS} element={<BestsellersPage />} />
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-          <Route path={ROUTES.CART} element={<CartPage />} />
+      <RouteErrorBoundary>
+        <Suspense fallback={<LoadingSpinner fullPage />}>
+          <Routes>
+            <Route element={<CustomerLayout />}>
+              <Route path={ROUTES.HOME} element={<RoleBasedHome />} />
+              <Route path={ROUTES.BROWSE_BOOKS} element={<BrowseBooksPage />} />
+              <Route path={ROUTES.BOOK_DETAIL} element={<BookDetailPage />} />
+              <Route path={ROUTES.BESTSELLERS} element={<BestsellersPage />} />
+              <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+              <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+              <Route path={ROUTES.CART} element={<CartPage />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
-            <Route path={ROUTES.PROFILE} element={<ProfilePage />}>
-              <Route index element={<Navigate to="info" replace />} />
-              <Route path="info" element={<ProfileInfoTab />} />
-              <Route path="orders" element={<OrderHistoryTab />} />
-              <Route path="password" element={<ChangePasswordTab />} />
-              <Route path="preferences" element={<PreferencesTab />} />
-              <Route path="delete" element={<DeleteAccountTab />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
+                <Route path={ROUTES.PROFILE} element={<ProfilePage />}>
+                  <Route index element={<Navigate to="info" replace />} />
+                  <Route path="info" element={<ProfileInfoTab />} />
+                  <Route path="orders" element={<OrderHistoryTab />} />
+                  <Route path="password" element={<ChangePasswordTab />} />
+                  <Route path="preferences" element={<PreferencesTab />} />
+                  <Route path="delete" element={<DeleteAccountTab />} />
+                </Route>
+                <Route path={ROUTES.ORDER_CONFIRMATION} element={<OrderConfirmationPage />} />
+              </Route>
             </Route>
-            <Route path={ROUTES.ORDER_CONFIRMATION} element={<OrderConfirmationPage />} />
-          </Route>
-        </Route>
 
-        <Route element={<ManagerRoute />}>
-          <Route element={<ManagerLayout />}>
-            <Route path={ROUTES.MANAGER_DASHBOARD} element={<ManagerDashboardPage />} />
-            <Route path={ROUTES.MANAGER_ORDERS} element={<AllOrdersPage />} />
-            <Route path={ROUTES.MANAGER_ORDER_DETAIL} element={<OrderDetailPage />} />
-            <Route path={ROUTES.MANAGER_BOOKS} element={<ManageBooksPage />} />
-            <Route path={ROUTES.MANAGER_ADD_BOOK} element={<AddEditBookPage />} />
-            <Route path={ROUTES.MANAGER_EDIT_BOOK} element={<AddEditBookPage />} />
-            <Route path={ROUTES.MANAGER_GENRES} element={<ManageGenresPage />} />
-            <Route path={ROUTES.MANAGER_DISCOUNTS} element={<ManageDiscountsPage />} />
-            <Route path={ROUTES.MANAGER_USERS} element={<UsersManagementPage />} />
-          </Route>
-        </Route>
+            <Route element={<ManagerRoute />}>
+              <Route element={<ManagerLayout />}>
+                <Route path={ROUTES.MANAGER_DASHBOARD} element={<ManagerDashboardPage />} />
+                <Route path={ROUTES.MANAGER_ORDERS} element={<AllOrdersPage />} />
+                <Route path={ROUTES.MANAGER_ORDER_DETAIL} element={<OrderDetailPage />} />
+                <Route path={ROUTES.MANAGER_BOOKS} element={<ManageBooksPage />} />
+                <Route path={ROUTES.MANAGER_ADD_BOOK} element={<AddEditBookPage />} />
+                <Route path={ROUTES.MANAGER_EDIT_BOOK} element={<AddEditBookPage />} />
+                <Route path={ROUTES.MANAGER_GENRES} element={<ManageGenresPage />} />
+                <Route path={ROUTES.MANAGER_DISCOUNTS} element={<ManageDiscountsPage />} />
+                <Route path={ROUTES.MANAGER_USERS} element={<UsersManagementPage />} />
+              </Route>
+            </Route>
 
-        <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
-      </Routes>
+            <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
+          </Routes>
+        </Suspense>
+      </RouteErrorBoundary>
     </BrowserRouter>
   );
 };

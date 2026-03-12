@@ -3,7 +3,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography, TextField, Button, Link, Box } from '@mui/material';
-import { authApi } from '@services/api/authApi';
+import { authApi } from '@services/auth/authApi';
 import { useAuthStore } from '@store/authStore';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { formatAddressDto } from '@utils/addressUtils';
@@ -68,8 +68,8 @@ export const RegisterPage = () => {
 
       const response = await authApi.register(registerData);
 
-      if (!response.token) {
-        throw new Error('Invalid response: missing token');
+      if (!response.token || !response.refreshToken) {
+        throw new Error('Invalid response: missing authentication tokens');
       }
 
       const user = {
@@ -80,7 +80,7 @@ export const RegisterPage = () => {
         role: response.role,
       };
 
-      loginToStore(response.token, user);
+      loginToStore(response.token, response.refreshToken, user);
 
       navigate(ROUTES.HOME, { replace: true });
     } catch (error: unknown) {

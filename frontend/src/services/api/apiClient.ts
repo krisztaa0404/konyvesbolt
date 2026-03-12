@@ -3,7 +3,8 @@
  */
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import qs from 'qs';
-import { tokenStorage } from '@services/storage/tokenStorage';
+import { tokenStorage } from '@services/auth/tokenStorage';
+import { attemptTokenRefresh } from '@services/auth/tokenRefreshHandler';
 
 // Create axios instance with base configuration
 export const apiClient = axios.create({
@@ -35,15 +36,31 @@ apiClient.interceptors.request.use(
   }
 );
 
+// Auth endpoints that should not trigger token refresh
+const AUTH_ENDPOINTS = ['/auth/login', '/auth/register', '/auth/refresh'];
+
 apiClient.interceptors.response.use(
   response => response,
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      tokenStorage.clearToken();
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      if (AUTH_ENDPOINTS.some(endpoint => originalRequest.url?.includes(endpoint))) {
+        return Promise.reject(error);
+      }
+
+      const newAccessToken = await attemptTokenRefresh();
+
+      if (newAccessToken) {
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return apiClient(originalRequest);
+      } else {
+        return Promise.reject(error);
       }
     }
+
     return Promise.reject(error);
   }
 );

@@ -4,21 +4,24 @@
  */
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { tokenStorage } from '@services/storage/tokenStorage';
+import { tokenStorage } from '@services/auth/tokenStorage';
+import { refreshTokenStorage } from '@services/auth/refreshTokenStorage';
 import type { User } from '@types';
 
 interface AuthState {
   user: User | null;
   token: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
 
   // Actions
-  login: (token: string, user: User) => void;
+  login: (token: string, refreshToken: string, user: User) => void;
   logout: () => void;
   setUser: (user: User) => void;
   checkAuth: () => boolean;
   setLoading: (loading: boolean) => void;
+  updateTokens: (accessToken: string, refreshToken: string) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -26,13 +29,16 @@ export const useAuthStore = create<AuthState>()(
     (set): AuthState => ({
       user: null,
       token: null,
+      refreshToken: null,
       isAuthenticated: false,
       isLoading: false,
 
-      login: (token: string, user: User) => {
+      login: (token: string, refreshToken: string, user: User) => {
         tokenStorage.setToken(token);
+        refreshTokenStorage.setRefreshToken(refreshToken);
         set({
           token,
+          refreshToken,
           user,
           isAuthenticated: true,
         });
@@ -40,8 +46,10 @@ export const useAuthStore = create<AuthState>()(
 
       logout: () => {
         tokenStorage.clearToken();
+        refreshTokenStorage.clearRefreshToken();
         set({
           token: null,
+          refreshToken: null,
           user: null,
           isAuthenticated: false,
         });
@@ -53,12 +61,23 @@ export const useAuthStore = create<AuthState>()(
 
       checkAuth: () => {
         const hasToken = tokenStorage.hasToken();
-        set({ isAuthenticated: hasToken });
-        return hasToken;
+        const hasRefreshToken = refreshTokenStorage.hasRefreshToken();
+        const isAuth = hasToken && hasRefreshToken;
+        set({ isAuthenticated: isAuth });
+        return isAuth;
       },
 
       setLoading: (loading: boolean) => {
         set({ isLoading: loading });
+      },
+
+      updateTokens: (accessToken: string, refreshToken: string) => {
+        tokenStorage.setToken(accessToken);
+        refreshTokenStorage.setRefreshToken(refreshToken);
+        set({
+          token: accessToken,
+          refreshToken,
+        });
       },
     }),
     {

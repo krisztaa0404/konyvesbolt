@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CustomerLayout } from '@layout/customer/CustomerLayout';
 import { ManagerLayout } from '@layout/manager/ManagerLayout';
 import { ScrollToTop } from '@layout/common/ScrollToTop';
+import { AuthEventHandler } from './AuthEventHandler';
 import { ProtectedRoute } from './ProtectedRoute';
 import { ManagerRoute } from './ManagerRoute';
 import { ROUTES } from './routes';
@@ -43,6 +44,7 @@ export const AppRouter = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <AuthEventHandler />
       <Routes>
         <Route element={<CustomerLayout />}>
           <Route path={ROUTES.HOME} element={<RoleBasedHome />} />

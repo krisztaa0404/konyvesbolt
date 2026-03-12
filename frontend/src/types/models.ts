@@ -47,6 +47,9 @@ export type PageGenre = components['schemas']['PagedModelGenreDto'];
 export type LoginRequest = components['schemas']['LoginRequestDto'];
 export type RegisterRequest = components['schemas']['RegisterRequestDto'];
 export type AuthResponse = components['schemas']['AuthResponseDto'];
+export type RefreshTokenRequest = components['schemas']['RefreshTokenRequestDto'];
+export type RefreshTokenResponse = components['schemas']['RefreshTokenResponseDto'];
+export type LogoutRequest = components['schemas']['LogoutRequestDto'];
 
 // Dashboard types
 export type DashboardMetrics = components['schemas']['DashboardMetricsDto'];

@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { authApi } from '@services/api/authApi';
+import { authApi } from '@services/auth/authApi';
 import { useNotificationStore } from '@store/notificationStore';
 import { getErrorMessage } from '@utils/errorUtils';
 

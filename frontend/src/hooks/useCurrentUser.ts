@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { authApi } from '@services/api/authApi';
+import { authApi } from '@services/auth/authApi';
 
 /**
  * Hook to fetch current user profile

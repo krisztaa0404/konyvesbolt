@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography, TextField, Button, Link } from '@mui/material';
-import { authApi } from '@services/api/authApi';
+import { authApi } from '@services/auth/authApi';
 import { useAuthStore } from '@store/authStore';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { getErrorMessage } from '@utils/errorUtils';
@@ -44,8 +44,8 @@ export const LoginPage = () => {
         password: data.password,
       });
 
-      if (!response.token) {
-        throw new Error('Invalid response: missing token');
+      if (!response.token || !response.refreshToken) {
+        throw new Error('Invalid response: missing authentication tokens');
       }
 
       const user = {
@@ -56,7 +56,7 @@ export const LoginPage = () => {
         role: response.role,
       };
 
-      loginToStore(response.token, user);
+      loginToStore(response.token, response.refreshToken, user);
 
       const from = location.state?.from?.pathname;
 

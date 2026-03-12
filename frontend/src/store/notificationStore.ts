@@ -2,6 +2,7 @@
  * Notification store for global toast messages
  */
 import { create } from 'zustand';
+import { nanoid } from 'nanoid';
 import type { Notification, NotificationType } from '@types';
 
 interface NotificationState {
@@ -14,7 +15,7 @@ export const useNotificationStore = create<NotificationState>(set => ({
   notifications: [],
 
   addNotification: (message: string, type: NotificationType = 'success') => {
-    const id = `${Date.now()}-${Math.random()}`;
+    const id = nanoid();
     set(state => ({
       notifications: [...state.notifications, { id, message, type }],
     }));

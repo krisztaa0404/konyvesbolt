@@ -2,8 +2,17 @@
  * Authentication API service
  * Handles login, register, logout, and user profile operations
  */
-import { apiClient } from './apiClient';
-import type { LoginRequest, RegisterRequest, AuthResponse, User, UpdateUser } from '@types';
+import { apiClient } from '@services/api/apiClient';
+import type {
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  LogoutRequest,
+  User,
+  UpdateUser,
+} from '@types';
 
 export const authApi = {
   /**
@@ -25,8 +34,19 @@ export const authApi = {
   /**
    * Logout current user
    */
-  async logout(): Promise<void> {
-    await apiClient.post('/auth/logout');
+  async logout(refreshToken?: string): Promise<void> {
+    const payload: LogoutRequest = refreshToken ? { refreshToken } : {};
+    await apiClient.post('/auth/logout', payload);
+  },
+
+  /**
+   * Refresh access token using refresh token
+   */
+  async refreshToken(refreshToken: string): Promise<RefreshTokenResponse> {
+    const response = await apiClient.post<RefreshTokenResponse>('/auth/refresh', {
+      refreshToken,
+    } as RefreshTokenRequest);
+    return response.data;
   },
 
   /**

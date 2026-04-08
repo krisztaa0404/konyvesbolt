@@ -1,7 +1,5 @@
 # Bookstore REST API
 
-Nem-konvencionális adatbázisok tantárgyhoz készített projektmunka / Project for Non-conventional Databases course
-
 Spring Boot REST API for a bookstore with advanced PostgreSQL features including JSONB storage, array types, materialized views, and full-text search.
 
 ## Tech Stack

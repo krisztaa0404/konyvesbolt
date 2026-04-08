@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# Bookstore Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React web application for a bookstore with Material-UI interface, real-time data management, and role-based features.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** with TypeScript
+- **Vite** for fast development and builds
+- **Material-UI (MUI)** for UI components
+- **TanStack Query** for server state management
+- **Zustand** for client state
+- **React Hook Form + Zod** for form validation
+- **React Router** for navigation
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 20+
+- Backend API running at `http://localhost:8080`
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Install Dependencies
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Run Application
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+The application will be available at `http://localhost:5173`
+
+## Available Scripts
+
+```bash
+npm run dev          # Start development server with HMR
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint issues
+npm run format       # Format code with Prettier
+```
+
+## Key Features
+
+- **User Interface:** Clean Material-UI design with responsive layout
+- **Real-time Updates:** TanStack Query for automatic data synchronization
+- **Type Safety:** Full TypeScript support with generated API types
+- **Authentication:** JWT-based with automatic token refresh
+- **Role-based Access:** Different features for User/Manager/Admin roles
+- **Advanced Search:** Filter books by title, author, genre, price, etc.
+- **Order Management:** Shopping cart, checkout, and order history
+
+## Test Users
+
+The following test accounts work with the backend API (all passwords: `password`):
+
+| Email              | Password   | Role    | Access                            |
+|--------------------|------------|---------|-----------------------------------|
+| `user@test.com`    | `password` | USER    | Browse and purchase books         |
+| `manager@test.com` | `password` | MANAGER | User features + inventory management |
+| `admin@test.com`   | `password` | ADMIN   | Full access to all features       |
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Page components
+├── layout/        # Layout components
+├── services/      # API service layer
+├── hooks/         # Custom React hooks
+├── store/         # Zustand stores
+├── router/        # Router configuration
+├── types/         # TypeScript types
+├── schemas/       # Zod validation schemas
+└── utils/         # Utility functions
+```
+
+## Docker
+
+The frontend can be run in Docker with production build served by nginx. See root `docker-compose.yml`.

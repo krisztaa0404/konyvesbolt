@@ -1,0 +1,48 @@
+# Build artifacts
+target/
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+
+# Environment files (passed via docker-compose)
+.env
+.env.*
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+assessment.md
+docs/
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Postman collections
+postman/
+
+# Database files
+pgpass
+servers.json
+
+# Logs
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db

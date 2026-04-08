@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-seasonal-discounts
+      author: krisztinavasas
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/009-create-seasonal-discounts.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: false
+      rollback:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS discount_books CASCADE;
+              DROP TABLE IF EXISTS seasonal_discounts CASCADE;

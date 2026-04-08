@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-insert-test-users
+      author: claude
+      comment: Insert test users with all roles (USER, MANAGER, ADMIN) for development and testing
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM users WHERE email IN ('user@test.com', 'manager@test.com', 'admin@test.com', 'loyalty@test.com')
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/007-insert-test-users.sql
+            relativeToChangelogFile: false
+      rollback:
+        - sql: |
+            DELETE FROM users WHERE email IN ('user@test.com', 'manager@test.com', 'admin@test.com', 'loyalty@test.com');

@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-materialized-views
+      author: system
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/005-create-materialized-views.sql
+            splitStatements: true
+            stripComments: true

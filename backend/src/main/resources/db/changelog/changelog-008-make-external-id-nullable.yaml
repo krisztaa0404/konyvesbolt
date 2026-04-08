@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-make-external-id-nullable
+      author: claude
+      comment: Make external_id nullable across all tables (users, books, genres, orders) to allow application-created records without external IDs
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/008-make-external-id-nullable.sql
+            relativeToChangelogFile: false
+      rollback:
+        - sql: |
+            ALTER TABLE users ALTER COLUMN external_id SET NOT NULL;
+            ALTER TABLE books ALTER COLUMN external_id SET NOT NULL;
+            ALTER TABLE genres ALTER COLUMN external_id SET NOT NULL;
+            ALTER TABLE orders ALTER COLUMN external_id SET NOT NULL;

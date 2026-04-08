@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-add-user-role
+      author: krisztavasas
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/003-add-user-role.sql
+            splitStatements: true
+            stripComments: true
+      rollback:
+        - sql: ALTER TABLE users DROP COLUMN IF EXISTS role;

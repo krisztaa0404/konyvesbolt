@@ -1,0 +1,2 @@
+*:5432:bookshop_db:admin:admin
+*:5432:*:admin:admin

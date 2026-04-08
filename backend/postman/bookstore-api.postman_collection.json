@@ -1,0 +1,1625 @@
+{
+	"info": {
+		"_postman_id": "bookstore-api-collection",
+		"name": "Bookstore API",
+		"description": "Comprehensive collection for testing the Bookstore API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"auth_token\", jsonData.token);",
+									"    console.log(\"Token saved:\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePassword123\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"+1-555-0123\",\n  \"addressData\": {\n    \"street\": \"123 Main Street\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"postalCode\": \"10001\",\n    \"country\": \"USA\",\n    \"phone\": \"+1-555-0123\",\n    \"type\": \"home\",\n    \"isDefault\": true\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new user account. Returns a JWT token that is automatically saved for subsequent authenticated requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"auth_token\", jsonData.token);",
+									"    console.log(\"Token saved:\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login with email and password. Returns a JWT token that is automatically saved for subsequent authenticated requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Manager",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"auth_token\", jsonData.token);",
+									"    console.log(\"Token saved:\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"manager@test.com\",\n  \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login as a manager user with elevated permissions. Token is automatically saved for subsequent requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
+						"description": "Get the currently authenticated user's information including profile and token."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Logout the current user. Note: This is a client-side operation; the token should be discarded."
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for user registration, login, logout, and retrieving current user information."
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get All Books",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books?page=0&size=20&sort=createdAt,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "createdAt,desc"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true,
+									"description": "Search across title, authors, and genres"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by title"
+								},
+								{
+									"key": "author",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by author"
+								},
+								{
+									"key": "genreIds",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by genre IDs (comma-separated)"
+								},
+								{
+									"key": "priceMin",
+									"value": "",
+									"disabled": true,
+									"description": "Minimum price"
+								},
+								{
+									"key": "priceMax",
+									"value": "",
+									"disabled": true,
+									"description": "Maximum price"
+								}
+							]
+						},
+						"description": "Get all books with optional filtering and pagination. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/search?q=programming&page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "programming"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Full-text search across book titles, authors, and descriptions. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Newest Books",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/newest?page=0&size=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								"newest"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get the most recently added books. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{book_id}}",
+									"description": "Book UUID"
+								}
+							]
+						},
+						"description": "Get detailed information about a specific book. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Low Stock Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/low-stock?threshold=5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								"low-stock"
+							],
+							"query": [
+								{
+									"key": "threshold",
+									"value": "5"
+								}
+							]
+						},
+						"description": "Get books with stock quantity below the specified threshold. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top Weekly Books",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/top-weekly?limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								"top-weekly"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get the top-selling books from the past week. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top Monthly Books",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/top-monthly?limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								"top-monthly"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get the top-selling books from the past month. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book Recommendations",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/:id/recommendations?limit=6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								":id",
+								"recommendations"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "6"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{book_id}}",
+									"description": "Book UUID"
+								}
+							]
+						},
+						"description": "Get recommended books based on a specific book (similar genres, authors, etc.). Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"The Best Way to Bury Your Husband: A Novel\",\n  \"authors\": [\"Alexia Casale\"],\n  \"isbn\": \"978-0593654590\",\n  \"publisher\": \"Penguin Books\",\n  \"publicationYear\": 2024,\n  \"pageCount\": 398,\n  \"price\": 12.50,\n  \"stockQuantity\": 45,\n  \"description\": \"A dark comedy about four women coming together to heal the damage their husbands have done—and hide their bodies once they've killed them. When Sally kills her husband with a cast-iron skillet, she's more fearful of losing her kids than of disposing of a fresh corpse. Soon, Sally finds herself leading an extremely unusual self-help group with Ruth, Samira, and Janey. Together, they must figure out the perfect way to bury their husbands and get away with it. Along the way, the four women rediscover old joys and embark on new passions in work, education, and life. Friendship and laughter really are the best medicine—and so is getting away with murder.\",\n  \"tags\": [\"dark-humor\", \"dark-comedy\", \"thriller\", \"womens-fiction\", \"friendship\"],\n  \"availableFormats\": [\"Paperback\", \"Kindle\"],\n  \"genreIds\": [],\n  \"metadata\": {\n    \"genre\": \"Dark Humor\",\n    \"rating\": 4.3,\n    \"numRatings\": 2150,\n    \"language\": \"English\",\n    \"dimensions\": \"5.3 x 0.9 x 8 inches\",\n    \"coverImageUrl\": \"https://m.media-amazon.com/images/I/81IixeHFRHL._SY466_.jpg\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/books",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books"
+							]
+						},
+						"description": "Create a new book. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Clean Code: A Handbook of Agile Software Craftsmanship (2nd Edition)\",\n  \"price\": 49.99,\n  \"stockQuantity\": 30,\n  \"description\": \"Updated edition with new insights on writing clean, maintainable code.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/books/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{book_id}}",
+									"description": "Book UUID"
+								}
+							]
+						},
+						"description": "Update an existing book. All fields are optional. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/books/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{book_id}}",
+									"description": "Book UUID"
+								}
+							]
+						},
+						"description": "Delete a book by ID. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				}
+			],
+			"description": "Book management endpoints including CRUD operations, search, filtering, recommendations, and stock management."
+		},
+		{
+			"name": "Genres",
+			"item": [
+				{
+					"name": "Get All Genres",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/genres?page=0&size=200",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"genres"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "200"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by genre name"
+								}
+							]
+						},
+						"description": "Get all genres with optional filtering and pagination. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Genre by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/genres/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"genres",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{genre_id}}",
+									"description": "Genre UUID"
+								}
+							]
+						},
+						"description": "Get a specific genre by ID. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Genre Statistics",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/genres/statistics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"genres",
+								"statistics"
+							]
+						},
+						"description": "Get statistics for all genres (book count, revenue, etc.). Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Genre",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Dark Humor\",\n  \"description\": \"Fiction that finds comedy in subjects typically considered serious, taboo, or distressing. Often tackles difficult topics with wit and satire.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/genres",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"genres"
+							]
+						},
+						"description": "Create a new genre. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Genre",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Sci-Fi\",\n  \"description\": \"Science fiction genre featuring futuristic themes and advanced technology.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/genres/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"genres",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{genre_id}}",
+									"description": "Genre UUID"
+								}
+							]
+						},
+						"description": "Update an existing genre. All fields are optional. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Genre",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/genres/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"genres",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{genre_id}}",
+									"description": "Genre UUID"
+								}
+							]
+						},
+						"description": "Delete a genre by ID. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				}
+			],
+			"description": "Genre management endpoints for organizing books into categories."
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get My Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						},
+						"description": "Get the current user's profile information."
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"+1-555-9876\",\n  \"addressData\": [\n    {\n      \"street\": \"456 Oak Avenue\",\n      \"city\": \"Los Angeles\",\n      \"state\": \"CA\",\n      \"postalCode\": \"90001\",\n      \"country\": \"USA\",\n      \"phone\": \"+1-555-9876\",\n      \"type\": \"home\",\n      \"isDefault\": true\n    }\n  ],\n  \"preferences\": {\n    \"newsletter\": true,\n    \"favoriteGenres\": [\"Science Fiction\", \"Fantasy\", \"Mystery\"],\n    \"notificationEmail\": true\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						},
+						"description": "Update the current user's profile. All fields are optional."
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"SecurePassword123\",\n  \"newPassword\": \"NewSecurePassword456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/me/change-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me",
+								"change-password"
+							]
+						},
+						"description": "Change the current user's password."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete My Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						},
+						"description": "Delete the current user's account. This action cannot be undone."
+					},
+					"response": []
+				},
+				{
+					"name": "Create User (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"manager@bookstore.com\",\n  \"password\": \"ManagerPass123\",\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Manager\",\n  \"phone\": \"+1-555-1111\",\n  \"role\": \"MANAGER\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Create a new user with a specific role. Requires ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users?page=0&size=20&sort=registrationDate,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "registrationDate,desc"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true,
+									"description": "Search by name or email"
+								},
+								{
+									"key": "role",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by role"
+								},
+								{
+									"key": "isLoyaltyMember",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by loyalty status"
+								}
+							]
+						},
+						"description": "Get all users with filtering options. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}",
+									"description": "User UUID"
+								}
+							]
+						},
+						"description": "Get a specific user by ID. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": \"MANAGER\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/:id/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":id",
+								"role"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}",
+									"description": "User UUID"
+								}
+							]
+						},
+						"description": "Update a user's role. Valid roles: USER, MANAGER, ADMIN. Requires ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Loyalty Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"isLoyaltyMember\": true,\n  \"discountPercent\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/:id/loyalty",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":id",
+								"loyalty"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}",
+									"description": "User UUID"
+								}
+							]
+						},
+						"description": "Update a user's loyalty membership status and discount percentage. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				}
+			],
+			"description": "User management endpoints for profile updates, password changes, and administrative user operations."
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"items\": [\n    {\n      \"bookId\": \"{{book_id}}\",\n      \"format\": \"Hardcover\",\n      \"quantity\": 2\n    },\n    {\n      \"bookId\": \"{{book_id_2}}\",\n      \"format\": \"Paperback\",\n      \"quantity\": 1\n    }\n  ],\n  \"shippingAddress\": {\n    \"street\": \"123 Main Street\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"postalCode\": \"10001\",\n    \"country\": \"USA\",\n    \"phone\": \"+1-555-0123\",\n    \"type\": \"shipping\",\n    \"isDefault\": false\n  },\n  \"paymentInfo\": {\n    \"method\": \"credit_card\",\n    \"status\": \"pending\",\n    \"transactionId\": null,\n    \"paidAt\": null\n  },\n  \"discountId\": null\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Create a new order with multiple items. Authenticated users only."
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/my-orders?page=0&size=20&sort=orderDate,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"my-orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "orderDate,desc"
+								}
+							]
+						},
+						"description": "Get all orders for the current user with pagination."
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Order by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/my-orders/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"my-orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{order_id}}",
+									"description": "Order UUID"
+								}
+							]
+						},
+						"description": "Get detailed information about a specific order belonging to the current user."
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/:id/cancel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								":id",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{order_id}}",
+									"description": "Order UUID"
+								}
+							]
+						},
+						"description": "Cancel an order. Only the order owner can cancel their own order."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders?page=0&size=20&sort=orderDate,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number (0-indexed)"
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"description": "Number of orders per page"
+								},
+								{
+									"key": "sort",
+									"value": "orderDate,desc",
+									"description": "Sort by field (orderDate, totalAmount, status) with direction (asc/desc)"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true,
+									"description": "Search by customer name or customer email"
+								},
+								{
+									"key": "statuses",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by status (comma-separated): PENDING, PAID, SHIPPED, DELIVERED, CANCELLED"
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by specific user UUID"
+								},
+								{
+									"key": "dateFrom",
+									"value": "",
+									"disabled": true,
+									"description": "Start of date range (ISO 8601 format: 2024-01-01T00:00:00)"
+								},
+								{
+									"key": "dateTo",
+									"value": "",
+									"disabled": true,
+									"description": "End of date range (ISO 8601 format: 2024-12-31T23:59:59)"
+								}
+							]
+						},
+						"description": "Get all orders in the system with comprehensive filtering options."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order by ID (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{order_id}}",
+									"description": "Order UUID"
+								}
+							]
+						},
+						"description": "Get detailed information about any order. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"SHIPPED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/orders/:id/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								":id",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{order_id}}",
+									"description": "Order UUID"
+								}
+							]
+						},
+						"description": "Update an order's status. Valid statuses: PENDING, PAID, SHIPPED, DELIVERED, CANCELLED. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				}
+			],
+			"description": "Order management endpoints for creating, viewing, and managing orders."
+		},
+		{
+			"name": "Seasonal Discounts",
+			"item": [
+				{
+					"name": "Get All Discounts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts?page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by name"
+								},
+								{
+									"key": "isActive",
+									"value": "true",
+									"disabled": true,
+									"description": "Filter by active status"
+								},
+								{
+									"key": "scopeType",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by scope type"
+								},
+								{
+									"key": "activeAt",
+									"value": "",
+									"disabled": true,
+									"description": "Filter by active date/time"
+								}
+							]
+						},
+						"description": "Get all seasonal discounts with optional filtering. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Discount by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{discount_id}}",
+									"description": "Discount UUID"
+								}
+							]
+						},
+						"description": "Get a specific seasonal discount by ID. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Discounts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts/active",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts",
+								"active"
+							]
+						},
+						"description": "Get all currently active discounts. Public endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Discount",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts/:id/activate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts",
+								":id",
+								"activate"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{discount_id}}",
+									"description": "Discount UUID"
+								}
+							]
+						},
+						"description": "Activate a discount. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Discount",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Summer Sale 2026\",\n  \"description\": \"Get 20% off on all Science Fiction books this summer!\",\n  \"percentage\": 20.00,\n  \"validFrom\": \"2026-06-01T00:00:00\",\n  \"validTo\": \"2026-08-31T23:59:59\",\n  \"maxUsageCount\": 1000,\n  \"minimumOrderAmount\": 25.00,\n  \"bookIds\": [],\n  \"genreIds\": [\"{{genre_id}}\"],\n  \"allBooks\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts"
+							]
+						},
+						"description": "Create a new seasonal discount. Can be applied to all books, specific genres, or specific books. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Discount",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Extended Summer Sale 2026\",\n  \"percentage\": 25.00,\n  \"validTo\": \"2026-09-15T23:59:59\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{discount_id}}",
+									"description": "Discount UUID"
+								}
+							]
+						},
+						"description": "Update an existing seasonal discount. All fields are optional. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Discount",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts/:id/deactivate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts",
+								":id",
+								"deactivate"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{discount_id}}",
+									"description": "Discount UUID"
+								}
+							]
+						},
+						"description": "Deactivate a discount (sets isActive to false). Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Discount",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/seasonal-discounts/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"seasonal-discounts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{discount_id}}",
+									"description": "Discount UUID"
+								}
+							]
+						},
+						"description": "Delete a seasonal discount by ID. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				}
+			],
+			"description": "Seasonal discount management endpoints for creating and managing promotional offers."
+		},
+		{
+			"name": "Manager Dashboard",
+			"item": [
+				{
+					"name": "Get Dashboard Metrics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/manager/dashboard/metrics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"manager",
+								"dashboard",
+								"metrics"
+							]
+						},
+						"description": "Get comprehensive dashboard metrics including sales, revenue, inventory, and user statistics. Requires MANAGER or ADMIN role."
+					},
+					"response": []
+				}
+			],
+			"description": "Manager dashboard endpoints providing business metrics and analytics."
+		}
+	]
+}

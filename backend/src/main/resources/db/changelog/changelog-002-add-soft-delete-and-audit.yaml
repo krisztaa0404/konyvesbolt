@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-add-soft-delete-and-audit
+      author: krisztinavasas
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/002-add-soft-delete-and-audit.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: false
+      rollback:
+        - sql:
+            sql: |
+              DROP INDEX IF EXISTS idx_orders_aud_id;
+              DROP INDEX IF EXISTS idx_orders_aud_rev;
+              DROP TABLE IF EXISTS orders_aud CASCADE;
+              DROP TABLE IF EXISTS revinfo CASCADE;
+              DROP SEQUENCE IF EXISTS revinfo_seq CASCADE;
+              DROP INDEX IF EXISTS idx_users_deleted_at;
+              ALTER TABLE users DROP COLUMN IF EXISTS deleted_at;

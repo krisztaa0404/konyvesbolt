@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-base-tables
+      author: krisztinavasas
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/001-create-base-tables.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: false
+      rollback:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS order_items CASCADE;
+              DROP TABLE IF EXISTS orders CASCADE;
+              DROP TABLE IF EXISTS book_genres CASCADE;
+              DROP TABLE IF EXISTS books CASCADE;
+              DROP TABLE IF EXISTS genres CASCADE;
+              DROP TABLE IF EXISTS users CASCADE;

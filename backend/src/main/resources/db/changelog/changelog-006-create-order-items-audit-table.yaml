@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-create-order-items-audit-table
+      author: system
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/006-create-order-items-audit-table.sql
+            splitStatements: true
+            stripComments: true
+      rollback:
+        - sql: DROP TABLE IF EXISTS order_items_aud;

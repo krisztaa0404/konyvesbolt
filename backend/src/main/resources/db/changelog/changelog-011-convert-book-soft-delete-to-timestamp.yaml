@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: 011-convert-book-soft-delete-to-timestamp
+      author: claude
+      comment: Convert Book soft delete from boolean 'deleted' to timestamp 'deleted_at' for consistency with User entity
+      changes:
+        # Step 1: Drop materialized views that depend on the 'deleted' column
+        - sql:
+            comment: Drop materialized views before modifying books table
+            sql: |
+              DROP MATERIALIZED VIEW IF EXISTS mv_genre_statistics CASCADE;
+              DROP MATERIALIZED VIEW IF EXISTS mv_book_recommendations CASCADE;
+              DROP MATERIALIZED VIEW IF EXISTS mv_top_books_weekly CASCADE;
+              DROP MATERIALIZED VIEW IF EXISTS mv_top_books_monthly CASCADE;
+
+        # Step 2: Add new deleted_at column
+        - addColumn:
+            tableName: books
+            columns:
+              - column:
+                  name: deleted_at
+                  type: timestamp
+                  remarks: Timestamp when the book was soft-deleted (NULL if active)
+
+        # Step 3: Migrate existing data
+        - sql:
+            comment: Migrate existing deleted books - set deleted_at to current timestamp if deleted = true
+            sql: |
+              UPDATE books
+              SET deleted_at = CURRENT_TIMESTAMP
+              WHERE deleted = true;
+
+        # Step 4: Drop old deleted column
+        - dropColumn:
+            tableName: books
+            columnName: deleted
+
+        # Step 5: Recreate materialized views with deleted_at instead of deleted
+        - sqlFile:
+            path: db/changelog/sql/011-recreate-materialized-views.sql
+            splitStatements: true
+            stripComments: true
+
+      rollback:
+        - sql:
+            sql: |
+              DROP MATERIALIZED VIEW IF EXISTS mv_genre_statistics CASCADE;
+              DROP MATERIALIZED VIEW IF EXISTS mv_book_recommendations CASCADE;
+              DROP MATERIALIZED VIEW IF EXISTS mv_top_books_weekly CASCADE;
+              DROP MATERIALIZED VIEW IF EXISTS mv_top_books_monthly CASCADE;
+
+        - addColumn:
+            tableName: books
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+        - sql:
+            sql: |
+              UPDATE books
+              SET deleted = true
+              WHERE deleted_at IS NOT NULL;
+
+        - dropColumn:
+            tableName: books
+            columnName: deleted_at
+
+        - sqlFile:
+            path: db/changelog/sql/005-create-materialized-views.sql
+            splitStatements: true
+            stripComments: true

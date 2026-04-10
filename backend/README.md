@@ -39,6 +39,14 @@ The application uses Liquibase for database migrations. Tables and materialized 
 
 ### 3. Run Application
 
+**Using Maven Wrapper (no Maven installation required):**
+
+```bash
+./mvnw clean install
+./mvnw spring-boot:run
+```
+
+**Or with installed Maven:**
 ```bash
 mvn clean install
 mvn spring-boot:run

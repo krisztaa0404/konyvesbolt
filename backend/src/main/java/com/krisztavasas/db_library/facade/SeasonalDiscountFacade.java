@@ -1,6 +1,7 @@
 package com.krisztavasas.db_library.facade;
 
 import com.krisztavasas.db_library.dto.discount.CreateSeasonalDiscountDto;
+import com.krisztavasas.db_library.dto.discount.DetailedSeasonalDiscountDto;
 import com.krisztavasas.db_library.dto.discount.DiscountFilterDto;
 import com.krisztavasas.db_library.dto.discount.SeasonalDiscountDto;
 import com.krisztavasas.db_library.dto.discount.UpdateSeasonalDiscountDto;
@@ -8,7 +9,6 @@ import com.krisztavasas.db_library.entity.Book;
 import com.krisztavasas.db_library.enums.DiscountScopeType;
 import com.krisztavasas.db_library.entity.Genre;
 import com.krisztavasas.db_library.entity.SeasonalDiscount;
-import com.krisztavasas.db_library.exception.EntityNotFoundException;
 import com.krisztavasas.db_library.mapper.SeasonalDiscountMapper;
 import com.krisztavasas.db_library.service.BookService;
 import com.krisztavasas.db_library.service.GenreService;
@@ -43,6 +43,11 @@ public class SeasonalDiscountFacade {
     public SeasonalDiscountDto findById(UUID id) {
         SeasonalDiscount discount = seasonalDiscountService.findById(id);
         return seasonalDiscountMapper.toDto(discount);
+    }
+
+    public DetailedSeasonalDiscountDto findByIdDetailed(UUID id) {
+        SeasonalDiscount discount = seasonalDiscountService.findById(id);
+        return seasonalDiscountMapper.toDetailedDto(discount);
     }
 
     public List<SeasonalDiscountDto> findCurrentlyActive() {

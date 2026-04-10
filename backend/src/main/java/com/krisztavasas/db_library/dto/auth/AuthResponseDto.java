@@ -15,6 +15,8 @@ import java.util.UUID;
 public class AuthResponseDto {
 
     private String token;
+    private String refreshToken;
+    private Long expiresIn;
     private UUID userId;
     private String email;
     private String firstName;

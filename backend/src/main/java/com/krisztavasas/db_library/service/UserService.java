@@ -9,6 +9,7 @@ import com.krisztavasas.db_library.enums.UserRole;
 import com.krisztavasas.db_library.exception.EntityNotFoundException;
 import com.krisztavasas.db_library.repository.UserRepository;
 import com.krisztavasas.db_library.repository.UserSpecification;
+import com.krisztavasas.db_library.valueobject.UserPreferences;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -77,6 +78,13 @@ public class UserService {
         if (dto.firstName() != null) user.setFirstName(dto.firstName());
         if (dto.lastName() != null) user.setLastName(dto.lastName());
         if (dto.phone() != null) user.setPhone(dto.phone());
+        if (dto.preferences() != null) {
+            user.setPreferences(new UserPreferences(
+                    dto.preferences().newsletter(),
+                    dto.preferences().favoriteGenres(),
+                    dto.preferences().notificationEmail()
+            ));
+        }
 
         return userRepository.save(user);
     }

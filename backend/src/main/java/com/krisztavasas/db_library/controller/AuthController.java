@@ -2,6 +2,9 @@ package com.krisztavasas.db_library.controller;
 
 import com.krisztavasas.db_library.dto.auth.AuthResponseDto;
 import com.krisztavasas.db_library.dto.auth.LoginRequestDto;
+import com.krisztavasas.db_library.dto.auth.LogoutRequestDto;
+import com.krisztavasas.db_library.dto.auth.RefreshTokenRequestDto;
+import com.krisztavasas.db_library.dto.auth.RefreshTokenResponseDto;
 import com.krisztavasas.db_library.dto.auth.RegisterRequestDto;
 import com.krisztavasas.db_library.service.AuthService;
 import jakarta.validation.Valid;
@@ -35,8 +38,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.getCurrentUser(email));
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshTokenResponseDto> refresh(@Valid @RequestBody RefreshTokenRequestDto request) {
+        RefreshTokenResponseDto response = authService.refreshAccessToken(request);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> logout(@RequestBody(required = false) LogoutRequestDto request) {
+        String refreshToken = request != null ? request.refreshToken() : null;
+        authService.logout(refreshToken);
+        return ResponseEntity.noContent().build();
     }
 }

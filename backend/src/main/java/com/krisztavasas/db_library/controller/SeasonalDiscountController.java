@@ -1,6 +1,7 @@
 package com.krisztavasas.db_library.controller;
 
 import com.krisztavasas.db_library.dto.discount.CreateSeasonalDiscountDto;
+import com.krisztavasas.db_library.dto.discount.DetailedSeasonalDiscountDto;
 import com.krisztavasas.db_library.dto.discount.DiscountFilterDto;
 import com.krisztavasas.db_library.dto.discount.SeasonalDiscountDto;
 import com.krisztavasas.db_library.dto.discount.UpdateSeasonalDiscountDto;
@@ -39,8 +40,8 @@ public class SeasonalDiscountController {
     }
 
     @GetMapping("/{id}")
-    public SeasonalDiscountDto getDiscount(@PathVariable UUID id) {
-        return seasonalDiscountFacade.findById(id);
+    public DetailedSeasonalDiscountDto getDiscount(@PathVariable UUID id) {
+        return seasonalDiscountFacade.findByIdDetailed(id);
     }
 
     @GetMapping("/active")

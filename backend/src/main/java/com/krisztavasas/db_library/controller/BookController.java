@@ -4,9 +4,11 @@ import com.krisztavasas.db_library.config.StockConfig;
 import com.krisztavasas.db_library.dto.book.BookDetailDto;
 import com.krisztavasas.db_library.dto.book.BookDto;
 import com.krisztavasas.db_library.dto.book.BookSearchFilterDto;
+import com.krisztavasas.db_library.dto.book.BulkBookUploadResultDto;
 import com.krisztavasas.db_library.dto.book.CreateBookDto;
 import com.krisztavasas.db_library.dto.book.UpdateBookDto;
 import com.krisztavasas.db_library.facade.BookFacade;
+import com.krisztavasas.db_library.service.BookCsvUploadService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +30,7 @@ public class BookController {
 
     private final BookFacade bookFacade;
     private final StockConfig stockConfig;
+    private final BookCsvUploadService bookCsvUploadService;
 
     @GetMapping
     public Page<BookDto> getBooks(
@@ -107,5 +111,21 @@ public class BookController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     public void deleteBook(@PathVariable UUID id) {
         bookFacade.delete(id);
+    }
+
+    @PostMapping("/bulk-upload")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    public BulkBookUploadResultDto bulkUploadBooks(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("File is empty");
+        }
+
+        String filename = file.getOriginalFilename();
+        if (filename == null || !filename.toLowerCase().endsWith(".csv")) {
+            throw new IllegalArgumentException("File must be a CSV file");
+        }
+
+        return bookCsvUploadService.processCsvUpload(file);
     }
 }

@@ -36,10 +36,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/genres/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/seasonal-discounts/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/actuator/health/**").permitAll()
 
                         .requestMatchers("/api/manager/**").hasAnyRole(UserRole.MANAGER.name(), UserRole.ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "/api/books/**").hasAnyRole(UserRole.MANAGER.name(), UserRole.ADMIN.name())

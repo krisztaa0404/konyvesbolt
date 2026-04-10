@@ -89,4 +89,10 @@ public class User {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @Column(name = "refresh_token", length = 64)
+    private String refreshToken;
+
+    @Column(name = "refresh_token_expires_at")
+    private LocalDateTime refreshTokenExpiresAt;
 }

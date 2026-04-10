@@ -2,9 +2,10 @@ package com.krisztavasas.db_library.service;
 
 import com.krisztavasas.db_library.dto.auth.AuthResponseDto;
 import com.krisztavasas.db_library.dto.auth.LoginRequestDto;
+import com.krisztavasas.db_library.dto.auth.RefreshTokenRequestDto;
+import com.krisztavasas.db_library.dto.auth.RefreshTokenResponseDto;
 import com.krisztavasas.db_library.dto.auth.RegisterRequestDto;
 import com.krisztavasas.db_library.entity.User;
-import com.krisztavasas.db_library.mapper.ValueObjectMapper;
 import com.krisztavasas.db_library.repository.UserRepository;
 import com.krisztavasas.db_library.security.JwtService;
 import com.krisztavasas.db_library.valueobject.UserAddress;
@@ -28,7 +29,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final ValueObjectMapper valueObjectMapper;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
     public AuthResponseDto register(RegisterRequestDto request) {
@@ -49,17 +50,7 @@ public class AuthService {
 
         user = userRepository.save(user);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        String token = jwtService.generateToken(userDetails);
-
-        return AuthResponseDto.builder()
-                .token(token)
-                .userId(user.getId())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .role(user.getRole())
-                .build();
+        return generateAuthResponse(user);
     }
 
     public AuthResponseDto login(LoginRequestDto request) {
@@ -73,11 +64,35 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        return generateAuthResponse(user);
+    }
+
+    public RefreshTokenResponseDto refreshAccessToken(RefreshTokenRequestDto request) {
+        User user = refreshTokenService.validateRefreshToken(request.refreshToken());
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        String token = jwtService.generateToken(userDetails);
+        String accessToken = jwtService.generateToken(userDetails);
+
+        return new RefreshTokenResponseDto(
+                accessToken,
+                request.refreshToken(),
+                3600L
+        );
+    }
+
+    @Transactional
+    public void logout(String refreshToken) {
+        if (refreshToken != null && !refreshToken.isBlank()) {
+            User user = refreshTokenService.validateRefreshToken(refreshToken);
+            refreshTokenService.revokeRefreshToken(user);
+        }
+    }
+
+    public AuthResponseDto getCurrentUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         return AuthResponseDto.builder()
-                .token(token)
                 .userId(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
@@ -86,11 +101,15 @@ public class AuthService {
                 .build();
     }
 
-    public AuthResponseDto getCurrentUser(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    private AuthResponseDto generateAuthResponse(User user) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        String token = jwtService.generateToken(userDetails);
+        String refreshToken = refreshTokenService.generateRefreshToken(user);
 
         return AuthResponseDto.builder()
+                .token(token)
+                .refreshToken(refreshToken)
+                .expiresIn(3600L)
                 .userId(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())

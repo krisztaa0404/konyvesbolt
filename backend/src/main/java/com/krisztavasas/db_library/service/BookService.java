@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -64,7 +65,28 @@ public class BookService {
     }
 
     public List<Book> findRecommendations(UUID bookId, int limit) {
-        return bookRepository.findRecommendations(bookId, limit);
+        List<Book> recommendations = bookRepository.findRecommendations(bookId, limit);
+
+        if (recommendations.isEmpty()) {
+            return recommendations;
+        }
+
+        List<UUID> bookIds = recommendations.stream()
+                .map(Book::getId)
+                .toList();
+
+        List<Book> booksWithGenres = bookRepository.findByIdsWithGenres(bookIds);
+
+        Map<UUID, Book> bookMap = booksWithGenres.stream()
+                .collect(java.util.stream.Collectors.toMap(Book::getId, book -> book));
+
+        return recommendations.stream()
+                .map(book -> bookMap.get(book.getId()))
+                .toList();
+    }
+
+    public List<Book> findTopBooksByGenre(UUID genreId, int limit) {
+        return bookRepository.findTopBooksByGenre(genreId, limit);
     }
 
     @Transactional

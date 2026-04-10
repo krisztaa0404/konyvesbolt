@@ -5,6 +5,7 @@ import com.krisztavasas.db_library.repository.projection.TopBookProjection;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Lock;
@@ -57,14 +58,73 @@ public interface BookRepository extends JpaRepository<Book, UUID>, JpaSpecificat
     List<TopBookProjection> findTopMonthly(@Param("limit") int limit);
 
     @Query(value = """
-        SELECT b.* FROM mv_book_recommendations mr
-        JOIN books b ON mr.recommended_book_id = b.id
-        WHERE mr.book_id = :bookId
-        ORDER BY mr.co_purchase_count DESC
+        WITH co_purchase_recommendations AS (
+            SELECT DISTINCT b.id, b.title, b.authors, b.isbn, b.publisher, b.publication_year,
+                   b.pages, b.price, b.stock_quantity, b.sales_count, b.description,
+                   b.tags, b.available_formats, b.metadata, b.created_at, b.updated_at, b.deleted_at,
+                   b.external_id, mr.co_purchase_count as relevance_score
+            FROM mv_book_recommendations mr
+            INNER JOIN books b ON mr.recommended_book_id = b.id
+            WHERE mr.book_id = :bookId
+              AND b.deleted_at IS NULL
+            ORDER BY mr.co_purchase_count DESC
+            LIMIT :limit
+        ),
+        genre_based_recommendations AS (
+            SELECT DISTINCT b.id, b.title, b.authors, b.isbn, b.publisher, b.publication_year,
+                   b.pages, b.price, b.stock_quantity, b.sales_count, b.description,
+                   b.tags, b.available_formats, b.metadata, b.created_at, b.updated_at, b.deleted_at,
+                   b.external_id, b.sales_count as relevance_score
+            FROM books b
+            INNER JOIN book_genres bg ON b.id = bg.book_id
+            WHERE bg.genre_id IN (
+                SELECT bg2.genre_id
+                FROM book_genres bg2
+                WHERE bg2.book_id = :bookId
+            )
+            AND b.id != :bookId
+            AND b.deleted_at IS NULL
+            ORDER BY b.sales_count DESC
+            LIMIT :limit
+        )
+        SELECT * FROM (
+            SELECT * FROM co_purchase_recommendations
+            UNION ALL
+            SELECT * FROM genre_based_recommendations
+            WHERE (SELECT COUNT(*) FROM co_purchase_recommendations) = 0
+        ) combined
+        ORDER BY relevance_score DESC
         LIMIT :limit
         """, nativeQuery = true)
     List<Book> findRecommendations(@Param("bookId") UUID bookId, @Param("limit") int limit);
 
     @Query("SELECT DISTINCT b FROM Book b JOIN b.genres g WHERE g = :genre AND b.deletedAt IS NULL")
     List<Book> findByGenresContaining(@Param("genre") com.krisztavasas.db_library.entity.Genre genre);
+
+    @Query(value = """
+        SELECT DISTINCT b.* FROM books b
+        INNER JOIN book_genres bg ON b.id = bg.book_id
+        WHERE bg.genre_id = :genreId
+          AND b.deleted_at IS NULL
+        ORDER BY b.sales_count DESC
+        LIMIT :limit
+        """, nativeQuery = true)
+    List<Book> findTopBooksByGenre(@Param("genreId") UUID genreId, @Param("limit") int limit);
+
+    @Query(value = """
+        SELECT DISTINCT b.* FROM books b
+        INNER JOIN book_genres bg ON b.id = bg.book_id
+        WHERE bg.genre_id IN :genreIds
+          AND b.id != :excludeBookId
+          AND b.deleted_at IS NULL
+        ORDER BY b.sales_count DESC
+        LIMIT :limit
+        """, nativeQuery = true)
+    List<Book> findByGenresOrderBySales(@Param("genreIds") List<UUID> genreIds,
+                                         @Param("excludeBookId") UUID excludeBookId,
+                                         @Param("limit") int limit);
+
+    @EntityGraph(attributePaths = {"genres"})
+    @Query("SELECT b FROM Book b WHERE b.id IN :ids")
+    List<Book> findByIdsWithGenres(@Param("ids") List<UUID> ids);
 }

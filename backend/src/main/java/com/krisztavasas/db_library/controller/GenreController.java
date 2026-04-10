@@ -1,5 +1,6 @@
 package com.krisztavasas.db_library.controller;
 
+import com.krisztavasas.db_library.dto.book.BookDto;
 import com.krisztavasas.db_library.dto.genre.CreateGenreDto;
 import com.krisztavasas.db_library.dto.genre.GenreDto;
 import com.krisztavasas.db_library.dto.genre.GenreFilterDto;
@@ -41,6 +42,14 @@ public class GenreController {
     @GetMapping("/statistics")
     public List<GenreStatisticsDto> getStatistics() {
         return genreFacade.getStatistics();
+    }
+
+    @GetMapping("/{id}/top-books")
+    public List<BookDto> getTopBooks(
+            @PathVariable("id") UUID genreId,
+            @RequestParam(defaultValue = "10") int limit
+    ) {
+        return genreFacade.findTopBooks(genreId, limit);
     }
 
     @PostMapping

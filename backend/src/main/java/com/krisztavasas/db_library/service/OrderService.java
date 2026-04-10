@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,6 +85,18 @@ public class OrderService {
     @Transactional
     public Order updateOrderStatus(Order order, OrderStatus status) {
         order.setStatus(status);
+
+        if (status == OrderStatus.PAID && order.getPaymentInfo() != null) {
+            PaymentInfo currentPayment = order.getPaymentInfo();
+            PaymentInfo updatedPayment = new PaymentInfo(
+                currentPayment.method(),
+                currentPayment.status(),
+                currentPayment.transactionId(),
+                LocalDateTime.now()
+            );
+            order.setPaymentInfo(updatedPayment);
+        }
+
         return orderRepository.save(order);
     }
 
@@ -94,9 +107,9 @@ public class OrderService {
     }
 
     public DashboardMetricsProjection getDashboardMetrics(
-            java.time.LocalDateTime startOfToday,
-            java.time.LocalDateTime startOfWeek,
-            java.time.LocalDateTime startOfMonth,
+            LocalDateTime startOfToday,
+            LocalDateTime startOfWeek,
+            LocalDateTime startOfMonth,
             String pendingStatus
     ) {
         return orderRepository.getDashboardMetrics(startOfToday, startOfWeek, startOfMonth, pendingStatus);

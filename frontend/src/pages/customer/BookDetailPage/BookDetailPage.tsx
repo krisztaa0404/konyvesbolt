@@ -10,7 +10,7 @@ import { useBookRecommendations } from '@hooks/useBookRecommendations';
 import { useCartStore } from '@store/cartStore';
 import { useNotificationStore } from '@store/notificationStore';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
-import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
+import { BookNotFound } from '@components/common/BookNotFound';
 import { BookCard } from '@components/common/BookCard/BookCard';
 import { BookCardSkeleton } from '@components/common/BookCard/BookCardSkeleton';
 import {
@@ -38,7 +38,7 @@ import {
 
 export const BookDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: book, isLoading, isError, error } = useBook(id!);
+  const { data: book, isLoading, isError } = useBook(id!);
   const { data: recommendations, isLoading: isLoadingRecs } = useBookRecommendations(id!, 5);
   const { items, addItem } = useCartStore();
   const { addNotification } = useNotificationStore();
@@ -70,7 +70,7 @@ export const BookDetailPage = () => {
   };
 
   if (isLoading) return <LoadingSpinner fullPage />;
-  if (isError || !book) return <ErrorMessage message={error?.message || 'Book not found'} />;
+  if (isError || !book) return <BookNotFound />;
 
   return (
     <DetailContainer>

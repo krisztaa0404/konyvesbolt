@@ -20,6 +20,7 @@ export default defineConfig({
       '@theme': path.resolve(__dirname, './src/theme'),
       '@schemas': path.resolve(__dirname, './src/schemas'),
       '@constants': path.resolve(__dirname, './src/constants'),
+      '@assets': path.resolve(__dirname, './src/assets'),
     },
   },
   server: {

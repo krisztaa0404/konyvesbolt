@@ -38,6 +38,9 @@ const OrderConfirmationPage = lazy(() =>
 const RegisterPage = lazy(() =>
   import('@pages/auth/RegisterPage').then(m => ({ default: m.RegisterPage }))
 );
+const NotFoundPage = lazy(() =>
+  import('@pages/customer/NotFoundPage').then(m => ({ default: m.NotFoundPage }))
+);
 
 const ProfileInfoTab = lazy(() =>
   import('@components/customer/profile/ProfileInfoTab').then(m => ({ default: m.ProfileInfoTab }))
@@ -120,6 +123,8 @@ export const AppRouter = () => {
                 </Route>
                 <Route path={ROUTES.ORDER_CONFIRMATION} element={<OrderConfirmationPage />} />
               </Route>
+
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
 
             <Route element={<ManagerRoute />}>
@@ -135,8 +140,6 @@ export const AppRouter = () => {
                 <Route path={ROUTES.MANAGER_USERS} element={<UsersManagementPage />} />
               </Route>
             </Route>
-
-            <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
           </Routes>
         </Suspense>
       </RouteErrorBoundary>

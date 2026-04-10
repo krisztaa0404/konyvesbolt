@@ -29,7 +29,8 @@
       "@router/*": ["src/router/*"],
       "@theme/*": ["src/theme/*"],
       "@schemas/*": ["src/schemas/*"],
-      "@constants/*": ["src/constants/*"]
+      "@constants/*": ["src/constants/*"],
+      "@assets/*": ["src/assets/*"]
     },
     "strict": true,
     "noUnusedLocals": true,

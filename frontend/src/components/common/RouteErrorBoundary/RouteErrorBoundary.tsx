@@ -1,6 +1,7 @@
 import { Component, type ReactNode } from 'react';
-import { Container, Typography, Button, Box } from '@mui/material';
-import { Refresh as RefreshIcon } from '@mui/icons-material';
+import { Typography, Button } from '@mui/material';
+import { Refresh as RefreshIcon, ErrorOutline as ErrorIcon, Home as HomeIcon } from '@mui/icons-material';
+import { ErrorContainer, ErrorActions } from './RouteErrorBoundary.sc';
 
 interface RouteErrorBoundaryProps {
   children: ReactNode;
@@ -35,29 +36,23 @@ export class RouteErrorBoundary extends Component<
     window.location.reload();
   };
 
+  handleGoHome = () => {
+    window.location.href = '/';
+  };
+
   render() {
     if (this.state.hasError) {
       return (
-        <Container
-          maxWidth="sm"
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '100vh',
-            textAlign: 'center',
-            gap: 3,
-          }}
-        >
-          <RefreshIcon sx={{ fontSize: 80, color: 'primary.main' }} />
+        <ErrorContainer>
+          <ErrorIcon sx={{ fontSize: 80, color: 'error.main', opacity: 0.8 }} />
           <Typography variant="h4" gutterBottom>
             Something Went Wrong
           </Typography>
           <Typography variant="body1" color="text.secondary" paragraph>
-            An error occurred while loading the page. Please reload to continue.
+            We encountered an unexpected error. Please try reloading the page or return to the
+            homepage.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <ErrorActions>
             <Button
               variant="contained"
               size="large"
@@ -66,8 +61,16 @@ export class RouteErrorBoundary extends Component<
             >
               Reload Page
             </Button>
-          </Box>
-        </Container>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={this.handleGoHome}
+              startIcon={<HomeIcon />}
+            >
+              Go to Home
+            </Button>
+          </ErrorActions>
+        </ErrorContainer>
       );
     }
 

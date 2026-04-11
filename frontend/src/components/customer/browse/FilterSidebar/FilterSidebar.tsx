@@ -74,7 +74,11 @@ export const FilterSidebar: React.FC = () => {
       <Divider sx={{ mb: 2 }} />
 
       <FilterSection>
-        <GenreFilter value={filters.genreIds || []} onChange={handleGenreChange} />
+        <GenreFilter
+          value={filters.genreIds || []}
+          onChange={handleGenreChange}
+          initialGenreNames={filters.genreNames}
+        />
       </FilterSection>
 
       <Divider sx={{ my: 2 }} />

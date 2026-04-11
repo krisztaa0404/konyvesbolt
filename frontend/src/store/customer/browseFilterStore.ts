@@ -4,6 +4,7 @@ export type ViewMode = 'grid' | 'list';
 
 export interface BrowseFilters {
   genreIds?: string[];
+  genreNames?: Record<string, string>;
   priceMin?: number;
   priceMax?: number;
   author?: string;

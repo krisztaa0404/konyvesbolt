@@ -24,8 +24,11 @@ export const GenreStatisticsCard = ({ genre }: GenreStatisticsCardProps) => {
   const handleClick = () => {
     clearFilters();
     setSearchTerm('');
-    if (genre.genreId) {
-      updateFilters({ genreIds: [genre.genreId] });
+    if (genre.genreId && genre.genreName) {
+      updateFilters({
+        genreIds: [genre.genreId],
+        genreNames: { [genre.genreId]: genre.genreName },
+      });
     }
     navigate(ROUTES.BROWSE_BOOKS);
   };

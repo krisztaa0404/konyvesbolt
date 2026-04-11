@@ -84,14 +84,15 @@ public class BookSpecification {
             }
 
             if (author != null && !author.isBlank()) {
-                Expression<String[]> authorsExpr = root.get("authors");
-                predicates.add(criteriaBuilder.isTrue(
-                        criteriaBuilder.function(
-                                "array_contains",
-                                Boolean.class,
-                                authorsExpr,
-                                criteriaBuilder.literal(author)
-                        )
+                Expression<String> authorsAsString = criteriaBuilder.function(
+                        "array_to_string",
+                        String.class,
+                        root.get("authors"),
+                        criteriaBuilder.literal(" ")
+                );
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(authorsAsString),
+                        "%" + author.toLowerCase() + "%"
                 ));
             }
 

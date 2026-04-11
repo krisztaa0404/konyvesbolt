@@ -1,6 +1,10 @@
 import { Component, type ReactNode } from 'react';
 import { Typography, Button } from '@mui/material';
-import { Refresh as RefreshIcon, ErrorOutline as ErrorIcon, Home as HomeIcon } from '@mui/icons-material';
+import {
+  Refresh as RefreshIcon,
+  ErrorOutline as ErrorIcon,
+  Home as HomeIcon,
+} from '@mui/icons-material';
 import { ErrorContainer, ErrorActions } from './RouteErrorBoundary.sc';
 
 interface RouteErrorBoundaryProps {

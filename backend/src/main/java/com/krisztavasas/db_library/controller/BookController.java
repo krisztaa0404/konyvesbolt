@@ -11,11 +11,17 @@ import com.krisztavasas.db_library.facade.BookFacade;
 import com.krisztavasas.db_library.service.BookCsvUploadService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +37,9 @@ public class BookController {
     private final BookFacade bookFacade;
     private final StockConfig stockConfig;
     private final BookCsvUploadService bookCsvUploadService;
+
+    @Value("${app.csv.book-template-filename}")
+    private String bookTemplateFilename;
 
     @GetMapping
     public Page<BookDto> getBooks(
@@ -127,5 +136,15 @@ public class BookController {
         }
 
         return bookCsvUploadService.processCsvUpload(file);
+    }
+
+    @GetMapping("/template")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    public ResponseEntity<Resource> downloadTemplate() {
+        ClassPathResource resource = new ClassPathResource("templates/" + bookTemplateFilename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + bookTemplateFilename + "\"")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(resource);
     }
 }

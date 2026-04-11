@@ -14,6 +14,7 @@ import type {
   Book,
   CreateBook,
   UpdateBook,
+  BulkBookUploadResult,
   Genre,
   CreateGenre,
   UpdateGenre,
@@ -163,6 +164,45 @@ export const managerApi = {
   async updateBook(bookId: string, book: UpdateBook): Promise<Book> {
     const response = await apiClient.put<Book>(`/books/${bookId}`, book);
     return response.data;
+  },
+
+  /**
+   * Bulk upload books from CSV file (manager only)
+   */
+  async bulkUploadBooks(file: File): Promise<BulkBookUploadResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await apiClient.post<BulkBookUploadResult>('/books/bulk-upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return response.data;
+  },
+
+  /**
+   * Download CSV template for bulk book upload (manager only)
+   */
+  async downloadBookTemplate(): Promise<void> {
+    const response = await apiClient.get('/books/template', {
+      responseType: 'blob',
+    });
+
+    const contentDisposition = response.headers['content-disposition'];
+    const filename =
+      contentDisposition?.split('filename=')[1]?.replace(/"/g, '').trim() ||
+      'book_upload_template.csv';
+
+    const url = window.URL.createObjectURL(response.data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   },
 
   /**

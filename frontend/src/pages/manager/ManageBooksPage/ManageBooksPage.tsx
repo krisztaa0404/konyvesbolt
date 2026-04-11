@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Typography, Button } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+import { Typography, Button, Box } from '@mui/material';
+import { Add as AddIcon, Upload as UploadIcon } from '@mui/icons-material';
 import { useShallow } from 'zustand/react/shallow';
 import { useAllBooks } from '@hooks/useAllBooks';
 import { useBookFilterStore } from '@store/manager/managerFilterStore';
@@ -52,6 +52,10 @@ export const ManageBooksPage = () => {
     navigate(ROUTES.MANAGER_ADD_BOOK);
   };
 
+  const handleBulkUpload = () => {
+    navigate(ROUTES.MANAGER_BULK_UPLOAD_BOOKS);
+  };
+
   if (isError && !isLoading) {
     return (
       <PageErrorState
@@ -74,9 +78,14 @@ export const ManageBooksPage = () => {
               Manage your book inventory
             </Typography>
           </div>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={handleAddNew}>
-            Add New Book
-          </Button>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button variant="outlined" startIcon={<UploadIcon />} onClick={handleBulkUpload}>
+              Bulk Upload
+            </Button>
+            <Button variant="contained" startIcon={<AddIcon />} onClick={handleAddNew}>
+              Add New Book
+            </Button>
+          </Box>
         </HeaderContent>
       </PageHeader>
 

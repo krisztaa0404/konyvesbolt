@@ -1,5 +1,9 @@
 import { Typography, Button, Box } from '@mui/material';
-import { Home as HomeIcon, MenuBook as BooksIcon, PageviewOutlined as PageIcon } from '@mui/icons-material';
+import {
+  Home as HomeIcon,
+  MenuBook as BooksIcon,
+  PageviewOutlined as PageIcon,
+} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@router/routes';
 import { NotFoundContainer, ButtonGroup } from './NotFoundPage.sc';

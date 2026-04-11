@@ -18,8 +18,8 @@ export const BookNotFound = () => {
         Book Not Found
       </Typography>
       <Typography variant="body1" color="text.secondary" paragraph>
-        Sorry, we couldn't find the book you're looking for. It may have been removed or is no longer
-        available.
+        Sorry, we couldn't find the book you're looking for. It may have been removed or is no
+        longer available.
       </Typography>
       <ButtonGroup>
         <Button

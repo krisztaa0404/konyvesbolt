@@ -79,6 +79,11 @@ const ManageBooksPage = lazy(() =>
 const AddEditBookPage = lazy(() =>
   import('@pages/manager/AddEditBookPage').then(m => ({ default: m.AddEditBookPage }))
 );
+const BulkUploadBooksPage = lazy(() =>
+  import('@pages/manager/BulkUploadBooksPage/BulkUploadBooksPage').then(m => ({
+    default: m.BulkUploadBooksPage,
+  }))
+);
 const ManageGenresPage = lazy(() =>
   import('@pages/manager/ManageGenresPage').then(m => ({ default: m.ManageGenresPage }))
 );
@@ -135,6 +140,7 @@ export const AppRouter = () => {
                 <Route path={ROUTES.MANAGER_BOOKS} element={<ManageBooksPage />} />
                 <Route path={ROUTES.MANAGER_ADD_BOOK} element={<AddEditBookPage />} />
                 <Route path={ROUTES.MANAGER_EDIT_BOOK} element={<AddEditBookPage />} />
+                <Route path={ROUTES.MANAGER_BULK_UPLOAD_BOOKS} element={<BulkUploadBooksPage />} />
                 <Route path={ROUTES.MANAGER_GENRES} element={<ManageGenresPage />} />
                 <Route path={ROUTES.MANAGER_DISCOUNTS} element={<ManageDiscountsPage />} />
                 <Route path={ROUTES.MANAGER_USERS} element={<UsersManagementPage />} />

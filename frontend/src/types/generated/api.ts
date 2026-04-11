@@ -196,6 +196,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/manager/jobs/refresh/top-books-weekly": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refreshTopBooksWeekly"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/manager/jobs/refresh/top-books-monthly": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refreshTopBooksMonthly"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/manager/jobs/refresh/genre-statistics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refreshGenreStatistics"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/manager/jobs/refresh/book-recommendations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refreshBookRecommendations"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/genres": {
         parameters: {
             query?: never;
@@ -222,6 +286,22 @@ export interface paths {
         get: operations["getBooks"];
         put?: never;
         post: operations["createBook"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/books/bulk-upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["bulkUploadBooks"];
         delete?: never;
         options?: never;
         head?: never;
@@ -420,6 +500,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/genres/{id}/top-books": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTopBooks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/genres/statistics": {
         parameters: {
             query?: never;
@@ -476,6 +572,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getTopMonthly"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/books/template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["downloadTemplate"];
         put?: never;
         post?: never;
         delete?: never;
@@ -805,6 +917,15 @@ export interface components {
             /** Format: int32 */
             quantity: number;
         };
+        JobExecutionResultDto: {
+            jobName?: string;
+            status?: string;
+            message?: string;
+            /** Format: date-time */
+            executedAt?: string;
+            /** Format: int64 */
+            durationMs?: number;
+        };
         CreateGenreDto: {
             name: string;
             description?: string;
@@ -826,6 +947,25 @@ export interface components {
             availableFormats: string[];
             genreIds?: string[];
             metadata?: components["schemas"]["BookMetadataDto"];
+        };
+        BulkBookUploadResultDto: {
+            /** Format: int32 */
+            totalRows?: number;
+            /** Format: int32 */
+            successCount?: number;
+            /** Format: int32 */
+            skippedCount?: number;
+            message?: string;
+            skippedRows?: components["schemas"]["SkippedRowDto"][];
+        };
+        SkippedRowDto: {
+            /** Format: int32 */
+            rowNumber?: number;
+            bookTitle?: string;
+            isbn?: string;
+            reason?: string;
+            missingGenres?: string[];
+            validationErrors?: string[];
         };
         RegisterRequestDto: {
             email: string;
@@ -1555,6 +1695,86 @@ export interface operations {
             };
         };
     };
+    refreshTopBooksWeekly: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["JobExecutionResultDto"];
+                };
+            };
+        };
+    };
+    refreshTopBooksMonthly: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["JobExecutionResultDto"];
+                };
+            };
+        };
+    };
+    refreshGenreStatistics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["JobExecutionResultDto"];
+                };
+            };
+        };
+    };
+    refreshBookRecommendations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["JobExecutionResultDto"];
+                };
+            };
+        };
+    };
     getAllGenres: {
         parameters: {
             query: {
@@ -1645,6 +1865,33 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["BookDetailDto"];
+                };
+            };
+        };
+    };
+    bulkUploadBooks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkBookUploadResultDto"];
                 };
             };
         };
@@ -1911,6 +2158,30 @@ export interface operations {
             };
         };
     };
+    getTopBooks: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BookDto"][];
+                };
+            };
+        };
+    };
     getStatistics: {
         parameters: {
             query?: never;
@@ -1995,6 +2266,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["BookDto"][];
+                };
+            };
+        };
+    };
+    downloadTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
                 };
             };
         };

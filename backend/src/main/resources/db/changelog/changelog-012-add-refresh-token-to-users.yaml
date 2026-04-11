@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 012-add-refresh-token-to-users
+      author: system
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: refresh_token
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: refresh_token_expires_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+        - createIndex:
+            indexName: idx_users_refresh_token
+            tableName: users
+            columns:
+              - column:
+                  name: refresh_token

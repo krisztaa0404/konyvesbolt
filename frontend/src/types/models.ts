@@ -23,6 +23,8 @@ export type BookDetail = components['schemas']['BookDetailDto'];
 export type CreateBook = components['schemas']['CreateBookDto'];
 export type UpdateBook = components['schemas']['UpdateBookDto'];
 export type BookSearchFilter = components['schemas']['BookSearchFilterDto'];
+export type BulkBookUploadResult = components['schemas']['BulkBookUploadResultDto'];
+export type SkippedRow = components['schemas']['SkippedRowDto'];
 
 // Order types
 export type Order = components['schemas']['OrderDto'];

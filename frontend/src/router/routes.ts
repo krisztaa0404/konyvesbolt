@@ -30,6 +30,7 @@ export const ROUTES = {
   MANAGER_BOOKS: '/manager/books',
   MANAGER_ADD_BOOK: '/manager/books/new',
   MANAGER_EDIT_BOOK: '/manager/books/:id/edit',
+  MANAGER_BULK_UPLOAD_BOOKS: '/manager/books/upload',
   MANAGER_GENRES: '/manager/genres',
   MANAGER_DISCOUNTS: '/manager/discounts',
   MANAGER_USERS: '/manager/users',

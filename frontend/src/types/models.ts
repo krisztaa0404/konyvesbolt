@@ -64,6 +64,11 @@ export type UpdateSeasonalDiscount = components['schemas']['UpdateSeasonalDiscou
 export type PageSeasonalDiscount = components['schemas']['PagedModelSeasonalDiscountDto'];
 export type NamedEntityRef = components['schemas']['NamedEntityRefDto'];
 
+// Wishlist types
+export type WishlistDetail = components['schemas']['WishlistDetailDto'];
+export type WishlistItem = components['schemas']['WishlistItemDto'];
+export type AddToWishlist = components['schemas']['AddToWishlistDto'];
+
 // Pagination types
 export type Pageable = components['schemas']['Pageable'];
 export type PageMetadata = components['schemas']['PageMetadata'];

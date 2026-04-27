@@ -61,3 +61,16 @@ export const AddToCartButton = styled(IconButton)(({ theme }) => ({
     boxShadow: theme.shadows[4],
   },
 }));
+
+export const WishlistButton = styled(IconButton)(({ theme }) => ({
+  position: 'absolute',
+  top: theme.spacing(1),
+  left: theme.spacing(1),
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: theme.shadows[2],
+  zIndex: 2,
+  '&:hover': {
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[4],
+  },
+}));

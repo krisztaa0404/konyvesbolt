@@ -26,6 +26,9 @@ const BestsellersPage = lazy(() =>
 const CartPage = lazy(() =>
   import('@pages/customer/CartPage').then(m => ({ default: m.CartPage }))
 );
+const WishlistPage = lazy(() =>
+  import('@pages/customer/WishlistPage').then(m => ({ default: m.WishlistPage }))
+);
 const CheckoutPage = lazy(() =>
   import('@pages/customer/CheckoutPage').then(m => ({ default: m.CheckoutPage }))
 );
@@ -117,6 +120,7 @@ export const AppRouter = () => {
               <Route path={ROUTES.CART} element={<CartPage />} />
 
               <Route element={<ProtectedRoute />}>
+                <Route path={ROUTES.WISHLIST} element={<WishlistPage />} />
                 <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
                 <Route path={ROUTES.PROFILE} element={<ProfilePage />}>
                   <Route index element={<Navigate to="info" replace />} />

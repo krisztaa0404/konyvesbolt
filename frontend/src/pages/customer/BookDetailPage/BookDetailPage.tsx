@@ -1,14 +1,22 @@
 import { useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Box, Chip, Button, IconButton } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useShallow } from 'zustand/react/shallow';
 import { useBook } from '@hooks/useBook';
 import { useBookRecommendations } from '@hooks/useBookRecommendations';
 import { useCartStore } from '@store/cartStore';
+import { useWishlistStore } from '@store/customer/wishlistStore';
 import { useNotificationStore } from '@store/notificationStore';
+import { useAuthStore } from '@store/authStore';
+import { useAddToWishlist } from '@hooks/useAddToWishlist';
+import { useRemoveFromWishlist } from '@hooks/useRemoveFromWishlist';
+import { ROUTES } from '@router/routes';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { BookNotFound } from '@components/common/BookNotFound';
 import { BookCard } from '@components/common/BookCard/BookCard';
@@ -38,10 +46,25 @@ import {
 
 export const BookDetailPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { data: book, isLoading, isError } = useBook(id!);
   const { data: recommendations, isLoading: isLoadingRecs } = useBookRecommendations(id!, 5);
   const { items, addItem } = useCartStore();
   const { addNotification } = useNotificationStore();
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const {
+    isInWishlist,
+    addItem: addToWishlist,
+    removeItem: removeFromWishlist,
+  } = useWishlistStore(
+    useShallow(state => ({
+      isInWishlist: state.isInWishlist(book?.id || ''),
+      addItem: state.addItem,
+      removeItem: state.removeItem,
+    }))
+  );
+  const addToWishlistMutation = useAddToWishlist();
+  const removeFromWishlistMutation = useRemoveFromWishlist();
 
   const [quantity, setQuantity] = useState(1);
   const [selectedFormat, setSelectedFormat] = useState<string>('');
@@ -66,6 +89,28 @@ export const BookDetailPage = () => {
       const truncatedTitle = truncateText(book.title, 40);
       addNotification(`"${truncatedTitle}"${quantityText} added to cart`);
       setQuantity(1);
+    }
+  };
+
+  const handleToggleWishlist = () => {
+    if (!isAuthenticated) {
+      addNotification('Please login to use wishlist', 'warning');
+      navigate(ROUTES.LOGIN);
+      return;
+    }
+
+    if (book) {
+      const truncatedTitle = truncateText(book.title, 40);
+
+      if (isInWishlist) {
+        removeFromWishlist(book.id!);
+        removeFromWishlistMutation.mutate(book.id!);
+        addNotification(`"${truncatedTitle}" removed from wishlist`);
+      } else {
+        addToWishlist(book);
+        addToWishlistMutation.mutate(book.id!);
+        addNotification(`"${truncatedTitle}" added to wishlist`);
+      }
     }
   };
 
@@ -211,6 +256,17 @@ export const BookDetailPage = () => {
               fullWidth
             >
               {isInCart ? 'Add More to Cart' : 'Add to Cart'}
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="large"
+              startIcon={isInWishlist ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              onClick={handleToggleWishlist}
+              color={isInWishlist ? 'error' : 'primary'}
+              fullWidth
+            >
+              {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
             </Button>
           </AddToCartSection>
         </InfoContainer>

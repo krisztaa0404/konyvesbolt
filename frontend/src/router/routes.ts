@@ -14,6 +14,7 @@ export const ROUTES = {
 
   // Protected customer routes
   CART: '/cart',
+  WISHLIST: '/wishlist',
   CHECKOUT: '/checkout',
   PROFILE: '/profile',
   PROFILE_INFO: '/profile/info',

@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 013-create-wishlist-tables
+      author: krisztinavasas
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/013-create-wishlist-tables.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: false
+      rollback:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS wishlist_items CASCADE;
+              DROP TABLE IF EXISTS wishlists CASCADE;

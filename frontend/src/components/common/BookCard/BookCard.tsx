@@ -1,13 +1,19 @@
-/**
- * Reusable BookCard component for displaying book information
- */
 import { Typography, Chip } from '@mui/material';
-import { AddShoppingCart as AddShoppingCartIcon } from '@mui/icons-material';
+import {
+  AddShoppingCart as AddShoppingCartIcon,
+  FavoriteBorder as FavoriteBorderIcon,
+  Favorite as FavoriteIcon,
+} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import { formatCurrency, truncateText } from '@utils/formatters';
 import { getBookDetailRoute } from '@router/routes';
 import { useCartStore } from '@store/cartStore';
+import { useWishlistStore } from '@store/customer/wishlistStore';
 import { useNotificationStore } from '@store/notificationStore';
+import { useAuthStore } from '@store/authStore';
+import { useAddToWishlist } from '@hooks/useAddToWishlist';
+import { useRemoveFromWishlist } from '@hooks/useRemoveFromWishlist';
 import type { Book, BookDetail } from '@types';
 import {
   StyledCard,
@@ -16,6 +22,7 @@ import {
   PriceBox,
   StockBadge,
   AddToCartButton,
+  WishlistButton,
 } from './BookCard.sc';
 
 interface BookCardProps {
@@ -27,6 +34,16 @@ export const BookCard = ({ book, showSalesCount = false }: BookCardProps) => {
   const navigate = useNavigate();
   const cartStore = useCartStore();
   const { addNotification } = useNotificationStore();
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { isInWishlist, addItem, removeItem } = useWishlistStore(
+    useShallow(state => ({
+      isInWishlist: state.isInWishlist(book.id || ''),
+      addItem: state.addItem,
+      removeItem: state.removeItem,
+    }))
+  );
+  const addToWishlistMutation = useAddToWishlist();
+  const removeFromWishlistMutation = useRemoveFromWishlist();
   const inStock = (book.stockQuantity ?? 0) > 0;
 
   const handleClick = () => {
@@ -48,8 +65,36 @@ export const BookCard = ({ book, showSalesCount = false }: BookCardProps) => {
     }
   };
 
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (!isAuthenticated) {
+      addNotification('Please login to use wishlist', 'warning');
+      return;
+    }
+
+    const truncatedTitle = truncateText(book.title, 40);
+
+    if (isInWishlist) {
+      removeItem(book.id!);
+      removeFromWishlistMutation.mutate(book.id!);
+      addNotification(`"${truncatedTitle}" removed from wishlist`);
+    } else {
+      addItem(book);
+      addToWishlistMutation.mutate(book.id!);
+      addNotification(`"${truncatedTitle}" added to wishlist`);
+    }
+  };
+
   return (
     <StyledCard onClick={handleClick}>
+      <WishlistButton
+        onClick={handleToggleWishlist}
+        aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+        size="small"
+      >
+        {isInWishlist ? <FavoriteIcon sx={{ color: 'error.main' }} /> : <FavoriteBorderIcon />}
+      </WishlistButton>
       <AddToCartButton
         onClick={handleAddToCart}
         disabled={!inStock}

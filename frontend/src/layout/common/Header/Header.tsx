@@ -1,8 +1,14 @@
 import { Typography, Button } from '@mui/material';
-import { ShoppingCart as CartIcon, AccountCircle as AccountIcon } from '@mui/icons-material';
+import {
+  ShoppingCart as CartIcon,
+  AccountCircle as AccountIcon,
+  FavoriteBorder as FavoriteBorderIcon,
+} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import { useAuthStore, selectIsCustomer } from '@store/authStore';
 import { useCartStore } from '@store/cartStore';
+import { useWishlistStore } from '@store/customer/wishlistStore';
 import { ROUTES } from '@router/routes';
 import {
   StyledAppBar,
@@ -25,6 +31,7 @@ export const Header = ({ variant }: HeaderProps) => {
   const logout = useAuthStore(state => state.logout);
   const isCustomer = useAuthStore(selectIsCustomer);
   const totalItems = useCartStore(state => state.getTotalItems());
+  const totalWishlistItems = useWishlistStore(useShallow(state => state.getTotalItems()));
 
   const handleLogoClick = () => {
     navigate(variant === 'customer' ? ROUTES.HOME : ROUTES.MANAGER_DASHBOARD, { replace: true });
@@ -48,11 +55,19 @@ export const Header = ({ variant }: HeaderProps) => {
 
         <ActionsBox>
           {variant === 'customer' && (
-            <StyledIconButton onClick={() => navigate(ROUTES.CART)}>
-              <StyledBadge badgeContent={totalItems} color="secondary">
-                <CartIcon />
-              </StyledBadge>
-            </StyledIconButton>
+            <>
+              <StyledIconButton onClick={() => navigate(ROUTES.WISHLIST)}>
+                <StyledBadge badgeContent={totalWishlistItems} color="secondary">
+                  <FavoriteBorderIcon />
+                </StyledBadge>
+              </StyledIconButton>
+
+              <StyledIconButton onClick={() => navigate(ROUTES.CART)}>
+                <StyledBadge badgeContent={totalItems} color="secondary">
+                  <CartIcon />
+                </StyledBadge>
+              </StyledIconButton>
+            </>
           )}
 
           {isAuthenticated ? (

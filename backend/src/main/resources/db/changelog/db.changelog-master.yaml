@@ -23,3 +23,5 @@ databaseChangeLog:
       file: db/changelog/changelog-011-convert-book-soft-delete-to-timestamp.yaml
   - include:
       file: db/changelog/changelog-012-add-refresh-token-to-users.yaml
+  - include:
+      file: db/changelog/changelog-013-create-wishlist-tables.yaml

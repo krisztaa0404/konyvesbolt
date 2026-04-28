@@ -16,6 +16,8 @@ import com.krisztavasas.db_library.exception.EntityNotFoundException;
 import com.krisztavasas.db_library.exception.InsufficientStockException;
 import com.krisztavasas.db_library.mapper.OrderMapper;
 import com.krisztavasas.db_library.mapper.ValueObjectMapper;
+import com.krisztavasas.db_library.repository.BookRepository;
+import com.krisztavasas.db_library.repository.OrderItemRepository;
 import com.krisztavasas.db_library.service.BookService;
 import com.krisztavasas.db_library.service.OrderService;
 import com.krisztavasas.db_library.service.SeasonalDiscountService;
@@ -29,7 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,6 +50,8 @@ public class OrderFacade {
     private final SeasonalDiscountService seasonalDiscountService;
     private final OrderMapper orderMapper;
     private final ValueObjectMapper valueObjectMapper;
+    private final OrderItemRepository orderItemRepository;
+    private final BookRepository bookRepository;
 
     @Transactional
     public OrderDetailDto createOrder(String userEmail, CreateOrderDto dto) {

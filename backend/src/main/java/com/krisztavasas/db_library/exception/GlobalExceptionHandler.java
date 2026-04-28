@@ -1,3 +1,4 @@
+
 package com.krisztavasas.db_library.exception;
 
 import com.krisztavasas.db_library.dto.ErrorResponse;
@@ -39,6 +40,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InsufficientStockException.class)
     public ResponseEntity<ErrorResponse> handleInsufficientStock(
             InsufficientStockException ex,
+            HttpServletRequest request
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(BookInActiveOrdersException.class)
+    public ResponseEntity<ErrorResponse> handleBookInActiveOrders(
+            BookInActiveOrdersException ex,
             HttpServletRequest request
     ) {
         ErrorResponse error = new ErrorResponse(

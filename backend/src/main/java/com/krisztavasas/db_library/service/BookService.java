@@ -3,9 +3,12 @@ package com.krisztavasas.db_library.service;
 import com.krisztavasas.db_library.dto.book.BookSearchFilterDto;
 import com.krisztavasas.db_library.entity.Book;
 import com.krisztavasas.db_library.entity.Genre;
+import com.krisztavasas.db_library.enums.OrderStatus;
+import com.krisztavasas.db_library.exception.BookInActiveOrdersException;
 import com.krisztavasas.db_library.exception.EntityNotFoundException;
 import com.krisztavasas.db_library.repository.BookRepository;
 import com.krisztavasas.db_library.repository.BookSpecification;
+import com.krisztavasas.db_library.repository.OrderRepository;
 import com.krisztavasas.db_library.repository.projection.TopBookProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +28,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final BookSpecification bookSpecification;
+    private final OrderRepository orderRepository;
 
     public Page<Book> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable);
@@ -93,6 +97,23 @@ public class BookService {
     public void delete(UUID id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+
+        List<OrderStatus> activeStatuses = List.of(
+            OrderStatus.PENDING,
+            OrderStatus.PAID,
+            OrderStatus.SHIPPED
+        );
+
+        boolean hasActiveOrders = orderRepository.existsInActiveOrders(id, activeStatuses);
+
+        if (hasActiveOrders) {
+            throw new BookInActiveOrdersException(
+                "Cannot delete book '" + book.getTitle() +
+                "' because it appears in active orders. " +
+                "Please wait until all orders are delivered or cancelled."
+            );
+        }
+
         book.setDeletedAt(java.time.LocalDateTime.now());
         bookRepository.save(book);
     }

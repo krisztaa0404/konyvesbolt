@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +24,14 @@ public interface OrderRepository extends JpaRepository<Order, UUID>, JpaSpecific
 
     @Query("SELECT o FROM Order o LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.book WHERE o.id = :id")
     Optional<Order> findByIdWithItems(@Param("id") UUID id);
+
+    @Query("SELECT CASE WHEN COUNT(o) > 0 THEN true ELSE false END " +
+           "FROM Order o JOIN o.items oi " +
+           "WHERE oi.book.id = :bookId AND o.status IN :activeStatuses")
+    boolean existsInActiveOrders(
+            @Param("bookId") UUID bookId,
+            @Param("activeStatuses") List<com.krisztavasas.db_library.enums.OrderStatus> activeStatuses
+    );
 
     @Query(value = """
             SELECT

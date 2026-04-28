@@ -27,6 +27,12 @@ public interface BookRepository extends JpaRepository<Book, UUID>, JpaSpecificat
     @Query("SELECT b FROM Book b WHERE b.id = :id")
     Optional<Book> findByIdForUpdate(@Param("id") UUID id);
 
+    @Query("SELECT b FROM Book b WHERE b.id = :id")
+    Optional<Book> findByIdIncludingDeleted(@Param("id") UUID id);
+
+    @Query("SELECT b FROM Book b WHERE b.id IN :ids")
+    List<Book> findByIdsIncludingDeleted(@Param("ids") List<UUID> ids);
+
     @Query(value = """
         SELECT * FROM books
         WHERE to_tsvector('simple', title) @@ plainto_tsquery('simple', :searchQuery)

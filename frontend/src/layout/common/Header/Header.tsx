@@ -56,11 +56,13 @@ export const Header = ({ variant }: HeaderProps) => {
         <ActionsBox>
           {variant === 'customer' && (
             <>
-              <StyledIconButton onClick={() => navigate(ROUTES.WISHLIST)}>
-                <StyledBadge badgeContent={totalWishlistItems} color="secondary">
-                  <FavoriteBorderIcon />
-                </StyledBadge>
-              </StyledIconButton>
+              {isAuthenticated && (
+                <StyledIconButton onClick={() => navigate(ROUTES.WISHLIST)}>
+                  <StyledBadge badgeContent={totalWishlistItems} color="secondary">
+                    <FavoriteBorderIcon />
+                  </StyledBadge>
+                </StyledIconButton>
+              )}
 
               <StyledIconButton onClick={() => navigate(ROUTES.CART)}>
                 <StyledBadge badgeContent={totalItems} color="secondary">

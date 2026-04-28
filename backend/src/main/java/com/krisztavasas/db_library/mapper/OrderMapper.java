@@ -27,5 +27,15 @@ public interface OrderMapper {
     OrderDetailDto toDetailDto(Order order);
 
     @Mapping(target = "priceAtOrder", source = "unitPrice")
+    @Mapping(target = "book", expression = "java(toBookDtoSafe(orderItem))")
     OrderItemDto toItemDto(OrderItem orderItem);
+
+    default com.krisztavasas.db_library.dto.book.BookDto toBookDtoSafe(OrderItem orderItem) {
+        if (orderItem == null || orderItem.getBook() == null) {
+            return null;
+        }
+        return toBookDto(orderItem.getBook());
+    }
+
+    com.krisztavasas.db_library.dto.book.BookDto toBookDto(com.krisztavasas.db_library.entity.Book book);
 }

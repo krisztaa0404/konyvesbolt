@@ -19,6 +19,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface BookMapper {
 
     @Mapping(target = "coverImageUrl", expression = "java(extractCoverImageUrl(book))")
+    @Mapping(target = "deleted", expression = "java(isDeleted(book))")
     BookDto toDto(Book book);
 
     BookDto toDto(TopBookProjection projection);
@@ -55,5 +56,9 @@ public interface BookMapper {
             return null;
         }
         return book.getMetadata().coverImageUrl();
+    }
+
+    default boolean isDeleted(Book book) {
+        return book != null && book.getDeletedAt() != null;
     }
 }

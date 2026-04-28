@@ -15,6 +15,7 @@ public record BookDto(
         Integer salesCount,
         String coverImageUrl,
         List<GenreDto> genres,
-        String isbn
+        String isbn,
+        boolean deleted
 ) {
 }

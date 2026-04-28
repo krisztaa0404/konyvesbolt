@@ -106,6 +106,18 @@ export const formatBookFormat = (format: BookFormat | string | undefined): strin
   return formatMap[format.toLowerCase()] || format;
 };
 
+export const formatPaymentMethod = (method: string | undefined): string => {
+  if (!method) return 'N/A';
+
+  const methodMap: Record<string, string> = {
+    CREDIT_CARD: 'Credit Card',
+    DEBIT_CARD: 'Debit Card',
+    PAYPAL: 'PayPal',
+  };
+
+  return methodMap[method] || method;
+};
+
 /**
  * Normalizes book formats to API-compatible values
  */

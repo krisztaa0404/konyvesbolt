@@ -14,6 +14,7 @@ import { useOrderFilterStore, useBookFilterStore } from '@store/manager/managerF
 import { MetricCard, MetricCardSkeleton } from '@components/manager/common/MetricCard';
 import { AlertCard } from '@components/manager/common/AlertCard';
 import { QuickActions } from '@components/manager/dashboard/QuickActions';
+import { RefreshDataJobs } from '@components/manager/dashboard/RefreshDataJobs';
 import { RecentOrdersTable } from '@components/manager/dashboard/RecentOrdersTable';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';
 import { formatCurrency } from '@utils/formatters';
@@ -135,6 +136,8 @@ export const ManagerDashboardPage = () => {
       </MetricsGrid>
 
       <QuickActions />
+
+      <RefreshDataJobs />
 
       <SectionTitle variant="h5">Recent Orders</SectionTitle>
       {ordersError && (

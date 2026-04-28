@@ -1,5 +1,5 @@
 import { Typography, Divider } from '@mui/material';
-import { formatDateTime } from '@utils/formatters';
+import { formatDateTime, formatPaymentMethod } from '@utils/formatters';
 import { SectionCard, InfoRow, InfoLabel, InfoValue } from './PaymentInfoCard.sc';
 
 interface PaymentInfoCardProps {
@@ -24,11 +24,7 @@ export const PaymentInfoCard = ({ paymentInfo }: PaymentInfoCardProps) => {
       <Divider />
       <InfoRow>
         <InfoLabel>Payment Method</InfoLabel>
-        <InfoValue>{paymentInfo.method || 'N/A'}</InfoValue>
-      </InfoRow>
-      <InfoRow>
-        <InfoLabel>Payment Status</InfoLabel>
-        <InfoValue>{paymentInfo.status || 'N/A'}</InfoValue>
+        <InfoValue>{formatPaymentMethod(paymentInfo.method)}</InfoValue>
       </InfoRow>
       {paymentInfo.transactionId && (
         <InfoRow>

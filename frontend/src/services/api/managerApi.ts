@@ -369,4 +369,60 @@ export const managerApi = {
     const response = await apiClient.post<User>('/users', user);
     return response.data;
   },
+
+  /**
+   * Refresh book recommendations materialized view
+   */
+  async refreshBookRecommendations(): Promise<{
+    jobName: string;
+    status: string;
+    message: string;
+    executedAt: string;
+    durationMs: number;
+  }> {
+    const response = await apiClient.post('/manager/jobs/refresh/book-recommendations');
+    return response.data;
+  },
+
+  /**
+   * Refresh genre statistics materialized view
+   */
+  async refreshGenreStatistics(): Promise<{
+    jobName: string;
+    status: string;
+    message: string;
+    executedAt: string;
+    durationMs: number;
+  }> {
+    const response = await apiClient.post('/manager/jobs/refresh/genre-statistics');
+    return response.data;
+  },
+
+  /**
+   * Refresh top books monthly materialized view
+   */
+  async refreshTopBooksMonthly(): Promise<{
+    jobName: string;
+    status: string;
+    message: string;
+    executedAt: string;
+    durationMs: number;
+  }> {
+    const response = await apiClient.post('/manager/jobs/refresh/top-books-monthly');
+    return response.data;
+  },
+
+  /**
+   * Refresh top books weekly materialized view
+   */
+  async refreshTopBooksWeekly(): Promise<{
+    jobName: string;
+    status: string;
+    message: string;
+    executedAt: string;
+    durationMs: number;
+  }> {
+    const response = await apiClient.post('/manager/jobs/refresh/top-books-weekly');
+    return response.data;
+  },
 };

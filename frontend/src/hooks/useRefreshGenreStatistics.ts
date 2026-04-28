@@ -9,13 +9,10 @@ export const useRefreshGenreStatistics = () => {
 
   return useMutation({
     mutationFn: () => managerApi.refreshGenreStatistics(),
-    onSuccess: (data) => {
+    onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ['genres', 'statistics'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard', 'metrics'] });
-      addNotification(
-        `${data.message} (${data.durationMs}ms)`,
-        'success'
-      );
+      addNotification(`${data.message} (${data.durationMs}ms)`, 'success');
     },
     onError: (error: unknown) => {
       const errorMessage = getErrorMessage(error, 'Failed to refresh genre statistics');

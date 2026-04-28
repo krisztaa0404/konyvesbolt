@@ -9,13 +9,10 @@ export const useRefreshTopBooksWeekly = () => {
 
   return useMutation({
     mutationFn: () => managerApi.refreshTopBooksWeekly(),
-    onSuccess: (data) => {
+    onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ['books', 'top', 'weekly'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard', 'metrics'] });
-      addNotification(
-        `${data.message} (${data.durationMs}ms)`,
-        'success'
-      );
+      addNotification(`${data.message} (${data.durationMs}ms)`, 'success');
     },
     onError: (error: unknown) => {
       const errorMessage = getErrorMessage(error, 'Failed to refresh top books weekly');

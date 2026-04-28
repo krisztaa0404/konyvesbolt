@@ -14,15 +14,16 @@ export const useBulkUploadBooks = () => {
       queryClient.invalidateQueries({ queryKey: ['books'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard', 'metrics'] });
 
-      if (data.successCount === data.totalRows) {
-        addNotification(`Successfully imported ${data.successCount} books!`, 'success');
-      } else if (data.successCount > 0) {
-        addNotification(
-          `Imported ${data.successCount} books, ${data.skippedCount} rows skipped`,
-          'warning'
-        );
+      const successCount = data.successCount ?? 0;
+      const totalRows = data.totalRows ?? 0;
+      const skippedCount = data.skippedCount ?? 0;
+
+      if (successCount === totalRows && successCount > 0) {
+        addNotification(`Successfully imported ${successCount} books!`, 'success');
+      } else if (successCount > 0) {
+        addNotification(`Imported ${successCount} books, ${skippedCount} rows skipped`, 'warning');
       } else {
-        addNotification(`Upload failed: ${data.skippedCount} rows skipped`, 'error');
+        addNotification(`Upload failed: ${skippedCount} rows skipped`, 'error');
       }
     },
     onError: (error: unknown) => {

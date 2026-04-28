@@ -3,7 +3,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useOrderById } from '@hooks/useOrderById';
 import { parseAddress } from '@utils/addressUtils';
-import { formatCurrency, formatDateLong, formatOrderId, formatPaymentMethod } from '@utils/formatters';
+import {
+  formatCurrency,
+  formatDateLong,
+  formatOrderId,
+  formatPaymentMethod,
+} from '@utils/formatters';
 import { calculateOrderItemsSubtotal, calculateTaxAmount } from '@utils/orderCalculations';
 import { LoadingSpinner } from '@components/common/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '@components/common/ErrorMessage/ErrorMessage';

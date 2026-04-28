@@ -26,7 +26,8 @@ export const FileDropZone = styled(Box, {
   cursor: 'pointer',
   transition: 'all 0.2s ease',
   borderRadius: theme.shape.borderRadius,
-  border: `1px solid ${theme.palette.divider}`,
+  border: `2px dashed ${error ? theme.palette.error.main : hasFile ? theme.palette.success.main : theme.palette.divider}`,
+  display: 'block',
   '&:hover': {
     backgroundColor: theme.palette.primary.light + '08',
     borderColor: theme.palette.primary.main,

@@ -1,0 +1,133 @@
+================================================================================
+ADMIN DEMO TEST DATA
+================================================================================
+
+1. CREATE NEW BOOK
+================================================================================
+Title: The Missing Ones
+
+Author: A. R. Torre
+
+ISBN-13: 978-1662534218
+
+ISBN-10: 1662534213
+
+Publisher: Thomas & Mercer
+
+Publication Year: 2026
+
+Page Count: 304
+
+Price: 12.99
+
+Stock Quantity: 50
+
+Description:
+In an exclusive and close-knit community, the secrets of the past threaten to destroy three women in a shocking novel of suspense by New York Times bestselling author A. R. Torre. Behind the manicured lawns and guarded gates of Crestmore Estates lies a neighborhood built on secrets. Five years ago, three residents vanished without a trace. No bodies. No answers. Just rumors, whispered around the country club. Now, when human remains surface on the golf course, old suspicions rematerialize—and the spotlight falls on the women left behind. Andrea Kendal knows what people think—that her brilliant surgeon husband had something to do with his first wife's bloody disappearance. Sara Batcher has spent years defending herself against accusations that she killed her husband. And Katie Morrow, the community's youngest trophy wife, can't escape the suspicious shadows cast by her husband's ex-wife. As the investigation circles closer, the wives find themselves bound together by fear, betrayal, and the ghosts of the missing. In a neighborhood where appearances are everything, each must decide what she'll sacrifice to protect her carefully constructed life—before someone else decides to shatter them all.
+
+Genres: Thriller, Psychological Thrillers, Mystery, Thriller & Suspense, Women
+
+Available Formats: physical
+
+Tags: bestseller
+
+Metadata - Rating: 4.2
+
+Metadata - Reading Age: (leave empty)
+
+Metadata - Dimensions: 5.5 x 1 x 8.5 inches
+
+Metadata - Language: English
+
+Metadata - Cover Image URL: https://m.media-amazon.com/images/I/91f-93IWQFL._SL1500_.jpg
+
+Metadata - Bestseller Ranks: #5,765 in Books | #14 in Domestic Thrillers (Books) | #309 in Psychological Thrillers (Books) | #392 in Suspense Thrillers
+
+Metadata - Series Name: (leave empty)
+
+Metadata - Series Position: (leave empty)
+
+
+2. CREATE NEW GENRE
+================================================================================
+Genre Name: Cozy Mystery
+
+Description: A subgenre of mystery fiction in which sex and violence occur offstage, the detective is an amateur sleuth, and the crime and detection take place in a small, socially intimate community.
+
+
+3. CREATE NEW USER
+================================================================================
+First Name: Emily
+
+Last Name: Rodriguez
+
+Email: emily.rodriguez@example.com
+
+Password: Demo@2026!
+
+Phone Number: +1-555-0142
+
+Street Address: 742 Evergreen Terrace
+
+City: Springfield
+
+State/Province: Illinois
+
+Postal Code: 62704
+
+Country: United States
+
+Role: CUSTOMER
+
+Loyalty Member: Yes
+
+Discount Percent: 10
+
+
+4. CREATE NEW SEASONAL DISCOUNT
+================================================================================
+Discount Name: Spring Book Sale 2026
+
+Description: Celebrate spring with amazing discounts on selected titles! Perfect time to refresh your reading list with new adventures and classic favorites.
+
+Start Date: 2026-03-21
+
+End Date: 2026-06-20
+
+Discount Percentage: 15
+
+Active: Yes
+
+Eligible Genres: Fiction, Romantic, Historical, Mystery
+
+Notes: This discount applies automatically to all books in the selected genres during the spring season.
+
+
+================================================================================
+ADDITIONAL USER DATA (ALTERNATIVE)
+================================================================================
+First Name: Marcus
+
+Last Name: Thompson
+
+Email: marcus.thompson@example.com
+
+Password: SecurePass123!
+
+Phone Number: +1-555-0198
+
+Street Address: 1428 Elm Street
+
+City: Seattle
+
+State/Province: Washington
+
+Postal Code: 98101
+
+Country: United States
+
+Role: MANAGER
+
+Loyalty Member: No
+
+Discount Percent: 0

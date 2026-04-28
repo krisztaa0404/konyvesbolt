@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { useDebounce } from 'use-debounce';
 import { CheckboxListFilter, type CheckboxListItem } from '@components/common/CheckboxListFilter';
 import { useGenres } from '@hooks/useGenres';
 
@@ -20,21 +18,10 @@ export const GenreFilter: React.FC<GenreFilterProps> = ({
   onChange,
   initialGenreNames = {},
 }) => {
-  const [localValue, setLocalValue] = useState<string[]>(value);
-  const [debouncedValue] = useDebounce(localValue, 300);
-
   const { data, isLoading, isError } = useGenres({
     page: 0,
     size: 150,
   });
-
-  useEffect(() => {
-    onChange(debouncedValue);
-  }, [debouncedValue, onChange]);
-
-  useEffect(() => {
-    setLocalValue(value);
-  }, [value]);
 
   const genreItems: GenreItem[] = (data?.content || []).map(genre => ({
     id: genre.id || '',
@@ -45,8 +32,8 @@ export const GenreFilter: React.FC<GenreFilterProps> = ({
     <Box>
       <CheckboxListFilter
         items={genreItems}
-        selectedIds={localValue}
-        onChange={setLocalValue}
+        selectedIds={value}
+        onChange={onChange}
         label="Genres"
         loading={isLoading}
         error={isError ? 'Failed to load genres' : undefined}

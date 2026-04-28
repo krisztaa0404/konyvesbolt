@@ -72,4 +72,16 @@ A szoftverdokumentáció (`docs/documentation.md`) megírásához használtam az
 
 ---
 
+### 5. Teszt adatok generálása
+
+Demo célokra teszt adatokat is generáltam AI segítségével. Amazon könyv részleteit másoltam be, és az AI létrehozta a strukturált adatokat CSV formátumban, illetve TXT fájlban könnyen másolható formában.
+
+**Jól működő prompt példa:**
+
+> "Az alábbi Amazon könyv adatokból hozz létre egy CSV fájlt, ami követi a meglévő `amazon_books.csv` és `amazon_books2.csv` formátumát. Fontos, hogy a genre-ök a helyi PostgreSQL adatbázisban létező műfajok közül legyenek (ezeket a `docker exec` paranccsal lehet lekérni a `genres` táblából). [Amazon könyv részletek bemásolva]"
+
+*Miért működött jól:* Konkrét formátumot adtam meg referenciaként (meglévő CSV fájlok), és expliciten kértem, hogy ellenőrizze a létező genre-öket az adatbázisban, így a generált adatok kompatibilisek voltak a rendszerrel.
+
+---
+
 **Általános tanulság:** Az AI akkor adott hasznos választ, ha kellő kontextust (minta kód, hibaüzenet, elvárások) adtam meg. Általános, rövid promptokra általános és nem illeszkedő válaszok érkeztek. Bevált technikának bizonyult a promptok végére odaírni, hogy ha valamit nem ért vagy több lehetséges megközelítés is létezik, kérdezzen rá (clarifying questions) mielőtt nekiáll a megvalósításnak — ez megakadályozta, hogy az AI rossz irányba induljon el, és pontosabb végeredményt adott.

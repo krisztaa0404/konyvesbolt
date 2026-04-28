@@ -79,12 +79,19 @@ export const formatDateRange = (from?: string, to?: string): string => {
   const fromDate = new Date(from);
   const toDate = new Date(to);
 
-  const month = fromDate.toLocaleDateString('en-US', { month: 'long' });
+  const fromMonth = fromDate.toLocaleDateString('en-US', { month: 'long' });
+  const toMonth = toDate.toLocaleDateString('en-US', { month: 'long' });
   const fromDay = fromDate.getDate();
   const toDay = toDate.getDate();
   const year = toDate.getFullYear();
 
-  return `${month} ${fromDay}-${toDay}, ${year}`;
+  // If same month, show: "March 21-25, 2026"
+  if (fromMonth === toMonth) {
+    return `${fromMonth} ${fromDay}-${toDay}, ${year}`;
+  }
+
+  // If different months, show: "March 21 - June 20, 2026"
+  return `${fromMonth} ${fromDay} - ${toMonth} ${toDay}, ${year}`;
 };
 
 export const formatBookFormat = (format: BookFormat | string | undefined): string => {
